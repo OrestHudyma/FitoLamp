@@ -1,0 +1,394 @@
+ 0000                   cpu LMM
+                        .module main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile ./main.c
+                        .area data(ram, con, rel)
+ 0000                   .dbfile ./main.c
+ 0000           _power_target::
+ 0000 0000              .word 0
+ 0002                   .dbfile C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\main.c
+ 0002                   .dbsym e power_target _power_target i
+                        .area data(ram, con, rel)
+ 0000                   .dbfile C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\main.c
+                        .area text(rom, con, rel)
+ 0000                   .dbfile C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\main.c
+ 0000                   .dbfunc e main _main fV
+ 0000           _main::
+ 0000                   .dbline -1
+ 0000 10                push X
+ 0001 4F                mov X,SP
+ 0002 3802              add SP,2
+ 0004                   .dbline 22
+ 0004           ; //----------------------------------------------------------------------------
+ 0004           ; // C main line
+ 0004           ; //----------------------------------------------------------------------------
+ 0004           ; 
+ 0004           ; #include <m8c.h>        // part specific constants and macros
+ 0004           ; #include "PSoCAPI.h"    // PSoC API definitions for all User Modules
+ 0004           ; #include "delay.h"
+ 0004           ; 
+ 0004           ; #define DEBUG
+ 0004           ; 
+ 0004           ; #define POWER_MAX     14000
+ 0004           ; #define POWER_STEP    1
+ 0004           ; 
+ 0004           ; #define UPDATE_PERIOD         2
+ 0004           ; 
+ 0004           ; unsigned int power_target = 0;
+ 0004           ; 
+ 0004           ; void set_power(unsigned int pwr);
+ 0004           ; void update_power(void);
+ 0004           ; 
+ 0004           ; void main(void)
+ 0004           ; {
+ 0004                   .dbline 25
+ 0004           ;       // M8C_EnableGInt ; // Uncomment this line to enable Global Interrupts
+ 0004           ;       // Insert your main routine code here.
+ 0004           ;       RTC_SetHour(0x08);
+ 0004 10                push X
+ 0005 5008              mov A,8
+ 0007 7C0000            xcall _RTC_SetHour
+ 000A                   .dbline 26
+ 000A           ;       RTC_SetMinute(0x00);
+ 000A 5000              mov A,0
+ 000C 7C0000            xcall _RTC_SetMinute
+ 000F                   .dbline 27
+ 000F           ;       RTC_SetSecond(0x00);
+ 000F 5000              mov A,0
+ 0011 7C0000            xcall _RTC_SetSecond
+ 0014                   .dbline 28
+ 0014           ;       RTC_Start();
+ 0014 7C0000            xcall _RTC_Start
+ 0017                   .dbline 29
+ 0017           ;       PWM16_CH0_Start();
+ 0017 7C0000            xcall _PWM16_CH0_Start
+ 001A                   .dbline 30
+ 001A           ;       PWM16_CH1_Start();
+ 001A 7C0000            xcall _PWM16_CH1_Start
+ 001D                   .dbline 32
+ 001D           ; #ifdef DEBUG
+ 001D           ;       LCD_Init();
+ 001D 7C0000            xcall _LCD_Init
+ 0020 20                pop X
+ 0021                   .dbline 35
+ 0021           ; #endif // DEBUG
+ 0021           ;               
+ 0021           ;       set_power(POWER_MAX);
+ 0021 5036              mov A,54
+ 0023 08                push A
+ 0024 50B0              mov A,-80
+ 0026 08                push A
+ 0027 90B6              xcall _set_power
+ 0029 38FE              add SP,-2
+ 002B 80AC              xjmp L3
+ 002D           L2:
+ 002D                   .dbline 38
+ 002D           ;       
+ 002D           ;       while (1)
+ 002D           ;       {
+ 002D                   .dbline 40
+ 002D           ;               // Scheduler
+ 002D           ;               switch (RTC_bReadHour())
+ 002D 10                push X
+ 002E 7C0000            xcall _RTC_bReadHour
+ 0031 20                pop X
+ 0032 62D000            mov REG[0xd0],>__r0
+ 0035 5401              mov [X+1],A
+ 0037 560000            mov [X+0],0
+ 003A 5201              mov A,[X+1]
+ 003C 1105              sub A,5
+ 003E 5300              mov [__rY],A
+ 0040 5200              mov A,[X+0]
+ 0042 3180              xor A,-128
+ 0044 1980              sbb A,(0 ^ 0x80)
+ 0046 C025              jc L5
+ 0048 2A00              or A,[__rY]
+ 004A A00D              jz L8
+ 004C           X1:
+ 004C           L10:
+ 004C 3D0000            cmp [X+0],0
+ 004F B006              jnz X2
+ 0051 3D0119            cmp [X+1],25
+ 0054 A00F              jz L9
+ 0056           X2:
+ 0056 8015              xjmp L5
+ 0058           L8:
+ 0058                   .dbline 43
+ 0058           ;               {
+ 0058           ;                       case 0x05:
+ 0058           ;                               set_power(POWER_MAX);
+ 0058 5036              mov A,54
+ 005A 08                push A
+ 005B 50B0              mov A,-80
+ 005D 08                push A
+ 005E 907F              xcall _set_power
+ 0060 38FE              add SP,-2
+ 0062                   .dbline 44
+ 0062           ;                               break;
+ 0062 8009              xjmp L6
+ 0064           L9:
+ 0064                   .dbline 46
+ 0064           ;                       case 0x19:
+ 0064           ;                               set_power(0);
+ 0064 5000              mov A,0
+ 0066 08                push A
+ 0067 08                push A
+ 0068 9075              xcall _set_power
+ 006A 38FE              add SP,-2
+ 006C                   .dbline 47
+ 006C           ;                               break;
+ 006C           L5:
+ 006C           L6:
+ 006C                   .dbline 49
+ 006C           ;               }
+ 006C           ;               update_power();
+ 006C 9090              xcall _update_power
+ 006E                   .dbline 50
+ 006E           ;               Delay10msTimes(UPDATE_PERIOD);
+ 006E 10                push X
+ 006F 5002              mov A,2
+ 0071 7C0000            xcall _Delay10msTimes
+ 0074                   .dbline 52
+ 0074           ; #ifdef DEBUG
+ 0074           ;               LCD_Position(0,0);
+ 0074 5000              mov A,0
+ 0076 5700              mov X,0
+ 0078 7C0000            xcall _LCD_Position
+ 007B                   .dbline 53
+ 007B           ;               LCD_PrHexByte(RTC_bReadHour());
+ 007B 7C0000            xcall _RTC_bReadHour
+ 007E 20                pop X
+ 007F 62D000            mov REG[0xd0],>__r0
+ 0082 10                push X
+ 0083 7C0000            xcall _LCD_PrHexByte
+ 0086                   .dbline 54
+ 0086           ;               LCD_PrCString(":");
+ 0086 500B              mov A,>L11
+ 0088 08                push A
+ 0089 500B              mov A,<L11
+ 008B 5C                mov X,A
+ 008C 18                pop A
+ 008D 7C0000            xcall _LCD_PrCString
+ 0090                   .dbline 55
+ 0090           ;               LCD_PrHexByte(RTC_bReadMinute());
+ 0090 7C0000            xcall _RTC_bReadMinute
+ 0093 20                pop X
+ 0094 62D000            mov REG[0xd0],>__r0
+ 0097 10                push X
+ 0098 7C0000            xcall _LCD_PrHexByte
+ 009B                   .dbline 56
+ 009B           ;               LCD_PrCString(":");
+ 009B 500B              mov A,>L11
+ 009D 08                push A
+ 009E 500B              mov A,<L11
+ 00A0 5C                mov X,A
+ 00A1 18                pop A
+ 00A2 7C0000            xcall _LCD_PrCString
+ 00A5                   .dbline 57
+ 00A5           ;               LCD_PrHexByte(RTC_bReadSecond());
+ 00A5 7C0000            xcall _RTC_bReadSecond
+ 00A8 20                pop X
+ 00A9 62D000            mov REG[0xd0],>__r0
+ 00AC 10                push X
+ 00AD 7C0000            xcall _LCD_PrHexByte
+ 00B0                   .dbline 58
+ 00B0           ;               LCD_Position(1, 0);
+ 00B0 5700              mov X,0
+ 00B2 5001              mov A,1
+ 00B4 7C0000            xcall _LCD_Position
+ 00B7                   .dbline 59
+ 00B7           ;               LCD_PrCString("PT:");
+ 00B7 5007              mov A,>L12
+ 00B9 08                push A
+ 00BA 5007              mov A,<L12
+ 00BC 5C                mov X,A
+ 00BD 18                pop A
+ 00BE 7C0000            xcall _LCD_PrCString
+ 00C1                   .dbline 60
+ 00C1           ;               LCD_PrHexInt(power_target);
+ 00C1 62D000            mov REG[0xd0],>_power_target
+ 00C4 5100              mov A,[_power_target]
+ 00C6 08                push A
+ 00C7 5101              mov A,[_power_target+1]
+ 00C9 20                pop X
+ 00CA 7C0000            xcall _LCD_PrHexInt
+ 00CD                   .dbline 61
+ 00CD           ;               LCD_PrCString("      ");                
+ 00CD 5000              mov A,>L13
+ 00CF 08                push A
+ 00D0 5000              mov A,<L13
+ 00D2 5C                mov X,A
+ 00D3 18                pop A
+ 00D4 7C0000            xcall _LCD_PrCString
+ 00D7 20                pop X
+ 00D8                   .dbline 63
+ 00D8           ; #endif // DEBUG
+ 00D8           ;       }
+ 00D8           L3:
+ 00D8                   .dbline 37
+ 00D8 8F54              xjmp L2
+ 00DA           X0:
+ 00DA                   .dbline -2
+ 00DA           L1:
+ 00DA 38FE              add SP,-2
+ 00DC 20                pop X
+ 00DD                   .dbline 0 ; func end
+ 00DD 8FFF              jmp .
+ 00DF                   .dbend
+ 00DF                   .dbfunc e set_power _set_power fV
+ 00DF           ;            pwr -> X-5
+ 00DF           _set_power::
+ 00DF                   .dbline -1
+ 00DF 10                push X
+ 00E0 4F                mov X,SP
+ 00E1                   .dbline 67
+ 00E1           ; }
+ 00E1           ; 
+ 00E1           ; void set_power(unsigned int pwr)
+ 00E1           ; {
+ 00E1                   .dbline 68
+ 00E1           ;       if(pwr > POWER_MAX) pwr = POWER_MAX;
+ 00E1 50B0              mov A,-80
+ 00E3 13FC              sub A,[X-4]
+ 00E5 5036              mov A,54
+ 00E7 1BFB              sbb A,[X-5]
+ 00E9 D007              jnc L15
+ 00EB           X3:
+ 00EB                   .dbline 68
+ 00EB 56FCB0            mov [X-4],-80
+ 00EE 56FB36            mov [X-5],54
+ 00F1           L15:
+ 00F1                   .dbline 69
+ 00F1           ;       power_target = pwr;
+ 00F1 62D000            mov REG[0xd0],>_power_target
+ 00F4 52FC              mov A,[X-4]
+ 00F6 5301              mov [_power_target+1],A
+ 00F8 52FB              mov A,[X-5]
+ 00FA 5300              mov [_power_target],A
+ 00FC                   .dbline -2
+ 00FC           L14:
+ 00FC 20                pop X
+ 00FD                   .dbline 0 ; func end
+ 00FD 7F                ret
+ 00FE                   .dbsym l pwr -5 i
+ 00FE                   .dbend
+ 00FE                   .dbfunc e update_power _update_power fV
+ 00FE           ;            pwr -> X+0
+ 00FE           _update_power::
+ 00FE                   .dbline -1
+ 00FE 10                push X
+ 00FF 4F                mov X,SP
+ 0100 3802              add SP,2
+ 0102                   .dbline 73
+ 0102           ; }
+ 0102           ; 
+ 0102           ; void update_power(void)
+ 0102           ; {
+ 0102                   .dbline 77
+ 0102           ;       unsigned int pwr;
+ 0102           ;       
+ 0102           ;       // CH0
+ 0102           ;       pwr = PWM16_CH0_wReadPulseWidth();
+ 0102 10                push X
+ 0103 7C0000            xcall _PWM16_CH0_wReadPulseWidth
+ 0106 62D000            mov REG[0xd0],>__r0
+ 0109 5A00              mov [__r0],X
+ 010B 20                pop X
+ 010C 5401              mov [X+1],A
+ 010E 5100              mov A,[__r0]
+ 0110 5400              mov [X+0],A
+ 0112                   .dbline 78
+ 0112           ;       if(pwr < power_target) pwr += POWER_STEP;
+ 0112 62D000            mov REG[0xd0],>_power_target
+ 0115 5201              mov A,[X+1]
+ 0117 1201              sub A,[_power_target+1]
+ 0119 5200              mov A,[X+0]
+ 011B 1A00              sbb A,[_power_target]
+ 011D D006              jnc L18
+ 011F           X4:
+ 011F                   .dbline 78
+ 011F 7701              inc [X+1]
+ 0121 0F0000            adc [X+0],0
+ 0124           L18:
+ 0124                   .dbline 79
+ 0124           ;       if(pwr > power_target) pwr -= POWER_STEP;
+ 0124 62D000            mov REG[0xd0],>_power_target
+ 0127 5101              mov A,[_power_target+1]
+ 0129 1301              sub A,[X+1]
+ 012B 5100              mov A,[_power_target]
+ 012D 1B00              sbb A,[X+0]
+ 012F D006              jnc L20
+ 0131           X5:
+ 0131                   .dbline 79
+ 0131 7B01              dec [X+1]
+ 0133 1F0000            sbb [X+0],0
+ 0136           L20:
+ 0136                   .dbline 80
+ 0136           ;       PWM16_CH0_WritePulseWidth(pwr);
+ 0136 10                push X
+ 0137 5200              mov A,[X+0]
+ 0139 08                push A
+ 013A 5201              mov A,[X+1]
+ 013C 20                pop X
+ 013D 7C0000            xcall _PWM16_CH0_WritePulseWidth
+ 0140                   .dbline 83
+ 0140           ;       
+ 0140           ;       // CH1
+ 0140           ;       pwr = PWM16_CH1_wReadPulseWidth();
+ 0140 7C0000            xcall _PWM16_CH1_wReadPulseWidth
+ 0143 62D000            mov REG[0xd0],>__r0
+ 0146 5A00              mov [__r0],X
+ 0148 20                pop X
+ 0149 5401              mov [X+1],A
+ 014B 5100              mov A,[__r0]
+ 014D 5400              mov [X+0],A
+ 014F                   .dbline 84
+ 014F           ;       if(pwr < power_target) pwr += POWER_STEP;
+ 014F 62D000            mov REG[0xd0],>_power_target
+ 0152 5201              mov A,[X+1]
+ 0154 1201              sub A,[_power_target+1]
+ 0156 5200              mov A,[X+0]
+ 0158 1A00              sbb A,[_power_target]
+ 015A D006              jnc L22
+ 015C           X6:
+ 015C                   .dbline 84
+ 015C 7701              inc [X+1]
+ 015E 0F0000            adc [X+0],0
+ 0161           L22:
+ 0161                   .dbline 85
+ 0161           ;       if(pwr > power_target) pwr -= POWER_STEP;
+ 0161 62D000            mov REG[0xd0],>_power_target
+ 0164 5101              mov A,[_power_target+1]
+ 0166 1301              sub A,[X+1]
+ 0168 5100              mov A,[_power_target]
+ 016A 1B00              sbb A,[X+0]
+ 016C D006              jnc L24
+ 016E           X7:
+ 016E                   .dbline 85
+ 016E 7B01              dec [X+1]
+ 0170 1F0000            sbb [X+0],0
+ 0173           L24:
+ 0173                   .dbline 86
+ 0173           ;       PWM16_CH1_WritePulseWidth(pwr);
+ 0173 10                push X
+ 0174 5200              mov A,[X+0]
+ 0176 08                push A
+ 0177 5201              mov A,[X+1]
+ 0179 20                pop X
+ 017A 7C0000            xcall _PWM16_CH1_WritePulseWidth
+ 017D 20                pop X
+ 017E                   .dbline -2
+ 017E           L17:
+ 017E 38FE              add SP,-2
+ 0180 20                pop X
+ 0181                   .dbline 0 ; func end
+ 0181 7F                ret
+ 0182                   .dbsym l pwr 0 i
+ 0182                   .dbend
+                        .area lit(rom, con, rel, lit)
+ 0000           L13:
+ 0000 20202020202000    .byte 32,32,32,32,32,32,0
+ 0007           L12:
+ 0007 50543A00          .byte 'P,'T,58,0
+ 000B           L11:
+ 000B 3A00              .byte 58,0

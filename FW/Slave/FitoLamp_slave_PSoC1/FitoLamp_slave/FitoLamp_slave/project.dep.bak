@@ -1,0 +1,39 @@
+# DO NOT DELETE
+./obj/boot.o : \
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8ssc.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\lib\GLOBAL~1.INC\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./obj/delay.o : \
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./obj/main.o :  ./lib/LCD.h ./lib/PSoCAPI.h ./lib/PSOCGP~1.H\
+   ./lib/PWM16_~1.H ./lib/PWM16_~2.H ./lib/RTC.h\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.h\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\delay.h
+./lib/obj/lcd.o :  ./lib/LCD.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/psocconfig.o :  ./lib/GLOBAL~1.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/psocconfigtbl.o : \
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc
+./lib/obj/pwm16_ch0.o :  ./lib/PWM16_~1.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/pwm16_ch0int.o :  ./lib/PWM16_~1.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/pwm16_ch1.o :  ./lib/PWM16_~2.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/pwm16_ch1int.o :  ./lib/PWM16_~2.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/rtc.o :  ./lib/RTC.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/rtcint.o :  ./lib/RTC.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
