@@ -22,9 +22,9 @@
 CPU_CLOCK:				equ	0h		;CPU clock value
 CPU_CLOCK_MASK:			equ	7h		;CPU clock mask
 CPU_CLOCK_JUST:			equ	0h		;CPU clock value justified
-SELECT_32K:				equ	1h		;32K select value
+SELECT_32K:				equ	0h		;32K select value
 SELECT_32K_MASK:		equ	80h		;32K select mask
-SELECT_32K_JUST:		equ	80h		;32K select value justified
+SELECT_32K_JUST:		equ	0h		;32K select value justified
 PLL_MODE:				equ	0h		;PLL mode value
 PLL_MODE_MASK:			equ	40h		;PLL mode mask
 PLL_MODE_JUST:			equ	0h		;PLL mode value justified
@@ -59,21 +59,21 @@ POWER_SET_2V7_12MHZ:    equ 04h	 ; MASK for 2.7V, 12MHZ operation
 POWER_SET_2V7_6MHZ:     equ 02h	 ; MASK for 2.7V,  6MHZ operation
 POWER_SET_SLOW_IMO:     equ 01h  ; MASK for slow Internal Main Oscillator (IMO) 
 
-COMM_RX_PRESENT:		equ	0		;1 = TRUE
+COMM_RX_PRESENT:		equ	1		;1 = TRUE
 WATCHDOG_ENABLE:		equ 0	;Watchdog Enable 1 = Enable
 
-CLOCK_DIV_VC1:			equ	fh	;VC1 clock divider
+CLOCK_DIV_VC1:			equ	7h	;VC1 clock divider
 CLOCK_DIV_VC1_MASK:		equ	f0h	;VC1 clock divider mask
-CLOCK_DIV_VC1_JUST:		equ	f0h	;VC1 clock divider justified
+CLOCK_DIV_VC1_JUST:		equ	70h	;VC1 clock divider justified
 CLOCK_DIV_VC2:			equ	fh	;VC2 clock divider
 CLOCK_DIV_VC2_MASK:		equ	fh	;VC2 clock divider mask
 CLOCK_DIV_VC2_JUST:		equ	fh	;VC2 clock divider justified
-CLOCK_INPUT_VC3:		equ	2h	;VC3 clock source
+CLOCK_INPUT_VC3:		equ	1h	;VC3 clock source
 CLOCK_INPUT_VC3_MASK:	equ	3h	;VC3 clock source mask
-CLOCK_INPUT_VC3_JUST:	equ	2h	;VC3 clock source justified
-CLOCK_DIV_VC3:			equ	ffh	;VC3 clock divider
+CLOCK_INPUT_VC3_JUST:	equ	1h	;VC3 clock source justified
+CLOCK_DIV_VC3:			equ	26h	;VC3 clock divider
 CLOCK_DIV_VC3_MASK:		equ	ffh	;VC3 clock divider mask
-CLOCK_DIV_VC3_JUST:		equ	ffh	;VC3 clock divider justified
+CLOCK_DIV_VC3_JUST:		equ	26h	;VC3 clock divider justified
 ANALOG_POWER:			equ	5h	;Analog power control
 ANALOG_POWER_MASK:		equ	7h	;Analog power control mask
 ANALOG_POWER_JUST:		equ	5h	;Analog power control justified
@@ -103,10 +103,10 @@ PORT_0_DRIVE_2:			equ ffh	;Port 0 drive mode 2 register (PRT0DM2)
 PORT_0_INTENABLE:		equ 0h	;Port 0 interrupt enable register (PRT0IE)
 PORT_0_INTCTRL_0:		equ 0h	;Port 0 interrupt control 0 register (PRT0IC0)
 PORT_0_INTCTRL_1:		equ 0h	;Port 0 interrupt control 1 register (PRT0IC1)
-PORT_1_GLOBAL_SELECT:	equ 0h	;Port 1 global select register (PRT1GS)
-PORT_1_DRIVE_0:			equ 0h	;Port 1 drive mode 0 register (PRT1DM0)
-PORT_1_DRIVE_1:			equ ffh	;Port 1 drive mode 1 register (PRT1DM1)
-PORT_1_DRIVE_2:			equ ffh	;Port 1 drive mode 2 register (PRT1DM2)
+PORT_1_GLOBAL_SELECT:	equ 7h	;Port 1 global select register (PRT1GS)
+PORT_1_DRIVE_0:			equ 3h	;Port 1 drive mode 0 register (PRT1DM0)
+PORT_1_DRIVE_1:			equ fch	;Port 1 drive mode 1 register (PRT1DM1)
+PORT_1_DRIVE_2:			equ f8h	;Port 1 drive mode 2 register (PRT1DM2)
 PORT_1_INTENABLE:		equ 0h	;Port 1 interrupt enable register (PRT1IE)
 PORT_1_INTCTRL_0:		equ 0h	;Port 1 interrupt control 0 register (PRT1IC0)
 PORT_1_INTCTRL_1:		equ 0h	;Port 1 interrupt control 1 register (PRT1IC1)

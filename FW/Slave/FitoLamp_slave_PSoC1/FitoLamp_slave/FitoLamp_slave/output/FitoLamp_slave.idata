@@ -1,3 +1,15 @@
-flash  991 SRAM    6:
- <size at next line>   0  0
-  [size:] 2 bytes
+flash 154F SRAM    5:
+ <size at next line>  47 50 52 4D 43
+  [size:] 5 bytes
+flash 1557 SRAM    A:
+ 00 77 bytes
+flash 155B SRAM   57:
+ <size at next line>  4E 4D 45 41 5F 62 75 66 66 65 72
+  [size:] 11 bytes
+flash 1569 SRAM   62:
+ 00 71 bytes
+flash 156D SRAM   C8:
+ 00 18 bytes
+flash 1571 SRAM   DB:
+ <size at next line>   0
+  [size:] 1 bytes

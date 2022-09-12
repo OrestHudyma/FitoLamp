@@ -18,9 +18,11 @@
 #define __PSOCAPI_H
 
 #include "PSoCGPIOINT.h"
+#include "Counter16_PwrUpd.h"
 #include "LCD.h"
 #include "PWM16_CH0.h"
 #include "PWM16_CH1.h"
 #include "RTC.h"
+#include "RX8_GPS.h"
 
 #endif

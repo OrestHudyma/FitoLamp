@@ -1,6 +1,10 @@
 Starting MAKE...
 creating project.mk 
 
+lib/counter16_pwrupd.asm
+
+lib/counter16_pwrupdint.asm
+
 lib/lcd.asm
 
 lib/psocconfig.asm
@@ -19,24 +23,44 @@ lib/rtc.asm
 
 lib/rtcint.asm
 
+lib/rx8_gps.asm
+
+lib/rx8_gpsint.asm
+
+lib/rx8_gpsplus.asm
+
 ./boot.asm
 
 Linking..
 
-LMM info: area 'InterruptRAM' uses 3 bytes in SRAM bank 0
+LMM info: area 'InterruptRAM' uses 5 bytes in SRAM bank 0
 
-LMM info: area 'virtual_registers' uses 3 bytes in SRAM page 0
+LMM info: area 'data' item of 82 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 82 bytes allocated in SRAM page 0
+
+LMM info: area 'RX8_GPS_RAM' item of 16 bytes allocated in SRAM page 0
+
+LMM info: area 'virtual_registers' uses 15 bytes in SRAM page 0
+
+LMM info: area 'data' item of 8 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 8 bytes allocated in SRAM page 0
 
 LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
 
+LMM info: area 'RX8_GPS_RAM' item of 1 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
 idata dump at output/FitoLamp_slave.idata
 
-  ROM 13% full. 2049 out of 16384 bytes used (does not include absolute areas).
+  ROM 31% full. 5055 out of 16384 bytes used (does not include absolute areas).
 
-  RAM 2% full. 8 bytes used (does not include stack usage).
+  RAM 29% full. 220 bytes used (does not include stack usage).
 
 Built with ICCM8C STD V7.05.00
 
  
-FitoLamp_slave - 0 error(s) 0 warning(s) 12:23:20
+FitoLamp_slave - 0 error(s) 0 warning(s) 00:51:05
 

@@ -14,7 +14,9 @@
 ; =============================================================================
  
 include "PSoCGPIOINT.inc"
+include "Counter16_PwrUpd.inc"
 include "LCD.inc"
 include "PWM16_CH0.inc"
 include "PWM16_CH1.inc"
 include "RTC.inc"
+include "RX8_GPS.inc"

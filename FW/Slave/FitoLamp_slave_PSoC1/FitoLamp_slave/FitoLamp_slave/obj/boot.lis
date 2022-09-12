@@ -60,21 +60,21 @@
  0002           POWER_SET_2V7_6MHZ:     equ 02h	 ; MASK for 2.7V,  6MHZ operation
  0001           POWER_SET_SLOW_IMO:     equ 01h  ; MASK for slow Internal Main Oscillator (IMO) 
  0000           
- 0000           COMM_RX_PRESENT:		equ	0		;1 = TRUE
+ 0001           COMM_RX_PRESENT:		equ	1		;1 = TRUE
  0000           WATCHDOG_ENABLE:		equ 0	;Watchdog Enable 1 = Enable
  0000           
- 000F           CLOCK_DIV_VC1:			equ	fh	;VC1 clock divider
+ 0007           CLOCK_DIV_VC1:			equ	7h	;VC1 clock divider
  00F0           CLOCK_DIV_VC1_MASK:		equ	f0h	;VC1 clock divider mask
- 00F0           CLOCK_DIV_VC1_JUST:		equ	f0h	;VC1 clock divider justified
+ 0070           CLOCK_DIV_VC1_JUST:		equ	70h	;VC1 clock divider justified
  000F           CLOCK_DIV_VC2:			equ	fh	;VC2 clock divider
  000F           CLOCK_DIV_VC2_MASK:		equ	fh	;VC2 clock divider mask
  000F           CLOCK_DIV_VC2_JUST:		equ	fh	;VC2 clock divider justified
- 0002           CLOCK_INPUT_VC3:		equ	2h	;VC3 clock source
+ 0001           CLOCK_INPUT_VC3:		equ	1h	;VC3 clock source
  0003           CLOCK_INPUT_VC3_MASK:	equ	3h	;VC3 clock source mask
- 0002           CLOCK_INPUT_VC3_JUST:	equ	2h	;VC3 clock source justified
- 00FF           CLOCK_DIV_VC3:			equ	ffh	;VC3 clock divider
+ 0001           CLOCK_INPUT_VC3_JUST:	equ	1h	;VC3 clock source justified
+ 0026           CLOCK_DIV_VC3:			equ	26h	;VC3 clock divider
  00FF           CLOCK_DIV_VC3_MASK:		equ	ffh	;VC3 clock divider mask
- 00FF           CLOCK_DIV_VC3_JUST:		equ	ffh	;VC3 clock divider justified
+ 0026           CLOCK_DIV_VC3_JUST:		equ	26h	;VC3 clock divider justified
  0005           ANALOG_POWER:			equ	5h	;Analog power control
  0007           ANALOG_POWER_MASK:		equ	7h	;Analog power control mask
  0005           ANALOG_POWER_JUST:		equ	5h	;Analog power control justified
@@ -104,10 +104,10 @@
  0000           PORT_0_INTENABLE:		equ 0h	;Port 0 interrupt enable register (PRT0IE)
  0000           PORT_0_INTCTRL_0:		equ 0h	;Port 0 interrupt control 0 register (PRT0IC0)
  0000           PORT_0_INTCTRL_1:		equ 0h	;Port 0 interrupt control 1 register (PRT0IC1)
- 0000           PORT_1_GLOBAL_SELECT:	equ 0h	;Port 1 global select register (PRT1GS)
- 0000           PORT_1_DRIVE_0:			equ 0h	;Port 1 drive mode 0 register (PRT1DM0)
- 00FF           PORT_1_DRIVE_1:			equ ffh	;Port 1 drive mode 1 register (PRT1DM1)
- 00FF           PORT_1_DRIVE_2:			equ ffh	;Port 1 drive mode 2 register (PRT1DM2)
+ 0007           PORT_1_GLOBAL_SELECT:	equ 7h	;Port 1 global select register (PRT1GS)
+ 0003           PORT_1_DRIVE_0:			equ 3h	;Port 1 drive mode 0 register (PRT1DM0)
+ 00FC           PORT_1_DRIVE_1:			equ fch	;Port 1 drive mode 1 register (PRT1DM1)
+ 00F8           PORT_1_DRIVE_2:			equ f8h	;Port 1 drive mode 2 register (PRT1DM2)
  0000           PORT_1_INTENABLE:		equ 0h	;Port 1 interrupt enable register (PRT1IE)
  0000           PORT_1_INTCTRL_0:		equ 0h	;Port 1 interrupt control 0 register (PRT1IC0)
  0000           PORT_1_INTCTRL_1:		equ 0h	;Port 1 interrupt control 1 register (PRT1IC1)
@@ -1700,13 +1700,13 @@
  0030 7E            reti
  0031           
                     org   34h                      ;PSoC Block DBC11 Interrupt Vector
-                    // call     void_handler
- 0034 7E            reti
- 0035           
+ 0034 7D0000        ljmp        _Counter16_PwrUpd_ISR
+ 0037 7E            reti
+ 0038           
                     org   38h                      ;PSoC Block DCC12 Interrupt Vector
-                    // call     void_handler
- 0038 7E            reti
- 0039           
+ 0038 7D0000        ljmp        _RX8_GPS_ISR
+ 003B 7E            reti
+ 003C           
                     org   3Ch                      ;PSoC Block DCC13 Interrupt Vector
                     // call     void_handler
  003C 7E            reti

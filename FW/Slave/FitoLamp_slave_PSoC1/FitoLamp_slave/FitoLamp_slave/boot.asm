@@ -167,11 +167,11 @@ ENDIF
     reti
 
     org   34h                      ;PSoC Block DBC11 Interrupt Vector
-    // call	void_handler
+    ljmp	_Counter16_PwrUpd_ISR
     reti
 
     org   38h                      ;PSoC Block DCC12 Interrupt Vector
-    // call	void_handler
+    ljmp	_RX8_GPS_ISR
     reti
 
     org   3Ch                      ;PSoC Block DCC13 Interrupt Vector

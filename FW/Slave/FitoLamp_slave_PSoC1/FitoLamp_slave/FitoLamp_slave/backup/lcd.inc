@@ -32,7 +32,7 @@ LCD_Port:                              equ   PRT2DR
 LCD_PortMode0:                         equ   PRT2DM0
 LCD_PortMode1:                         equ   PRT2DM1
 
-LCD_BARGRAPH_ENABLE:                   equ   1
+LCD_BARGRAPH_ENABLE:                   equ   0
 
 
 ;-----------------------------------------------
