@@ -16,6 +16,7 @@
 #define DECIMAL_COUNT_SYSTEM_BASIS  10
 #define DECIMAL_NUMBER_SIZE         4
 #define HOUR_MAX   	          	    23
+#define DELAYS_IN_SECOND         	100
 
 // NMEA definitions
 #define NMEA_MAX_SIZE             82
@@ -38,9 +39,14 @@
 #define POWER_STEP	1
 #define GMT_OFFSET	3
 
-#define WAIT_PERIOD		255
-#define POWER_UPDATE_SLOW   1500
-#define POWER_UPDATE_FAST   100
+#define WAIT_PERIOD			2		// Global non critical tasks execution period in seconds
+#define POWER_UPDATE_SLOW   2000
+#define POWER_UPDATE_FAST   200
+
+unsigned int const schedule[2][2] = {
+		                                {5, POWER_MAX},
+		                                {20, POWER_MAX}
+                              		};
 
 struct datetime {
 	unsigned char sec;
@@ -64,6 +70,8 @@ struct datetime local_datetime = {0, 0, 0, 0, 0, 0, false};
 
 void set_power(unsigned int pwr);
 void update_power(void);
+void schedule_processing(unsigned char hour);
+void schedule_init(void);
 void rtc_update(struct datetime *datetime);
 
 // NMEA functions
@@ -100,8 +108,10 @@ void nmea_signal(void)
 
 void main(void)
 {
+	unsigned char t;
+	
 	M8C_EnableGInt; // Uncomment this line to enable Global Interrupts
-	// Insert your main routine code here.
+
 	RTC_SetHour(0x08);
 	RTC_SetMinute(0x00);
 	RTC_SetSecond(0x00);
@@ -110,6 +120,7 @@ void main(void)
 	PWM16_CH1_Start();
 	Counter16_PwrUpd_Start();
 	RX8_GPS_Start(RX8_GPS_PARITY_NONE);
+	
 #ifdef DEBUG
 	LCD_Init();
 	LCD_Position(0, 0);
@@ -124,13 +135,19 @@ void main(void)
 	
 	while (1)
 	{
-		M8C_DisableGInt;		
+		M8C_DisableGInt;
+		
+		// Get datetime
+		local_datetime.valid = false;
 		NMEA_GetTimeUTC(NMEA_GPRMC, &gps_datetime);
 		if(gps_datetime.valid) 
 		{
 			utc_to_local(&gps_datetime, &local_datetime);
 			rtc_update(&local_datetime);
 		}
+		
+		// Scheduler
+		schedule_init();
 			
 		#ifdef DEBUG
 			LCD_Position(0, 0);
@@ -144,18 +161,8 @@ void main(void)
 			LCD_PrHexInt(PWM16_CH0_wReadPulseWidth());			
 		#endif // DEBUG
 			
-		// Scheduler
-		switch (bcd_to_byte(RTC_bReadHour()))
-		{
-			case 5:
-				set_power(POWER_MAX);
-				break;
-			case 20:
-				set_power(0);
-				break;
-		}
 		M8C_EnableGInt;
-		Delay10msTimes(WAIT_PERIOD);
+		for (t=0; t<=DELAYS_IN_SECOND; t++)	Delay10msTimes(WAIT_PERIOD);
 	}
 }
 
@@ -180,6 +187,27 @@ void update_power(void)
 	if(pwr < power_target) pwr += POWER_STEP;
 	if(pwr > power_target) pwr -= POWER_STEP;
 	PWM16_CH1_WritePulseWidth(pwr);
+}
+
+void schedule_processing(unsigned char hour)
+{
+    unsigned char i; 
+    for(i = 0; i < sizeof(schedule); i++)
+    {
+        if(hour == schedule[i][0])
+        {
+            set_power(schedule[i][1]);
+        }
+    }
+}
+
+void schedule_init(void)
+{
+    unsigned char hour;
+    for(hour = 0; hour <= bcd_to_byte(RTC_bReadHour()); hour++)
+    {
+        schedule_processing(hour);
+    }
 }
 
 void rtc_update(struct datetime *datetime)

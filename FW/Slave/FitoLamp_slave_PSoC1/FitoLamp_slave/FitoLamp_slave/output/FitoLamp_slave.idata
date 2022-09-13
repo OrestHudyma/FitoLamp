@@ -1,15 +1,15 @@
-flash 154F SRAM    5:
+flash 15D4 SRAM    5:
  <size at next line>  47 50 52 4D 43
   [size:] 5 bytes
-flash 1557 SRAM    A:
+flash 15DC SRAM    A:
  00 77 bytes
-flash 155B SRAM   57:
+flash 15E0 SRAM   57:
  <size at next line>  4E 4D 45 41 5F 62 75 66 66 65 72
   [size:] 11 bytes
-flash 1569 SRAM   62:
+flash 15EE SRAM   62:
  00 71 bytes
-flash 156D SRAM   C8:
+flash 15F2 SRAM   C8:
  00 18 bytes
-flash 1571 SRAM   DB:
+flash 15F6 SRAM   DB:
  <size at next line>   0
   [size:] 1 bytes
