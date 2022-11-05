@@ -7,9 +7,9 @@
 ./obj/delay.o : \
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
    C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
-./obj/main.o :  ./lib/COUNTE~1.H ./lib/LCD.h ./lib/PSoCAPI.h\
-   ./lib/PSOCGP~1.H ./lib/PWM16_~1.H ./lib/PWM16_~2.H ./lib/RTC.h\
-   ./lib/RX8_GPS.h\
+./obj/main.o :  ./lib/COUNTE~1.H ./lib/COUNTE~2.H ./lib/LCD.h\
+   ./lib/LED_Blue.h ./lib/PSoCAPI.h ./lib/PSOCGP~1.H ./lib/PWM16_~1.H\
+   ./lib/PWM16_~2.H ./lib/RTC.h ./lib/RX8_GPS.h ./lib/RX8_RF.h\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.h\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/_const.h\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/limits.h\
@@ -26,7 +26,16 @@
 ./lib/obj/counter16_pwrupdint.o :  ./lib/COUNTE~1.INC\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
    C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/counter8_rf_clk.o :  ./lib/COUNTE~2.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/counter8_rf_clkint.o :  ./lib/COUNTE~2.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
 ./lib/obj/lcd.o :  ./lib/LCD.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/led_blue.o :  ./lib/LED_Blue.inc\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
    C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
 ./lib/obj/psocconfig.o :  ./lib/GLOBAL~1.INC\
@@ -59,3 +68,10 @@
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
    C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
 ./lib/obj/rx8_gpsplus.o : 
+./lib/obj/rx8_rf.o :  ./lib/RX8_RF.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/rx8_rfint.o :  ./lib/RX8_RF.inc\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/rx8_rfplus.o : 

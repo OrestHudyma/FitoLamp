@@ -179,7 +179,7 @@ ENDIF
     reti
 
 	org   40h                      ;PSoC Block DBC20 Interrupt Vector
-    // call	void_handler
+    ljmp	_Counter8_RF_clk_ISR
     reti
 	
 	org   44h                      ;PSoC Block DBC21 Interrupt Vector
@@ -187,7 +187,7 @@ ENDIF
     reti
 	
 	org   48h                      ;PSoC Block DCC22 Interrupt Vector
-    // call	void_handler
+    ljmp	_RX8_RF_ISR
     reti
 	
 	org   4Ch                      ;PSoC Block DCC23 Interrupt Vector
