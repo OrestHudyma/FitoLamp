@@ -57,8 +57,8 @@ const char cmd_foff[] = "FOFF";
 char nmea_gprmc_empty[] = NMEA_GPRMC_EMPTY;
 char nmea_shftl_empty[] = NMEA_SHFTL_EMPTY;
 char fld_buf[NMEA_MAX_SIZE];
-bool external_override = false;
-unsigned long external_override_counter;
+bool override = false;
+unsigned long override_counter;
 
 unsigned int const schedule[2][2] = {
 		                                {5, POWER_MAX},
@@ -110,6 +110,7 @@ void utc_to_local(struct datetime *gps_datetime, struct datetime *local_datetime
 
 void gps_signal(void)
 {
+	M8C_DisableGInt;
 	if (NMEA_pointer_gps >= NMEA_MAX_SIZE) NMEA_pointer_gps = 0;
     NMEA_buffer_gps[NMEA_pointer_gps] = RX8_GPS_bReadRxData();	
     NMEA_buffer_gps[NMEA_pointer_gps + 1] = 0;	
@@ -127,10 +128,12 @@ void gps_signal(void)
         NMEA_pointer_gps++;
         break;
     }
+	M8C_EnableGInt;
 }
 
 void rf_signal(void)
-{		
+{	
+	M8C_DisableGInt;
 	if (NMEA_pointer_rf >= NMEA_MAX_SIZE) NMEA_pointer_rf = 0;
     NMEA_buffer_rf[NMEA_pointer_rf] = RX8_RF_bReadRxData();	
     NMEA_buffer_rf[NMEA_pointer_rf + 1] = 0;	
@@ -149,6 +152,7 @@ void rf_signal(void)
         NMEA_pointer_rf++;
         break;
     }
+	M8C_EnableGInt;
 }
 
 void main(void)
@@ -238,7 +242,7 @@ void main(void)
 			LCD_PrHexInt(PWM16_CH0_wReadPulseWidth());			
 		#endif // DEBUG
 				
-		if(!external_override)
+		if(!override)
 		{
 			// Get datetime
 			local_datetime.valid = false;
@@ -258,8 +262,8 @@ void main(void)
 		M8C_EnableGInt;
 		
 		Delay10msTimes(WAIT_PERIOD);
-		if (external_override_counter > 0) external_override_counter--;
-		else external_override = false;
+		if (override_counter > 0) override_counter--;
+		else override = false;
 		LED_Blue_Off();
 	}
 }
@@ -272,8 +276,8 @@ void set_power(unsigned int pwr)
 
 void override_enable(void)
 {
-	external_override = true;
-	external_override_counter = OVERRIDE_TIMEOUT;
+	override = true;
+	override_counter = OVERRIDE_TIMEOUT;
 }
 
 void update_power(void)

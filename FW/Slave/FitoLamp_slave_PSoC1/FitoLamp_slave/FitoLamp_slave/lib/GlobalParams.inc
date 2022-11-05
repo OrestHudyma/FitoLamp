@@ -19,9 +19,9 @@
 ;=============================================================================
 ;
 
-CPU_CLOCK:				equ	2h		;CPU clock value
+CPU_CLOCK:				equ	3h		;CPU clock value
 CPU_CLOCK_MASK:			equ	7h		;CPU clock mask
-CPU_CLOCK_JUST:			equ	2h		;CPU clock value justified
+CPU_CLOCK_JUST:			equ	3h		;CPU clock value justified
 SELECT_32K:				equ	0h		;32K select value
 SELECT_32K_MASK:		equ	80h		;32K select mask
 SELECT_32K_JUST:		equ	0h		;32K select value justified

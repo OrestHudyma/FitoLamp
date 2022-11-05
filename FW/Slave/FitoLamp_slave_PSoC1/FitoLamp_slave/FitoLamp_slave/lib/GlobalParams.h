@@ -6,9 +6,9 @@
 *		for CY8C28445
 ******************************************************************************/
 
-#define CPU_CLOCK              0x2     //CPU clock value
+#define CPU_CLOCK              0x3     //CPU clock value
 #define CPU_CLOCK_MASK         0x7     //CPU clock mask
-#define CPU_CLOCK_JUST         0x2     //CPU clock value justified
+#define CPU_CLOCK_JUST         0x3     //CPU clock value justified
 #define SELECT_32K             0x0     //32K select value
 #define SELECT_32K_MASK        0x80    //32K select mask
 #define SELECT_32K_JUST        0x0     //32K select value justified

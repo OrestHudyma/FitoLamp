@@ -20,9 +20,9 @@
                 ;
                 ;=============================================================================
                 
- 0002           CPU_CLOCK:				equ	2h		;CPU clock value
+ 0003           CPU_CLOCK:				equ	3h		;CPU clock value
  0007           CPU_CLOCK_MASK:			equ	7h		;CPU clock mask
- 0002           CPU_CLOCK_JUST:			equ	2h		;CPU clock value justified
+ 0003           CPU_CLOCK_JUST:			equ	3h		;CPU clock value justified
  0000           SELECT_32K:				equ	0h		;32K select value
  0080           SELECT_32K_MASK:		equ	80h		;32K select mask
  0000           SELECT_32K_JUST:		equ	0h		;32K select value justified
@@ -2319,44 +2319,44 @@
                   IF ( CPU_CLOCK_JUST ^ OSC_CR0_CPU_24MHz ) ;    As fast as 24MHz?
                                                             ;       no, set midpoint POR in user code, if desired
                   ELSE ; 24HMz                              ;
-                    or    reg[VLT_CR],  VLT_CR_POR_HIGH     ;      yes, highest POR trip point required
+ 0137 43E320        or    reg[VLT_CR],  VLT_CR_POR_HIGH     ;      yes, highest POR trip point required
                   ENDIF ; 24MHz
                  ENDIF ; Slow Mode
                 ENDIF ; 5.0V Operation
                 
- 0137 70EF          and   F, ~FLAG_XIO_MASK
- 0139           
- 0139               ;----------------------------
- 0139               ; Wrap up and invoke "main"
- 0139               ;----------------------------
- 0139           
- 0139               ; Disable the Sleep interrupt that was used for timing above.  In fact,
- 0139               ; no interrupts should be enabled now, so may as well clear the register.
- 0139               ;
- 0139 62E000        mov  reg[INT_MSK0],0
+ 013A 70EF          and   F, ~FLAG_XIO_MASK
  013C           
- 013C               ; Everything has started OK. Now select requested CPU & sleep frequency.
+ 013C               ;----------------------------
+ 013C               ; Wrap up and invoke "main"
+ 013C               ;----------------------------
+ 013C           
+ 013C               ; Disable the Sleep interrupt that was used for timing above.  In fact,
+ 013C               ; no interrupts should be enabled now, so may as well clear the register.
  013C               ;
- 013C 7110          or    F, FLAG_XIO_MASK
- 013E 62E002        mov  reg[OSC_CR0],(SELECT_32K_JUST | PLL_MODE_JUST | SLEEP_TIMER_JUST | CPU_CLOCK_JUST)
- 0141 43E200            or  reg[OSC_CR2], (SLEEP_TIMER_JUST2)
- 0144 70EF          and   F, ~FLAG_XIO_MASK
- 0146           
- 0146               ; Global Interrupt are NOT enabled, this should be done in main().
- 0146               ; LVD is set but will not occur unless Global Interrupts are enabled.
- 0146               ; Global Interrupts should be enabled as soon as possible in main().
- 0146               ;
- 0146 62E200        mov  reg[INT_VC],0             ; Clear any pending interrupts which may
- 0149                                              ; have been set during the boot process.
+ 013C 62E000        mov  reg[INT_MSK0],0
+ 013F           
+ 013F               ; Everything has started OK. Now select requested CPU & sleep frequency.
+ 013F               ;
+ 013F 7110          or    F, FLAG_XIO_MASK
+ 0141 62E003        mov  reg[OSC_CR0],(SELECT_32K_JUST | PLL_MODE_JUST | SLEEP_TIMER_JUST | CPU_CLOCK_JUST)
+ 0144 43E200            or  reg[OSC_CR2], (SLEEP_TIMER_JUST2)
+ 0147 70EF          and   F, ~FLAG_XIO_MASK
+ 0149           
+ 0149               ; Global Interrupt are NOT enabled, this should be done in main().
+ 0149               ; LVD is set but will not occur unless Global Interrupts are enabled.
+ 0149               ; Global Interrupts should be enabled as soon as possible in main().
+ 0149               ;
+ 0149 62E200        mov  reg[INT_VC],0             ; Clear any pending interrupts which may
+ 014C                                              ; have been set during the boot process.
                 IF      (TOOLCHAIN & HITECH)
                         ljmp  startup                  ; Jump to C compiler startup code
                 ELSE
                 IF ENABLE_LJMP_TO_MAIN
                     ljmp  _main                    ; goto main (no return)
                 ELSE
- 0149 7C0000        lcall _main                    ; call main
- 014C           .Exit:
- 014C 8FFF          jmp  .Exit                     ; Wait here after return till power-off or reset
+ 014C 7C0000        lcall _main                    ; call main
+ 014F           .Exit:
+ 014F 8FFF          jmp  .Exit                     ; Wait here after return till power-off or reset
                 ENDIF
                 ENDIF ; TOOLCHAIN
                 
@@ -2364,18 +2364,18 @@
                     ; Library Access to Global Parms
                     ;---------------------------------
                     ;
- 014E            bGetPowerSetting:
- 014E           _bGetPowerSetting:
- 014E               ; Returns value of POWER_SETTING in the A register.
- 014E               ; No inputs. No Side Effects.
- 014E               ;
+ 0151            bGetPowerSetting:
+ 0151           _bGetPowerSetting:
+ 0151               ; Returns value of POWER_SETTING in the A register.
+ 0151               ; No inputs. No Side Effects.
+ 0151               ;
                 IF (POWER_SETTING & POWER_SET_2V7)
                     mov   A, POWER_SETTING | POWER_SET_SLOW_IMO
                 ELSE
- 014E 5010          mov   A, POWER_SETTING          ; Supply voltage and internal main osc
+ 0151 5010          mov   A, POWER_SETTING          ; Supply voltage and internal main osc
                 ENDIF
- 0150 7F            ret
- 0151           
+ 0153 7F            ret
+ 0154           
                 IF      (TOOLCHAIN & HITECH)
                 ELSE
                     ;---------------------------------

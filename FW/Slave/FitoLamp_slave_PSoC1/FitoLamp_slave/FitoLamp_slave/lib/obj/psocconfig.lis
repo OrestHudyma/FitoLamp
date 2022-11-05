@@ -1288,9 +1288,9 @@
  0000             ENDIF
  0000             POP A
  0000           ENDIF
- 0002           CPU_CLOCK:				equ	2h		;CPU clock value
+ 0003           CPU_CLOCK:				equ	3h		;CPU clock value
  0007           CPU_CLOCK_MASK:			equ	7h		;CPU clock mask
- 0002           CPU_CLOCK_JUST:			equ	2h		;CPU clock value justified
+ 0003           CPU_CLOCK_JUST:			equ	3h		;CPU clock value justified
  0000           SELECT_32K:				equ	0h		;32K select value
  0080           SELECT_32K_MASK:		equ	80h		;32K select mask
  0000           SELECT_32K_JUST:		equ	0h		;32K select value justified

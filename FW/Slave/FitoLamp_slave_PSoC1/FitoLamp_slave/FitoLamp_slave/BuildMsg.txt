@@ -89,12 +89,12 @@ LMM info: area 'RX8_GPS_RAM' item of 1 bytes allocated in SRAM page 2
 
 idata dump at output/FitoLamp_slave.idata
 
-  ROM 41% full. 6569 out of 16384 bytes used (does not include absolute areas).
+  ROM 41% full. 6577 out of 16384 bytes used (does not include absolute areas).
 
   RAM 67% full. 507 bytes used (does not include stack usage).
 
 Built with ICCM8C STD V7.05.00
 
  
-FitoLamp_slave - 0 error(s) 0 warning(s) 20:10:07
+FitoLamp_slave - 0 error(s) 0 warning(s) 21:51:33
 

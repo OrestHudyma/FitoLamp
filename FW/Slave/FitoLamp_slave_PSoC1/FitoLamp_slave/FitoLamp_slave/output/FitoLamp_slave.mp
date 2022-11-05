@@ -1,6 +1,6 @@
 Project:      output/FitoLamp_slave
 Build Number: 0
-Date:         Sat Nov 05 20:10:07 2022
+Date:         Sat Nov 05 21:51:33 2022
 Compiler:     ICCM8C
 Version:      7.05.00
 
@@ -247,7 +247,7 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                            text   0BEA   0F4F =   3919. bytes (rel,con,rom,code)
+                            text   0BEA   0F57 =   3927. bytes (rel,con,rom,code)
 
        Addr  Global Symbol
       -----  --------------------------------
@@ -260,41 +260,41 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
        0C05  Delay50u
        0C05  _Delay50u
        0C19  _gps_signal
-       0CCA  _rf_signal
-       0D91  _main
-       0FB8  _set_power
-       0FD7  _override_enable
-       0FF0  _update_power
-       1074  _schedule_processing
-       10F4  _schedule_init
-       1132  _rtc_update
-       1194  _check_fld
-       11CF  _NMEA_GetField
-       130A  _NMEA_handle_packet
-       1435  _NMEA_GetTimeUTC
-       1649  _str_cmp
-       169A  _str_cmp_const
-       16EC  _byte_to_bcd
-       1723  _bcd_to_byte
-       175A  _utc_to_local
-       184D  _atoi
-       198E  _isdigit
-       19AF  _isspace
-       19D0  _strncat
-       1A7D  _strncpy
-       1B39  __text_end
-       1B39  __xidata_start
-       1B91  __xidata_end
+       0CCE  _rf_signal
+       0D99  _main
+       0FC0  _set_power
+       0FDF  _override_enable
+       0FF8  _update_power
+       107C  _schedule_processing
+       10FC  _schedule_init
+       113A  _rtc_update
+       119C  _check_fld
+       11D7  _NMEA_GetField
+       1312  _NMEA_handle_packet
+       143D  _NMEA_GetTimeUTC
+       1651  _str_cmp
+       16A2  _str_cmp_const
+       16F4  _byte_to_bcd
+       172B  _bcd_to_byte
+       1762  _utc_to_local
+       1855  _atoi
+       1996  _isdigit
+       19B7  _isspace
+       19D8  _strncat
+       1A85  _strncpy
+       1B41  __text_end
+       1B41  __xidata_start
+       1B99  __xidata_end
 
 Area                               Start  End    Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
-                             TOP   0000   0151 =    337. bytes (abs,ovr,rom,code)
+                             TOP   0000   0154 =    340. bytes (abs,ovr,rom,code)
 
        Addr  Global Symbol
       -----  --------------------------------
        0080  __Start
-       014E  _bGetPowerSetting
-       014E  bGetPowerSetting
+       0151  _bGetPowerSetting
+       0151  bGetPowerSetting
 
 Area                               Addr   Size   Decimal Bytes (Attributes)
 --------------------------------   ----   ----   ------- ----- ------------
@@ -377,10 +377,10 @@ Area                               Addr   Size   Decimal Bytes (Attributes)
        0100  _NMEA_GPRMC
        0152  _NMEA_buffer_rf
        01A4  _fld_buf
-       01F6  _external_override_counter
+       01F6  _override_counter
        01FA  _NMEA_cmd_received
        01FC  _power_target
-       01FE  _external_override
+       01FE  _override
        0200  _NMEA_pointer_rf
        0201  _NMEA_pointer_gps
 
