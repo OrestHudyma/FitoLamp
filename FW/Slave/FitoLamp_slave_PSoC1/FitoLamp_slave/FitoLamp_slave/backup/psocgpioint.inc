@@ -9,23 +9,23 @@ LED_BluePin_GlobalSelect_ADDR:	equ	6h
 LED_BluePin_IntCtrl_0_ADDR:	equ	106h
 LED_BluePin_IntCtrl_1_ADDR:	equ	107h
 LED_BluePin_IntEn_ADDR:	equ	5h
-LED_BluePin_MASK:	equ	80h
+LED_BluePin_MASK:	equ	10h
 LED_BluePin_MUXBusCtrl_ADDR:	equ	1d9h
 ; LED_BluePin_Data access macros
 ;   GetLED_BluePin_Data macro, return in a
 macro GetLED_BluePin_Data
 	mov		a,[Port_1_Data_SHADE]
-	and		a, 80h
+	and		a, 10h
 endm
 ;   SetLED_BluePin_Data macro
 macro SetLED_BluePin_Data
-	or		[Port_1_Data_SHADE], 80h
+	or		[Port_1_Data_SHADE], 10h
 	mov		a, [Port_1_Data_SHADE]
 	mov		reg[LED_BluePin_Data_ADDR], a
 endm
 ;   ClearLED_BluePin_Data macro
 macro ClearLED_BluePin_Data
-	and		[Port_1_Data_SHADE], ~80h
+	and		[Port_1_Data_SHADE], ~10h
 	mov		a, [Port_1_Data_SHADE]
 	mov		reg[LED_BluePin_Data_ADDR], a
 endm

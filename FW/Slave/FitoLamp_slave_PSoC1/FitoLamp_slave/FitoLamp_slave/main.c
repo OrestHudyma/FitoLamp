@@ -172,14 +172,6 @@ void main(void)
 	RX8_GPS_Start(RX8_GPS_PARITY_NONE);
 	RX8_RF_Start(RX8_GPS_PARITY_ODD);
 	
-	TX8_Debug_Start(TX8_Debug_PARITY_NONE);
-	
-#ifdef DEBUG
-	LCD_Init();
-	LCD_Position(0, 0);
-	LCD_PrCString(" ");
-#endif // DEBUG
-	
 	RX8_GPS_EnableInt();
 	RX8_RF_EnableInt();
 	Counter16_PwrUpd_EnableInt();
@@ -227,28 +219,10 @@ void main(void)
 	            }
 				else LED_Blue_Off();
 				
-				// Debug
-				//TX8_Debug_CPutString(cmd_foff);
-				TX8_Debug_PutString(NMEA_SHFTL);
-				
 	            NMEA_SHFTL[0] = 0;
 	            strncat(NMEA_SHFTL, nmea_shftl_empty, NMEA_MAX_SIZE);
 			}
 		}		
-			
-		#ifdef DEBUG
-			M8C_DisableGInt;
-			LCD_Position(0, 0);
-			LCD_PrHexByte(RTC_bReadHour());
-			LCD_Position(0, 3);
-			LCD_PrHexByte(RTC_bReadMinute());
-			LCD_Position(0, 6);
-			LCD_PrHexByte(RTC_bReadSecond());
-			
-			LCD_Position(1, 0);
-			LCD_PrHexInt(PWM16_CH0_wReadPulseWidth());	
-			M8C_EnableGInt;		
-		#endif // DEBUG
 				
 		if(!override)
 		{
@@ -368,10 +342,6 @@ bool NMEA_handle_packet(char *packet, char *NMEA_data)
 {
     unsigned char i, n;
     unsigned char error = 0;
-    unsigned char checksum = 0;
-    char *checksum_delimiter;
-    char calculated_checksum[3];
-	char checksum_format[] = "%02X";
 	        
     // Check if appropriate packet is handled
 	if (str_cmp(packet, NMEA_data, NMEA_HEADER_SIZE) == 0u)
@@ -389,23 +359,6 @@ bool NMEA_handle_packet(char *packet, char *NMEA_data)
 		
         // Copy buffer to NMEA packet if no errors found
         if (!error) strncpy(NMEA_data, packet, NMEA_MAX_SIZE); 
-		
-		/*
-		// Validate checksum and cut packet if no receive errors
-        if (!error)
-        {
-            // Find checksum field
-            checksum_delimiter = memchr(packet, NMEA_CHECKSUM_DELIMITER, NMEA_MAX_SIZE);
-            i = (unsigned char)(checksum_delimiter - packet);
-            
-            // Calculate checksum and compare
-            for (n = 0; n < i; n++) checksum ^= packet[n];
-            sprintf(calculated_checksum, checksum_format, checksum);
-            
-            packet[i] = 0; // Cut string to NMEA_CHECKSUM_DELIMITER
-            if(strncmp(calculated_checksum, checksum_delimiter + 1, sizeof(calculated_checksum) - 1)) error++;
-        }
-		*/
     }
 	else error++;
 	

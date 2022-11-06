@@ -9,8 +9,6 @@ lib/counter8_rf_clk.asm
 
 lib/counter8_rf_clkint.asm
 
-lib/lcd.asm
-
 lib/led_blue.asm
 
 lib/psocconfig.asm
@@ -41,17 +39,11 @@ lib/rx8_rfint.asm
 
 lib/rx8_rfplus.asm
 
-lib/tx8_debug.asm
-
-lib/tx8_debugint.asm
-
-lib/tx8_debugplus.asm
-
 ./boot.asm
 
 Linking..
 
-LMM info: area 'InterruptRAM' uses 8 bytes in SRAM bank 0
+LMM info: area 'InterruptRAM' uses 5 bytes in SRAM bank 0
 
 LMM info: area 'data' item of 82 bytes allocated in SRAM page 0
 
@@ -71,6 +63,10 @@ LMM info: area 'data' item of 6 bytes allocated in SRAM page 0
 
 LMM info: area 'data' item of 6 bytes allocated in SRAM page 0
 
+LMM info: area 'data' item of 2 bytes allocated in SRAM page 0
+
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 0
+
 LMM info: area 'data' item of 82 bytes allocated in SRAM page 1
 
 LMM info: area 'data' item of 82 bytes allocated in SRAM page 1
@@ -83,24 +79,20 @@ LMM info: area 'data' item of 2 bytes allocated in SRAM page 1
 
 LMM info: area 'data' item of 2 bytes allocated in SRAM page 1
 
-LMM info: area 'data' item of 2 bytes allocated in SRAM page 1
+LMM info: area 'data' item of 1 bytes allocated in SRAM page 1
 
-LMM info: area 'data' item of 1 bytes allocated in SRAM page 2
-
-LMM info: area 'data' item of 1 bytes allocated in SRAM page 2
-
-LMM info: area 'RX8_RF_RAM' item of 1 bytes allocated in SRAM page 2
+LMM info: area 'RX8_RF_RAM' item of 1 bytes allocated in SRAM page 1
 
 LMM info: area 'RX8_GPS_RAM' item of 1 bytes allocated in SRAM page 2
 
 idata dump at output/FitoLamp_slave.idata
 
-  ROM 43% full. 6936 out of 16384 bytes used (does not include absolute areas).
+  ROM 41% full. 6627 out of 16384 bytes used (does not include absolute areas).
 
-  RAM 67% full. 507 bytes used (does not include stack usage).
+  RAM 66% full. 504 bytes used (does not include stack usage).
 
 Built with ICCM8C STD V7.05.00
 
  
-FitoLamp_slave - 0 error(s) 0 warning(s) 12:03:41
+FitoLamp_slave - 0 error(s) 0 warning(s) 13:29:27
 

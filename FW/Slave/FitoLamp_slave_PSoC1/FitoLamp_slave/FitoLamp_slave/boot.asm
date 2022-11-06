@@ -175,7 +175,7 @@ ENDIF
     reti
 
     org   3Ch                      ;PSoC Block DCC13 Interrupt Vector
-    ljmp	_TX8_Debug_ISR
+    // call	void_handler
     reti
 
 	org   40h                      ;PSoC Block DBC20 Interrupt Vector

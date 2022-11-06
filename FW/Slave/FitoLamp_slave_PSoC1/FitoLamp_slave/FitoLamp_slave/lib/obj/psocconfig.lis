@@ -1372,17 +1372,17 @@
  0000           PORT_0_INTENABLE:		equ 0h	;Port 0 interrupt enable register (PRT0IE)
  0000           PORT_0_INTCTRL_0:		equ 0h	;Port 0 interrupt control 0 register (PRT0IC0)
  0000           PORT_0_INTCTRL_1:		equ 0h	;Port 0 interrupt control 1 register (PRT0IC1)
- 001F           PORT_1_GLOBAL_SELECT:	equ 1fh	;Port 1 global select register (PRT1GS)
- 0093           PORT_1_DRIVE_0:			equ 93h	;Port 1 drive mode 0 register (PRT1DM0)
- 006C           PORT_1_DRIVE_1:			equ 6ch	;Port 1 drive mode 1 register (PRT1DM1)
- 0060           PORT_1_DRIVE_2:			equ 60h	;Port 1 drive mode 2 register (PRT1DM2)
+ 000F           PORT_1_GLOBAL_SELECT:	equ fh	;Port 1 global select register (PRT1GS)
+ 0013           PORT_1_DRIVE_0:			equ 13h	;Port 1 drive mode 0 register (PRT1DM0)
+ 00EC           PORT_1_DRIVE_1:			equ ech	;Port 1 drive mode 1 register (PRT1DM1)
+ 00E0           PORT_1_DRIVE_2:			equ e0h	;Port 1 drive mode 2 register (PRT1DM2)
  0000           PORT_1_INTENABLE:		equ 0h	;Port 1 interrupt enable register (PRT1IE)
  0000           PORT_1_INTCTRL_0:		equ 0h	;Port 1 interrupt control 0 register (PRT1IC0)
  0000           PORT_1_INTCTRL_1:		equ 0h	;Port 1 interrupt control 1 register (PRT1IC1)
  0000           PORT_2_GLOBAL_SELECT:	equ 0h	;Port 2 global select register (PRT2GS)
- 007F           PORT_2_DRIVE_0:			equ 7fh	;Port 2 drive mode 0 register (PRT2DM0)
- 0080           PORT_2_DRIVE_1:			equ 80h	;Port 2 drive mode 1 register (PRT2DM1)
- 0080           PORT_2_DRIVE_2:			equ 80h	;Port 2 drive mode 2 register (PRT2DM2)
+ 0000           PORT_2_DRIVE_0:			equ 0h	;Port 2 drive mode 0 register (PRT2DM0)
+ 00FF           PORT_2_DRIVE_1:			equ ffh	;Port 2 drive mode 1 register (PRT2DM1)
+ 00FF           PORT_2_DRIVE_2:			equ ffh	;Port 2 drive mode 2 register (PRT2DM2)
  0000           PORT_2_INTENABLE:		equ 0h	;Port 2 interrupt enable register (PRT2IE)
  0000           PORT_2_INTCTRL_0:		equ 0h	;Port 2 interrupt control 0 register (PRT2IC0)
  0000           PORT_2_INTCTRL_1:		equ 0h	;Port 2 interrupt control 1 register (PRT2IC1)
@@ -1416,12 +1416,6 @@
                 export _LoadConfig_fitolamp_slave
                 export Port_1_Data_SHADE
                 export _Port_1_Data_SHADE
-                export Port_2_Data_SHADE
-                export _Port_2_Data_SHADE
-                export Port_2_DriveMode_0_SHADE
-                export _Port_2_DriveMode_0_SHADE
-                export Port_2_DriveMode_1_SHADE
-                export _Port_2_DriveMode_1_SHADE
                 
                 
                 export NO_SHADOW
@@ -1478,14 +1472,11 @@
                 
                     
  0000 550000            mov             [Port_1_Data_SHADE], 0h
- 0003 550100            mov             [Port_2_Data_SHADE], 0h
- 0006 55027F            mov             [Port_2_DriveMode_0_SHADE], 7fh
- 0009 550380            mov             [Port_2_DriveMode_1_SHADE], 80h
- 000C           
- 000C 7C0013            lcall   LoadConfig_fitolamp_slave
- 000F 7C0000            lcall   LoadConfigTBL_fitolamp_slave_Ordered
- 0012           
- 0012           
+ 0003           
+ 0003 7C000A            lcall   LoadConfig_fitolamp_slave
+ 0006 7C0000            lcall   LoadConfigTBL_fitolamp_slave_Ordered
+ 0009           
+ 0009           
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -1528,29 +1519,29 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 0012 7F            ret
- 0013           
- 0013           ;---------------------------------------------------------------------------
- 0013           ; Load Configuration fitolamp_slave
- 0013           ;
- 0013           ;    Load configuration registers for fitolamp_slave.
- 0013           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
- 0013           ;
- 0013           ;       INPUTS: None.
- 0013           ;      RETURNS: Nothing.
- 0013           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
- 0013           ;               modified as may the Page Pointer registers!
- 0013           ;               In the large memory model currently only the page
- 0013           ;               pointer registers listed below are modified.  This does
- 0013           ;               not guarantee that in future implementations of this
- 0013           ;               function other page pointer registers will not be
- 0013           ;               modified.
- 0013           ;          
- 0013           ;               Page Pointer Registers Modified: 
- 0013           ;               CUR_PP
- 0013           ;
- 0013           _LoadConfig_fitolamp_slave:
- 0013            LoadConfig_fitolamp_slave:
+ 0009 7F            ret
+ 000A           
+ 000A           ;---------------------------------------------------------------------------
+ 000A           ; Load Configuration fitolamp_slave
+ 000A           ;
+ 000A           ;    Load configuration registers for fitolamp_slave.
+ 000A           ;    IO Bank 0 registers a loaded first,then those in IO Bank 1.
+ 000A           ;
+ 000A           ;       INPUTS: None.
+ 000A           ;      RETURNS: Nothing.
+ 000A           ; SIDE EFFECTS: Registers are volatile: the CPU A and X registers may be
+ 000A           ;               modified as may the Page Pointer registers!
+ 000A           ;               In the large memory model currently only the page
+ 000A           ;               pointer registers listed below are modified.  This does
+ 000A           ;               not guarantee that in future implementations of this
+ 000A           ;               function other page pointer registers will not be
+ 000A           ;               modified.
+ 000A           ;          
+ 000A           ;               Page Pointer Registers Modified: 
+ 000A           ;               CUR_PP
+ 000A           ;
+ 000A           _LoadConfig_fitolamp_slave:
+ 000A            LoadConfig_fitolamp_slave:
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -1576,25 +1567,25 @@
                    ENDIF ; RAM_USE_CLASS_4
                 
                 
- 0013 10                push    x
- 0014 70EF          and   F, ~FLAG_XIO_MASK
- 0016 5000          mov     a, 0                    ; Specify bank 0
- 0018 67            asr     a                       ; Store in carry flag
- 0019                                               ; Load bank 0 table:
- 0019 5000          mov     A, >LoadConfigTBL_fitolamp_slave_Bank0
- 001B 5700          mov     X, <LoadConfigTBL_fitolamp_slave_Bank0
- 001D 7C002E        lcall   LoadConfig              ; Load the bank 0 values
- 0020           
- 0020 5001          mov     a, 1                    ; Specify bank 1
- 0022 67            asr     a                       ; Store in carry flag
- 0023                                               ; Load bank 1 table:
- 0023 5000          mov     A, >LoadConfigTBL_fitolamp_slave_Bank1
- 0025 5700          mov     X, <LoadConfigTBL_fitolamp_slave_Bank1
- 0027 7C002E        lcall   LoadConfig              ; Load the bank 1 values
- 002A           
- 002A 70EF          and   F, ~FLAG_XIO_MASK
- 002C 20                pop             x
- 002D           
+ 000A 10                push    x
+ 000B 70EF          and   F, ~FLAG_XIO_MASK
+ 000D 5000          mov     a, 0                    ; Specify bank 0
+ 000F 67            asr     a                       ; Store in carry flag
+ 0010                                               ; Load bank 0 table:
+ 0010 5000          mov     A, >LoadConfigTBL_fitolamp_slave_Bank0
+ 0012 5700          mov     X, <LoadConfigTBL_fitolamp_slave_Bank0
+ 0014 7C0025        lcall   LoadConfig              ; Load the bank 0 values
+ 0017           
+ 0017 5001          mov     a, 1                    ; Specify bank 1
+ 0019 67            asr     a                       ; Store in carry flag
+ 001A                                               ; Load bank 1 table:
+ 001A 5000          mov     A, >LoadConfigTBL_fitolamp_slave_Bank1
+ 001C 5700          mov     X, <LoadConfigTBL_fitolamp_slave_Bank1
+ 001E 7C0025        lcall   LoadConfig              ; Load the bank 1 values
+ 0021           
+ 0021 70EF          and   F, ~FLAG_XIO_MASK
+ 0023 20                pop             x
+ 0024           
                    IF ( RAM_USE_CLASS_4 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -1637,27 +1628,27 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 002D 7F            ret
- 002E           
- 002E           
- 002E           
- 002E           
- 002E           ;---------------------------------------------------------------------------
- 002E           ; LoadConfig - Set IO registers as specified in ROM table of (address,value)
- 002E           ;              pairs. Terminate on address=0xFF.
- 002E           ;
- 002E           ;  INPUTS:  [A,X] points to the table to be loaded
- 002E           ;           Flag Register Carry bit encodes the Register Bank
- 002E           ;           (Carry=0 => Bank 0; Carry=1 => Bank 1)
- 002E           ;
- 002E           ;  RETURNS: nothing.
- 002E           ;
- 002E           ;  STACK FRAME:  X-4 I/O Bank 0/1 indicator
- 002E           ;                X-3 Temporary store for register address
- 002E           ;                X-2 LSB of config table address
- 002E           ;                X-1 MSB of config table address
- 002E           ;
- 002E           LoadConfig:
+ 0024 7F            ret
+ 0025           
+ 0025           
+ 0025           
+ 0025           
+ 0025           ;---------------------------------------------------------------------------
+ 0025           ; LoadConfig - Set IO registers as specified in ROM table of (address,value)
+ 0025           ;              pairs. Terminate on address=0xFF.
+ 0025           ;
+ 0025           ;  INPUTS:  [A,X] points to the table to be loaded
+ 0025           ;           Flag Register Carry bit encodes the Register Bank
+ 0025           ;           (Carry=0 => Bank 0; Carry=1 => Bank 1)
+ 0025           ;
+ 0025           ;  RETURNS: nothing.
+ 0025           ;
+ 0025           ;  STACK FRAME:  X-4 I/O Bank 0/1 indicator
+ 0025           ;                X-3 Temporary store for register address
+ 0025           ;                X-2 LSB of config table address
+ 0025           ;                X-1 MSB of config table address
+ 0025           ;
+ 0025           LoadConfig:
                    IF ( RAM_USE_CLASS_2 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -1682,48 +1673,48 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 002E 3802          add     SP, 2                   ; Set up local vars
- 0030 10            push    X                       ; Save config table address on stack
- 0031 08            push    A
- 0032 4F            mov     X, SP
- 0033 56FC00        mov     [X-4], 0                ; Set default Destination to Bank 0
- 0036 D004          jnc     .BankSelectSaved        ; Carry says Bank 0 is OK
- 0038 56FC01        mov     [X-4], 1                ; No Carry: default to Bank 1
- 003B           .BankSelectSaved:
- 003B 18            pop     A
- 003C 20            pop     X
- 003D           
- 003D           LoadConfigLp:
- 003D 70EF          and   F, ~FLAG_XIO_MASK
- 003F 62E300        mov   reg[RES_WDT], 00h
- 0042 10            push    X                       ; Preserve the config table address
- 0043 08            push    A
- 0044 28            romx                            ; Load register address from table
- 0045 39FF          cmp     A, END_CONFIG_TABLE     ; End of table?
- 0047 A01F          jz      EndLoadConfig           ;   Yes, go wrap it up
- 0049 4F            mov     X, SP                   ;
- 004A 48FC01        tst     [X-4], 1                ; Loading IO Bank 1?
- 004D A003          jz      .IOBankNowSet           ;    No, Bank 0 is fine
- 004F 7110          or    F, FLAG_XIO_MASK
- 0051           .IOBankNowSet:
- 0051 54FD          mov     [X-3], A                ; Stash the register address
- 0053 18            pop     A                       ; Retrieve the table address
- 0054 20            pop     X
- 0055 75            inc     X                       ; Advance to the data byte
- 0056 0900          adc     A, 0
- 0058 10            push    X                       ; Save the config table address again
- 0059 08            push    A
- 005A 28            romx                            ; load config data from the table
- 005B 4F            mov     X, SP                   ; retrieve the register address
- 005C 59FD          mov     X, [X-3]
- 005E 6100          mov     reg[X], A               ; Configure the register
- 0060 18            pop     A                       ; retrieve the table address
- 0061 20            pop     X
- 0062 75            inc     X                       ; advance to next table entry
- 0063 0900          adc     A, 0
- 0065 8FD7          jmp     LoadConfigLp            ; loop to configure another register
- 0067           EndLoadConfig:
- 0067 38FC          add     SP, -4
+ 0025 3802          add     SP, 2                   ; Set up local vars
+ 0027 10            push    X                       ; Save config table address on stack
+ 0028 08            push    A
+ 0029 4F            mov     X, SP
+ 002A 56FC00        mov     [X-4], 0                ; Set default Destination to Bank 0
+ 002D D004          jnc     .BankSelectSaved        ; Carry says Bank 0 is OK
+ 002F 56FC01        mov     [X-4], 1                ; No Carry: default to Bank 1
+ 0032           .BankSelectSaved:
+ 0032 18            pop     A
+ 0033 20            pop     X
+ 0034           
+ 0034           LoadConfigLp:
+ 0034 70EF          and   F, ~FLAG_XIO_MASK
+ 0036 62E300        mov   reg[RES_WDT], 00h
+ 0039 10            push    X                       ; Preserve the config table address
+ 003A 08            push    A
+ 003B 28            romx                            ; Load register address from table
+ 003C 39FF          cmp     A, END_CONFIG_TABLE     ; End of table?
+ 003E A01F          jz      EndLoadConfig           ;   Yes, go wrap it up
+ 0040 4F            mov     X, SP                   ;
+ 0041 48FC01        tst     [X-4], 1                ; Loading IO Bank 1?
+ 0044 A003          jz      .IOBankNowSet           ;    No, Bank 0 is fine
+ 0046 7110          or    F, FLAG_XIO_MASK
+ 0048           .IOBankNowSet:
+ 0048 54FD          mov     [X-3], A                ; Stash the register address
+ 004A 18            pop     A                       ; Retrieve the table address
+ 004B 20            pop     X
+ 004C 75            inc     X                       ; Advance to the data byte
+ 004D 0900          adc     A, 0
+ 004F 10            push    X                       ; Save the config table address again
+ 0050 08            push    A
+ 0051 28            romx                            ; load config data from the table
+ 0052 4F            mov     X, SP                   ; retrieve the register address
+ 0053 59FD          mov     X, [X-3]
+ 0055 6100          mov     reg[X], A               ; Configure the register
+ 0057 18            pop     A                       ; retrieve the table address
+ 0058 20            pop     X
+ 0059 75            inc     X                       ; advance to next table entry
+ 005A 0900          adc     A, 0
+ 005C 8FD7          jmp     LoadConfigLp            ; loop to configure another register
+ 005E           EndLoadConfig:
+ 005E 38FC          add     SP, -4
                    IF ( RAM_USE_CLASS_2 & RAM_USE_CLASS_1 )
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_1
@@ -1732,8 +1723,8 @@
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
                    IF ( SYSTEM_IDXPG_TRACKS_STK_PP )
                    IF ( SYSTEM_LARGE_MEMORY_MODEL )
- 0069 703F            and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
- 006B 71C0            or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_11b
+ 0060 703F            and   F, ~FLAG_PGMODE_MASK        ; NOTE: transition thru 00b state
+ 0062 71C0            or    F,  FLAG_PGMODE_MASK & FLAG_PGMODE_11b
                    ENDIF
                    ENDIF ;  PGMODE LOCKED
                    IF ( SYSTEM_IDXPG_TRACKS_IDX_PP )
@@ -1766,8 +1757,8 @@
                    ; Nothing to do
                    ENDIF ; RAM_USE_CLASS_4
                 
- 006D 7F            ret
- 006E           
+ 0064 7F            ret
+ 0065           
                 AREA InterruptRAM(ram, rel)
                 
  0000           NO_SHADOW:
@@ -1775,10 +1766,4 @@
  0000           ; write only register shadows
  0000           _Port_1_Data_SHADE:
  0000           Port_1_Data_SHADE:      BLK     1
- 0001           _Port_2_Data_SHADE:
- 0001           Port_2_Data_SHADE:      BLK     1
- 0002           _Port_2_DriveMode_0_SHADE:
- 0002           Port_2_DriveMode_0_SHADE:       BLK     1
- 0003           _Port_2_DriveMode_1_SHADE:
- 0003           Port_2_DriveMode_1_SHADE:       BLK     1
- 0004           
+ 0001           

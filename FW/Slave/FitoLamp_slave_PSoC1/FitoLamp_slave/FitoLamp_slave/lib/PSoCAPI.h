@@ -20,13 +20,11 @@
 #include "PSoCGPIOINT.h"
 #include "Counter16_PwrUpd.h"
 #include "Counter8_RF_clk.h"
-#include "LCD.h"
 #include "LED_Blue.h"
 #include "PWM16_CH0.h"
 #include "PWM16_CH1.h"
 #include "RTC.h"
 #include "RX8_GPS.h"
 #include "RX8_RF.h"
-#include "TX8_Debug.h"
 
 #endif
