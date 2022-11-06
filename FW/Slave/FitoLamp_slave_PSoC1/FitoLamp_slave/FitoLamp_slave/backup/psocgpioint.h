@@ -19,7 +19,7 @@ BYTE			LED_BluePin_IntCtrl_0_ADDR;
 BYTE			LED_BluePin_IntCtrl_1_ADDR;
 #pragma	ioport	LED_BluePin_IntEn_ADDR:	0x5
 BYTE			LED_BluePin_IntEn_ADDR;
-#define LED_BluePin_MASK 0x10
+#define LED_BluePin_MASK 0x80
 #pragma	ioport	LED_BluePin_MUXBusCtrl_ADDR:	0x1d9
 BYTE			LED_BluePin_MUXBusCtrl_ADDR;
 // LED_BluePin Shadow defines

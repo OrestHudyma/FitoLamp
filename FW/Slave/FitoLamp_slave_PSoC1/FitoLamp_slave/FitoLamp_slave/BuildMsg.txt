@@ -41,6 +41,12 @@ lib/rx8_rfint.asm
 
 lib/rx8_rfplus.asm
 
+lib/tx8_debug.asm
+
+lib/tx8_debugint.asm
+
+lib/tx8_debugplus.asm
+
 ./boot.asm
 
 Linking..
@@ -89,12 +95,12 @@ LMM info: area 'RX8_GPS_RAM' item of 1 bytes allocated in SRAM page 2
 
 idata dump at output/FitoLamp_slave.idata
 
-  ROM 41% full. 6577 out of 16384 bytes used (does not include absolute areas).
+  ROM 43% full. 6936 out of 16384 bytes used (does not include absolute areas).
 
   RAM 67% full. 507 bytes used (does not include stack usage).
 
 Built with ICCM8C STD V7.05.00
 
  
-FitoLamp_slave - 0 error(s) 0 warning(s) 21:51:33
+FitoLamp_slave - 0 error(s) 0 warning(s) 12:03:41
 

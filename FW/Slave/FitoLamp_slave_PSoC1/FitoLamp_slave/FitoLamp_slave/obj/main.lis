@@ -354,7 +354,7 @@
  00A0 08                push A
  00A1 5000              mov A,<_NMEA_buffer_gps
  00A3 08                push A
- 00A4 9653              xcall _NMEA_handle_packet
+ 00A4 967C              xcall _NMEA_handle_packet
  00A6 38FC              add SP,-4
  00A8                   .dbline 125
  00A8           ;         break;
@@ -491,7 +491,7 @@
  0155 08                push A
  0156 5000              mov A,<_NMEA_buffer_rf
  0158 08                push A
- 0159 959E              xcall _NMEA_handle_packet
+ 0159 95C7              xcall _NMEA_handle_packet
  015B 38FC              add SP,-4
  015D 62D000            mov REG[0xd0],>__r0
  0160 5100              mov A,[__r1]
@@ -585,2195 +585,2269 @@
  01AA           ;       RX8_RF_Start(RX8_GPS_PARITY_ODD);
  01AA 5006              mov A,6
  01AC 7C0000            xcall _RX8_RF_Start
- 01AF                   .dbline 181
+ 01AF                   .dbline 175
  01AF           ;       
- 01AF           ; #ifdef DEBUG
- 01AF           ;       LCD_Init();
- 01AF           ;       LCD_Position(0, 0);
- 01AF           ;       LCD_PrCString(" ");
- 01AF           ; #endif // DEBUG
- 01AF           ;       
- 01AF           ;       RX8_GPS_EnableInt();
- 01AF 7C0000            xcall _RX8_GPS_EnableInt
- 01B2                   .dbline 182
- 01B2           ;       RX8_RF_EnableInt();
- 01B2 7C0000            xcall _RX8_RF_EnableInt
- 01B5                   .dbline 183
- 01B5           ;       Counter16_PwrUpd_EnableInt();
- 01B5 7C0000            xcall _Counter16_PwrUpd_EnableInt
- 01B8                   .dbline 185
- 01B8           ;               
- 01B8           ;       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
- 01B8 5707              mov X,7
- 01BA 50D0              mov A,-48
- 01BC 7C0000            xcall _Counter16_PwrUpd_WritePeriod
- 01BF 20                pop X
- 01C0                   .dbline 186
- 01C0           ;       set_power(POWER_MAX);
- 01C0 5036              mov A,54
- 01C2 08                push A
- 01C3 50B0              mov A,-80
- 01C5 08                push A
- 01C6 91DF              xcall _set_power
- 01C8 38FE              add SP,-2
- 01CA                   .dbline 187
- 01CA           ;       LED_Blue_Off();
- 01CA 10                push X
- 01CB 7C0000            xcall _LED_Blue_Off
- 01CE 20                pop X
- 01CF 81D0              xjmp L23
- 01D1           L22:
- 01D1                   .dbline 190
- 01D1           ;       
- 01D1           ;       while (1)
- 01D1           ;       {
- 01D1                   .dbline 191
- 01D1           ;               M8C_DisableGInt;
- 01D1 70FE                      and F, FEh
- 01D3           
- 01D3                   .dbline 194
- 01D3           ;               
- 01D3           ;               // Handle commands
- 01D3           ;               if (NMEA_cmd_received)
- 01D3 62D000            mov REG[0xd0],>_NMEA_cmd_received
- 01D6 3C0000            cmp [_NMEA_cmd_received],0
- 01D9 B006              jnz X7
- 01DB 3C0100            cmp [_NMEA_cmd_received+1],0
- 01DE A12A              jz L25
- 01E0           X7:
- 01E0                   .dbline 196
- 01E0           ;         {
- 01E0           ;                       LED_Blue_On();
- 01E0                   .dbline 196
- 01E0 10                push X
- 01E1 7C0000            xcall _LED_Blue_On
- 01E4 20                pop X
- 01E5                   .dbline 197
- 01E5           ;                       NMEA_cmd_received = false;              
- 01E5 62D000            mov REG[0xd0],>_NMEA_cmd_received
- 01E8 550100            mov [_NMEA_cmd_received+1],0
- 01EB 550000            mov [_NMEA_cmd_received],0
- 01EE                   .dbline 200
- 01EE           ;             
- 01EE           ;             // NMEA_SHFTL handle
- 01EE           ;                       NMEA_GetField(NMEA_SHFTL, NMEA_FIELD_ID, fld_buf);
- 01EE 5000              mov A,>_fld_buf
- 01F0 08                push A
- 01F1 5000              mov A,<_fld_buf
+ 01AF           ;       TX8_Debug_Start(TX8_Debug_PARITY_NONE);
+ 01AF 5000              mov A,0
+ 01B1 7C0000            xcall _TX8_Debug_Start
+ 01B4                   .dbline 183
+ 01B4           ;       
+ 01B4           ; #ifdef DEBUG
+ 01B4           ;       LCD_Init();
+ 01B4           ;       LCD_Position(0, 0);
+ 01B4           ;       LCD_PrCString(" ");
+ 01B4           ; #endif // DEBUG
+ 01B4           ;       
+ 01B4           ;       RX8_GPS_EnableInt();
+ 01B4 7C0000            xcall _RX8_GPS_EnableInt
+ 01B7                   .dbline 184
+ 01B7           ;       RX8_RF_EnableInt();
+ 01B7 7C0000            xcall _RX8_RF_EnableInt
+ 01BA                   .dbline 185
+ 01BA           ;       Counter16_PwrUpd_EnableInt();
+ 01BA 7C0000            xcall _Counter16_PwrUpd_EnableInt
+ 01BD                   .dbline 187
+ 01BD           ;               
+ 01BD           ;       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
+ 01BD 5707              mov X,7
+ 01BF 50D0              mov A,-48
+ 01C1 7C0000            xcall _Counter16_PwrUpd_WritePeriod
+ 01C4 20                pop X
+ 01C5                   .dbline 188
+ 01C5           ;       set_power(POWER_MAX);
+ 01C5 5036              mov A,54
+ 01C7 08                push A
+ 01C8 50B0              mov A,-80
+ 01CA 08                push A
+ 01CB 91F1              xcall _set_power
+ 01CD 38FE              add SP,-2
+ 01CF                   .dbline 189
+ 01CF           ;       LED_Blue_Off();
+ 01CF 10                push X
+ 01D0 7C0000            xcall _LED_Blue_Off
+ 01D3 20                pop X
+ 01D4 81E2              xjmp L23
+ 01D6           L22:
+ 01D6                   .dbline 192
+ 01D6           ;       
+ 01D6           ;       while (1)
+ 01D6           ;       {               
+ 01D6                   .dbline 194
+ 01D6           ;               // Handle commands
+ 01D6           ;               if (NMEA_cmd_received)
+ 01D6 62D000            mov REG[0xd0],>_NMEA_cmd_received
+ 01D9 3C0000            cmp [_NMEA_cmd_received],0
+ 01DC B006              jnz X7
+ 01DE 3C0100            cmp [_NMEA_cmd_received+1],0
+ 01E1 A141              jz L25
+ 01E3           X7:
+ 01E3                   .dbline 196
+ 01E3           ;         {
+ 01E3           ;                       LED_Blue_On();
+ 01E3                   .dbline 196
+ 01E3 10                push X
+ 01E4 7C0000            xcall _LED_Blue_On
+ 01E7 20                pop X
+ 01E8                   .dbline 197
+ 01E8           ;                       NMEA_cmd_received = false;              
+ 01E8 62D000            mov REG[0xd0],>_NMEA_cmd_received
+ 01EB 550100            mov [_NMEA_cmd_received+1],0
+ 01EE 550000            mov [_NMEA_cmd_received],0
+ 01F1                   .dbline 200
+ 01F1           ;             
+ 01F1           ;             // NMEA_SHFTL handle
+ 01F1           ;                       NMEA_GetField(NMEA_SHFTL, NMEA_FIELD_ID, fld_buf);
+ 01F1 5000              mov A,>_fld_buf
  01F3 08                push A
- 01F4 5002              mov A,2
+ 01F4 5000              mov A,<_fld_buf
  01F6 08                push A
- 01F7 5000              mov A,>_NMEA_SHFTL
+ 01F7 5002              mov A,2
  01F9 08                push A
- 01FA 5000              mov A,<_NMEA_SHFTL
+ 01FA 5000              mov A,>_NMEA_SHFTL
  01FC 08                push A
- 01FD 93BF              xcall _NMEA_GetField
- 01FF                   .dbline 201
- 01FF           ;                       if(check_fld(hw_id) || check_fld("0"))  // Check ID
- 01FF 5000              mov A,>_hw_id
- 0201 08                push A
- 0202 5000              mov A,<_hw_id
+ 01FD 5000              mov A,<_NMEA_SHFTL
+ 01FF 08                push A
+ 0200 93E5              xcall _NMEA_GetField
+ 0202                   .dbline 201
+ 0202           ;                       if(check_fld(hw_id) || check_fld("0"))  // Check ID
+ 0202 5000              mov A,>_hw_id
  0204 08                push A
- 0205 937C              xcall _check_fld
- 0207 38F9              add SP,-7
- 0209 62D000            mov REG[0xd0],>__r0
- 020C 3C0000            cmp [__r0],0
- 020F B01D              jnz L30
- 0211 3C0000            cmp [__r1],0
- 0214 B018              jnz L30
- 0216           X8:
- 0216 501A              mov A,>L29
- 0218 08                push A
- 0219 501A              mov A,<L29
+ 0205 5000              mov A,<_hw_id
+ 0207 08                push A
+ 0208 9390              xcall _check_fld
+ 020A 38F9              add SP,-7
+ 020C 62D000            mov REG[0xd0],>__r0
+ 020F 3C0000            cmp [__r0],0
+ 0212 B01D              jnz L30
+ 0214 3C0000            cmp [__r1],0
+ 0217 B018              jnz L30
+ 0219           X8:
+ 0219 501F              mov A,>L29
  021B 08                push A
- 021C 9365              xcall _check_fld
- 021E 38FE              add SP,-2
- 0220 62D000            mov REG[0xd0],>__r0
- 0223 3C0000            cmp [__r0],0
- 0226 B006              jnz X9
- 0228 3C0000            cmp [__r1],0
- 022B A0DD              jz L27
- 022D           X9:
- 022D           L30:
- 022D                   .dbline 203
- 022D           ;                       {                       
- 022D           ;                   NMEA_GetField(NMEA_SHFTL, NMEA_FIELD_CMD, fld_buf);
- 022D                   .dbline 203
- 022D 5000              mov A,>_fld_buf
- 022F 08                push A
- 0230 5000              mov A,<_fld_buf
+ 021C 501F              mov A,<L29
+ 021E 08                push A
+ 021F 9379              xcall _check_fld
+ 0221 38FE              add SP,-2
+ 0223 62D000            mov REG[0xd0],>__r0
+ 0226 3C0000            cmp [__r0],0
+ 0229 B006              jnz X9
+ 022B 3C0000            cmp [__r1],0
+ 022E A0F4              jz L27
+ 0230           X9:
+ 0230           L30:
+ 0230                   .dbline 203
+ 0230           ;                       {                       
+ 0230           ;                   NMEA_GetField(NMEA_SHFTL, NMEA_FIELD_CMD, fld_buf);
+ 0230                   .dbline 203
+ 0230 5000              mov A,>_fld_buf
  0232 08                push A
- 0233 5001              mov A,1
+ 0233 5000              mov A,<_fld_buf
  0235 08                push A
- 0236 5000              mov A,>_NMEA_SHFTL
+ 0236 5001              mov A,1
  0238 08                push A
- 0239 5000              mov A,<_NMEA_SHFTL
+ 0239 5000              mov A,>_NMEA_SHFTL
  023B 08                push A
- 023C 9380              xcall _NMEA_GetField
- 023E                   .dbline 204
- 023E           ;                   if(check_fld(cmd_on))
- 023E 5002              mov A,>_cmd_on
- 0240 08                push A
- 0241 5002              mov A,<_cmd_on
+ 023C 5000              mov A,<_NMEA_SHFTL
+ 023E 08                push A
+ 023F 93A6              xcall _NMEA_GetField
+ 0241                   .dbline 204
+ 0241           ;                   if(check_fld(cmd_on))
+ 0241 5002              mov A,>_cmd_on
  0243 08                push A
- 0244 933D              xcall _check_fld
- 0246 38F9              add SP,-7
- 0248 62D000            mov REG[0xd0],>__r0
- 024B 3C0000            cmp [__r0],0
- 024E B006              jnz X10
- 0250 3C0000            cmp [__r1],0
- 0253 A016              jz L31
- 0255           X10:
- 0255                   .dbline 206
- 0255           ;                   {
- 0255           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
- 0255                   .dbline 206
- 0255 10                push X
- 0256 5707              mov X,7
- 0258 50D0              mov A,-48
- 025A 7C0000            xcall _Counter16_PwrUpd_WritePeriod
- 025D 20                pop X
- 025E                   .dbline 207
- 025E           ;                                       set_power(POWER_MAX);
- 025E 5036              mov A,54
- 0260 08                push A
- 0261 50B0              mov A,-80
+ 0244 5002              mov A,<_cmd_on
+ 0246 08                push A
+ 0247 9351              xcall _check_fld
+ 0249 38F9              add SP,-7
+ 024B 62D000            mov REG[0xd0],>__r0
+ 024E 3C0000            cmp [__r0],0
+ 0251 B006              jnz X10
+ 0253 3C0000            cmp [__r1],0
+ 0256 A018              jz L31
+ 0258           X10:
+ 0258                   .dbline 206
+ 0258           ;                   {
+ 0258           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
+ 0258                   .dbline 206
+ 0258 10                push X
+ 0259 5707              mov X,7
+ 025B 50D0              mov A,-48
+ 025D 7C0000            xcall _Counter16_PwrUpd_WritePeriod
+ 0260 20                pop X
+ 0261                   .dbline 207
+ 0261           ;                                       set_power(POWER_MAX);
+ 0261 5036              mov A,54
  0263 08                push A
- 0264 9141              xcall _set_power
- 0266 38FE              add SP,-2
- 0268                   .dbline 208
- 0268           ;                                       override_enable();      
- 0268 915C              xcall _override_enable
- 026A                   .dbline 209
- 026A           ;                   }
- 026A           L31:
- 026A                   .dbline 210
- 026A           ;                   if(check_fld(cmd_off))
- 026A 5005              mov A,>_cmd_off
- 026C 08                push A
- 026D 5005              mov A,<_cmd_off
- 026F 08                push A
- 0270 9311              xcall _check_fld
- 0272 38FE              add SP,-2
- 0274 62D000            mov REG[0xd0],>__r0
- 0277 3C0000            cmp [__r0],0
- 027A B006              jnz X11
- 027C 3C0000            cmp [__r1],0
- 027F A014              jz L33
- 0281           X11:
- 0281                   .dbline 212
- 0281           ;                   {
- 0281           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
- 0281                   .dbline 212
- 0281 10                push X
- 0282 5707              mov X,7
- 0284 50D0              mov A,-48
- 0286 7C0000            xcall _Counter16_PwrUpd_WritePeriod
- 0289 20                pop X
- 028A                   .dbline 213
- 028A           ;                                       set_power(0);
- 028A 5000              mov A,0
- 028C 08                push A
- 028D 08                push A
- 028E 9117              xcall _set_power
- 0290 38FE              add SP,-2
- 0292                   .dbline 214
- 0292           ;                                       override_enable();      
- 0292 9132              xcall _override_enable
- 0294                   .dbline 215
- 0294           ;                   }
- 0294           L33:
- 0294                   .dbline 216
- 0294           ;                               if(check_fld(cmd_fon))
- 0294 5009              mov A,>_cmd_fon
- 0296 08                push A
- 0297 5009              mov A,<_cmd_fon
- 0299 08                push A
- 029A 92E7              xcall _check_fld
- 029C 38FE              add SP,-2
- 029E 62D000            mov REG[0xd0],>__r0
- 02A1 3C0000            cmp [__r0],0
- 02A4 B006              jnz X12
- 02A6 3C0000            cmp [__r1],0
- 02A9 A018              jz L35
- 02AB           X12:
- 02AB                   .dbline 218
- 02AB           ;                   {
- 02AB           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
- 02AB                   .dbline 218
- 02AB 10                push X
- 02AC 5700              mov X,0
- 02AE 5064              mov A,100
- 02B0 7C0000            xcall _Counter16_PwrUpd_WritePeriod
- 02B3 20                pop X
- 02B4                   .dbline 219
- 02B4           ;                                       set_power(POWER_MAX);
- 02B4 5036              mov A,54
- 02B6 08                push A
- 02B7 50B0              mov A,-80
- 02B9 08                push A
- 02BA 90EB              xcall _set_power
- 02BC 38FE              add SP,-2
- 02BE                   .dbline 220
- 02BE           ;                                       override_enable();      
- 02BE 9106              xcall _override_enable
- 02C0                   .dbline 221
- 02C0           ;                   }
- 02C0 802B              xjmp L36
- 02C2           L35:
- 02C2                   .dbline 222
- 02C2           ;                   else if(check_fld(cmd_foff))
- 02C2 500D              mov A,>_cmd_foff
- 02C4 08                push A
- 02C5 500D              mov A,<_cmd_foff
- 02C7 08                push A
- 02C8 92B9              xcall _check_fld
- 02CA 38FE              add SP,-2
- 02CC 62D000            mov REG[0xd0],>__r0
- 02CF 3C0000            cmp [__r0],0
- 02D2 B006              jnz X13
- 02D4 3C0000            cmp [__r1],0
- 02D7 A014              jz L37
- 02D9           X13:
- 02D9                   .dbline 224
- 02D9           ;                   {
- 02D9           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
- 02D9                   .dbline 224
- 02D9 10                push X
- 02DA 5700              mov X,0
- 02DC 5064              mov A,100
- 02DE 7C0000            xcall _Counter16_PwrUpd_WritePeriod
- 02E1 20                pop X
- 02E2                   .dbline 225
- 02E2           ;                                       set_power(0);
- 02E2 5000              mov A,0
- 02E4 08                push A
- 02E5 08                push A
- 02E6 90BF              xcall _set_power
- 02E8 38FE              add SP,-2
- 02EA                   .dbline 226
- 02EA           ;                                       override_enable();      
- 02EA 90DA              xcall _override_enable
- 02EC                   .dbline 227
- 02EC           ;                   }
- 02EC           L37:
- 02EC           L36:
- 02EC                   .dbline 228
- 02EC           ;                   NMEA_SHFTL[0] = 0;
- 02EC 62D000            mov REG[0xd0],>_NMEA_SHFTL
- 02EF 550000            mov [_NMEA_SHFTL],0
- 02F2                   .dbline 229
- 02F2           ;                   strncat(NMEA_SHFTL, nmea_shftl_empty, NMEA_MAX_SIZE);
- 02F2 5000              mov A,0
- 02F4 08                push A
- 02F5 5052              mov A,82
- 02F7 08                push A
- 02F8 5000              mov A,>_nmea_shftl_empty
- 02FA 08                push A
- 02FB 5000              mov A,<_nmea_shftl_empty
+ 0264 50B0              mov A,-80
+ 0266 08                push A
+ 0267 9155              xcall _set_power
+ 0269 38FE              add SP,-2
+ 026B                   .dbline 208
+ 026B           ;                                       override_enable();      
+ 026B 9170              xcall _override_enable
+ 026D                   .dbline 209
+ 026D           ;                   }
+ 026D 808C              xjmp L32
+ 026F           L31:
+ 026F                   .dbline 210
+ 026F           ;                   else if(check_fld(cmd_off))
+ 026F 5005              mov A,>_cmd_off
+ 0271 08                push A
+ 0272 5005              mov A,<_cmd_off
+ 0274 08                push A
+ 0275 9323              xcall _check_fld
+ 0277 38FE              add SP,-2
+ 0279 62D000            mov REG[0xd0],>__r0
+ 027C 3C0000            cmp [__r0],0
+ 027F B006              jnz X11
+ 0281 3C0000            cmp [__r1],0
+ 0284 A016              jz L33
+ 0286           X11:
+ 0286                   .dbline 212
+ 0286           ;                   {
+ 0286           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
+ 0286                   .dbline 212
+ 0286 10                push X
+ 0287 5707              mov X,7
+ 0289 50D0              mov A,-48
+ 028B 7C0000            xcall _Counter16_PwrUpd_WritePeriod
+ 028E 20                pop X
+ 028F                   .dbline 213
+ 028F           ;                                       set_power(0);
+ 028F 5000              mov A,0
+ 0291 08                push A
+ 0292 08                push A
+ 0293 9129              xcall _set_power
+ 0295 38FE              add SP,-2
+ 0297                   .dbline 214
+ 0297           ;                                       override_enable();      
+ 0297 9144              xcall _override_enable
+ 0299                   .dbline 215
+ 0299           ;                   }
+ 0299 8060              xjmp L34
+ 029B           L33:
+ 029B                   .dbline 216
+ 029B           ;                               else if(check_fld(cmd_fon))
+ 029B 5009              mov A,>_cmd_fon
+ 029D 08                push A
+ 029E 5009              mov A,<_cmd_fon
+ 02A0 08                push A
+ 02A1 92F7              xcall _check_fld
+ 02A3 38FE              add SP,-2
+ 02A5 62D000            mov REG[0xd0],>__r0
+ 02A8 3C0000            cmp [__r0],0
+ 02AB B006              jnz X12
+ 02AD 3C0000            cmp [__r1],0
+ 02B0 A018              jz L35
+ 02B2           X12:
+ 02B2                   .dbline 218
+ 02B2           ;                   {
+ 02B2           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
+ 02B2                   .dbline 218
+ 02B2 10                push X
+ 02B3 5700              mov X,0
+ 02B5 5064              mov A,100
+ 02B7 7C0000            xcall _Counter16_PwrUpd_WritePeriod
+ 02BA 20                pop X
+ 02BB                   .dbline 219
+ 02BB           ;                                       set_power(POWER_MAX);
+ 02BB 5036              mov A,54
+ 02BD 08                push A
+ 02BE 50B0              mov A,-80
+ 02C0 08                push A
+ 02C1 90FB              xcall _set_power
+ 02C3 38FE              add SP,-2
+ 02C5                   .dbline 220
+ 02C5           ;                                       override_enable();      
+ 02C5 9116              xcall _override_enable
+ 02C7                   .dbline 221
+ 02C7           ;                   }
+ 02C7 8032              xjmp L36
+ 02C9           L35:
+ 02C9                   .dbline 222
+ 02C9           ;                   else if(check_fld(cmd_foff))
+ 02C9 500D              mov A,>_cmd_foff
+ 02CB 08                push A
+ 02CC 500D              mov A,<_cmd_foff
+ 02CE 08                push A
+ 02CF 92C9              xcall _check_fld
+ 02D1 38FE              add SP,-2
+ 02D3 62D000            mov REG[0xd0],>__r0
+ 02D6 3C0000            cmp [__r0],0
+ 02D9 B006              jnz X13
+ 02DB 3C0000            cmp [__r1],0
+ 02DE A016              jz L37
+ 02E0           X13:
+ 02E0                   .dbline 224
+ 02E0           ;                   {
+ 02E0           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
+ 02E0                   .dbline 224
+ 02E0 10                push X
+ 02E1 5700              mov X,0
+ 02E3 5064              mov A,100
+ 02E5 7C0000            xcall _Counter16_PwrUpd_WritePeriod
+ 02E8 20                pop X
+ 02E9                   .dbline 225
+ 02E9           ;                                       set_power(0);
+ 02E9 5000              mov A,0
+ 02EB 08                push A
+ 02EC 08                push A
+ 02ED 90CF              xcall _set_power
+ 02EF 38FE              add SP,-2
+ 02F1                   .dbline 226
+ 02F1           ;                                       override_enable();      
+ 02F1 90EA              xcall _override_enable
+ 02F3                   .dbline 227
+ 02F3           ;                   }
+ 02F3 8006              xjmp L38
+ 02F5           L37:
+ 02F5                   .dbline 228
+ 02F5           ;                               else LED_Blue_Off();
+ 02F5 10                push X
+ 02F6 7C0000            xcall _LED_Blue_Off
+ 02F9 20                pop X
+ 02FA           L38:
+ 02FA           L36:
+ 02FA           L34:
+ 02FA           L32:
+ 02FA                   .dbline 232
+ 02FA           ;                               
+ 02FA           ;                               // Debug
+ 02FA           ;                               //TX8_Debug_CPutString(cmd_foff);
+ 02FA           ;                               TX8_Debug_PutString(NMEA_SHFTL);
+ 02FA 10                push X
+ 02FB 5000              mov A,>_NMEA_SHFTL
  02FD 08                push A
- 02FE 5000              mov A,>_NMEA_SHFTL
- 0300 08                push A
- 0301 5000              mov A,<_NMEA_SHFTL
- 0303 08                push A
- 0304 7C0000            xcall _strncat
- 0307 38FA              add SP,-6
- 0309                   .dbline 230
- 0309           ;                       }
- 0309           L27:
- 0309                   .dbline 231
- 0309           ;               }               
- 0309           L25:
- 0309                   .dbline 245
- 0309           ;                       
- 0309           ;               #ifdef DEBUG
- 0309           ;                       LCD_Position(0, 0);
- 0309           ;                       LCD_PrHexByte(RTC_bReadHour());
- 0309           ;                       LCD_Position(0, 3);
- 0309           ;                       LCD_PrHexByte(RTC_bReadMinute());
- 0309           ;                       LCD_Position(0, 6);
- 0309           ;                       LCD_PrHexByte(RTC_bReadSecond());
- 0309           ;                       
- 0309           ;                       LCD_Position(1, 0);
- 0309           ;                       LCD_PrHexInt(PWM16_CH0_wReadPulseWidth());                      
- 0309           ;               #endif // DEBUG
- 0309           ;                               
- 0309           ;               if(!override)
- 0309 62D000            mov REG[0xd0],>_override
- 030C 3C0000            cmp [_override],0
- 030F B051              jnz L39
- 0311 3C0100            cmp [_override+1],0
- 0314 B04C              jnz L39
- 0316           X14:
- 0316                   .dbline 248
- 0316           ;               {
- 0316           ;                       // Get datetime
- 0316           ;                       local_datetime.valid = false;
- 0316                   .dbline 248
- 0316 62D000            mov REG[0xd0],>_local_datetime
- 0319 550700            mov [_local_datetime+6+1],0
- 031C 550600            mov [_local_datetime+6],0
- 031F                   .dbline 249
- 031F           ;                       NMEA_GetTimeUTC(NMEA_GPRMC, &gps_datetime);
- 031F 5000              mov A,>_gps_datetime
- 0321 08                push A
- 0322 5000              mov A,<_gps_datetime
- 0324 08                push A
- 0325 5000              mov A,>_NMEA_GPRMC
- 0327 08                push A
- 0328 5000              mov A,<_NMEA_GPRMC
- 032A 08                push A
- 032B 94F7              xcall _NMEA_GetTimeUTC
- 032D 38FC              add SP,-4
- 032F                   .dbline 250
- 032F           ;                       if(gps_datetime.valid) 
- 032F 62D000            mov REG[0xd0],>_gps_datetime
- 0332 3C0600            cmp [_gps_datetime+6],0
- 0335 B006              jnz X15
- 0337 3C0700            cmp [_gps_datetime+6+1],0
- 033A A019              jz L42
- 033C           X15:
- 033C                   .dbline 252
- 033C           ;                       {
- 033C           ;                               utc_to_local(&gps_datetime, &local_datetime);
- 033C                   .dbline 252
- 033C 5000              mov A,>_local_datetime
+ 02FE 5000              mov A,<_NMEA_SHFTL
+ 0300 5C                mov X,A
+ 0301 18                pop A
+ 0302 7C0000            xcall _TX8_Debug_PutString
+ 0305 20                pop X
+ 0306                   .dbline 234
+ 0306           ;                               
+ 0306           ;                   NMEA_SHFTL[0] = 0;
+ 0306 62D000            mov REG[0xd0],>_NMEA_SHFTL
+ 0309 550000            mov [_NMEA_SHFTL],0
+ 030C                   .dbline 235
+ 030C           ;                   strncat(NMEA_SHFTL, nmea_shftl_empty, NMEA_MAX_SIZE);
+ 030C 5000              mov A,0
+ 030E 08                push A
+ 030F 5052              mov A,82
+ 0311 08                push A
+ 0312 5000              mov A,>_nmea_shftl_empty
+ 0314 08                push A
+ 0315 5000              mov A,<_nmea_shftl_empty
+ 0317 08                push A
+ 0318 5000              mov A,>_NMEA_SHFTL
+ 031A 08                push A
+ 031B 5000              mov A,<_NMEA_SHFTL
+ 031D 08                push A
+ 031E 7C0000            xcall _strncat
+ 0321 38FA              add SP,-6
+ 0323                   .dbline 236
+ 0323           ;                       }
+ 0323           L27:
+ 0323                   .dbline 237
+ 0323           ;               }               
+ 0323           L25:
+ 0323                   .dbline 253
+ 0323           ;                       
+ 0323           ;               #ifdef DEBUG
+ 0323           ;                       M8C_DisableGInt;
+ 0323           ;                       LCD_Position(0, 0);
+ 0323           ;                       LCD_PrHexByte(RTC_bReadHour());
+ 0323           ;                       LCD_Position(0, 3);
+ 0323           ;                       LCD_PrHexByte(RTC_bReadMinute());
+ 0323           ;                       LCD_Position(0, 6);
+ 0323           ;                       LCD_PrHexByte(RTC_bReadSecond());
+ 0323           ;                       
+ 0323           ;                       LCD_Position(1, 0);
+ 0323           ;                       LCD_PrHexInt(PWM16_CH0_wReadPulseWidth());      
+ 0323           ;                       M8C_EnableGInt;         
+ 0323           ;               #endif // DEBUG
+ 0323           ;                               
+ 0323           ;               if(!override)
+ 0323 62D000            mov REG[0xd0],>_override
+ 0326 3C0000            cmp [_override],0
+ 0329 B050              jnz L39
+ 032B 3C0100            cmp [_override+1],0
+ 032E B04B              jnz L39
+ 0330           X14:
+ 0330                   .dbline 256
+ 0330           ;               {
+ 0330           ;                       // Get datetime
+ 0330           ;                       local_datetime.valid = false;
+ 0330                   .dbline 256
+ 0330 62D000            mov REG[0xd0],>_local_datetime
+ 0333 550700            mov [_local_datetime+6+1],0
+ 0336 550600            mov [_local_datetime+6],0
+ 0339                   .dbline 257
+ 0339           ;                       NMEA_GetTimeUTC(NMEA_GPRMC, &gps_datetime);
+ 0339 5000              mov A,>_gps_datetime
+ 033B 08                push A
+ 033C 5000              mov A,<_gps_datetime
  033E 08                push A
- 033F 5000              mov A,<_local_datetime
+ 033F 5000              mov A,>_NMEA_GPRMC
  0341 08                push A
- 0342 5000              mov A,>_gps_datetime
+ 0342 5000              mov A,<_NMEA_GPRMC
  0344 08                push A
- 0345 5000              mov A,<_gps_datetime
- 0347 08                push A
- 0348 97FF              xcall _utc_to_local
- 034A                   .dbline 253
- 034A           ;                               rtc_update(&local_datetime);
- 034A 5000              mov A,>_local_datetime
- 034C 08                push A
- 034D 5000              mov A,<_local_datetime
- 034F 08                push A
- 0350 91CF              xcall _rtc_update
- 0352 38FA              add SP,-6
- 0354                   .dbline 254
- 0354           ;                       }
- 0354           L42:
- 0354                   .dbline 255
- 0354           ;                       M8C_EnableGInt;
- 0354 7101                      or  F, 01h
- 0356           
- 0356                   .dbline 258
- 0356           ;                       
- 0356           ;                       // Scheduler
- 0356           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
- 0356 10                push X
- 0357 5707              mov X,7
- 0359 50D0              mov A,-48
- 035B 7C0000            xcall _Counter16_PwrUpd_WritePeriod
- 035E 20                pop X
- 035F                   .dbline 259
- 035F           ;                       schedule_init();
- 035F 9182              xcall _schedule_init
- 0361                   .dbline 260
- 0361           ;               }
- 0361           L39:
- 0361                   .dbline 262
- 0361           ;               
- 0361           ;               M8C_EnableGInt;
- 0361 7101                      or  F, 01h
- 0363           
- 0363                   .dbline 264
- 0363           ;               
- 0363           ;               Delay10msTimes(WAIT_PERIOD);
- 0363 10                push X
- 0364 5002              mov A,2
- 0366 7C0000            xcall _Delay10msTimes
- 0369 20                pop X
- 036A                   .dbline 265
- 036A           ;               if (override_counter > 0) override_counter--;
- 036A 62D000            mov REG[0xd0],>_override_counter
- 036D 3C0000            cmp [_override_counter],0
- 0370 B010              jnz X16
- 0372 3C0100            cmp [_override_counter+1],0
- 0375 B00B              jnz X16
- 0377 3C0200            cmp [_override_counter+2],0
- 037A B006              jnz X16
- 037C 3C0300            cmp [_override_counter+3],0
- 037F A012              jz L45
- 0381           X16:
- 0381                   .dbline 265
+ 0345 9532              xcall _NMEA_GetTimeUTC
+ 0347 38FC              add SP,-4
+ 0349                   .dbline 258
+ 0349           ;                       if(gps_datetime.valid) 
+ 0349 62D000            mov REG[0xd0],>_gps_datetime
+ 034C 3C0600            cmp [_gps_datetime+6],0
+ 034F B006              jnz X15
+ 0351 3C0700            cmp [_gps_datetime+6+1],0
+ 0354 A01A              jz L42
+ 0356           X15:
+ 0356                   .dbline 260
+ 0356           ;                       {
+ 0356           ;                               utc_to_local(&gps_datetime, &local_datetime);
+ 0356                   .dbline 260
+ 0356 5000              mov A,>_local_datetime
+ 0358 08                push A
+ 0359 5000              mov A,<_local_datetime
+ 035B 08                push A
+ 035C 5000              mov A,>_gps_datetime
+ 035E 08                push A
+ 035F 5000              mov A,<_gps_datetime
+ 0361 08                push A
+ 0362 7C0B9E            xcall _utc_to_local
+ 0365                   .dbline 261
+ 0365           ;                               rtc_update(&local_datetime);
+ 0365 5000              mov A,>_local_datetime
+ 0367 08                push A
+ 0368 5000              mov A,<_local_datetime
+ 036A 08                push A
+ 036B 91CB              xcall _rtc_update
+ 036D 38FA              add SP,-6
+ 036F                   .dbline 262
+ 036F           ;                       }
+ 036F           L42:
+ 036F                   .dbline 265
+ 036F           ;                       
+ 036F           ;                       // Scheduler
+ 036F           ;                       Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
+ 036F 10                push X
+ 0370 5707              mov X,7
+ 0372 50D0              mov A,-48
+ 0374 7C0000            xcall _Counter16_PwrUpd_WritePeriod
+ 0377 20                pop X
+ 0378                   .dbline 266
+ 0378           ;                       schedule_init();
+ 0378 9180              xcall _schedule_init
+ 037A                   .dbline 267
+ 037A           ;               }
+ 037A           L39:
+ 037A                   .dbline 269
+ 037A           ;               
+ 037A           ;               Delay10msTimes(WAIT_PERIOD);
+ 037A 10                push X
+ 037B 5002              mov A,2
+ 037D 7C0000            xcall _Delay10msTimes
+ 0380 20                pop X
+ 0381                   .dbline 270
+ 0381           ;               if (override_counter > 0) override_counter--;
  0381 62D000            mov REG[0xd0],>_override_counter
- 0384 160301            sub [_override_counter+3],1
- 0387 1E0200            sbb [_override_counter+2],0
- 038A 1E0100            sbb [_override_counter+1],0
- 038D 1E0000            sbb [_override_counter],0
- 0390 800A              xjmp L46
- 0392           L45:
- 0392                   .dbline 266
- 0392           ;               else override = false;
- 0392 62D000            mov REG[0xd0],>_override
- 0395 550100            mov [_override+1],0
- 0398 550000            mov [_override],0
- 039B           L46:
- 039B                   .dbline 267
- 039B           ;               LED_Blue_Off();
- 039B 10                push X
- 039C 7C0000            xcall _LED_Blue_Off
- 039F 20                pop X
- 03A0                   .dbline 268
- 03A0           ;       }
- 03A0           L23:
- 03A0                   .dbline 189
- 03A0 8E30              xjmp L22
- 03A2           X6:
- 03A2                   .dbline -2
- 03A2           L21:
- 03A2 38FF              add SP,-1
- 03A4 20                pop X
- 03A5                   .dbline 0 ; func end
- 03A5 8FFF              jmp .
- 03A7                   .dbsym l t 0 c
- 03A7                   .dbend
- 03A7                   .dbfunc e set_power _set_power fV
- 03A7           ;            pwr -> X-5
- 03A7           _set_power::
- 03A7                   .dbline -1
- 03A7 10                push X
- 03A8 4F                mov X,SP
- 03A9                   .dbline 272
- 03A9           ; }
- 03A9           ; 
- 03A9           ; void set_power(unsigned int pwr)
- 03A9           ; {
- 03A9                   .dbline 273
- 03A9           ;       if(pwr > POWER_MAX) pwr = POWER_MAX;
- 03A9 50B0              mov A,-80
- 03AB 13FC              sub A,[X-4]
- 03AD 5036              mov A,54
- 03AF 1BFB              sbb A,[X-5]
- 03B1 D007              jnc L48
- 03B3           X17:
- 03B3                   .dbline 273
- 03B3 56FCB0            mov [X-4],-80
- 03B6 56FB36            mov [X-5],54
- 03B9           L48:
- 03B9                   .dbline 274
- 03B9           ;       power_target = pwr;
- 03B9 62D000            mov REG[0xd0],>_power_target
- 03BC 52FC              mov A,[X-4]
- 03BE 5301              mov [_power_target+1],A
- 03C0 52FB              mov A,[X-5]
- 03C2 5300              mov [_power_target],A
- 03C4                   .dbline -2
- 03C4           L47:
- 03C4 20                pop X
- 03C5                   .dbline 0 ; func end
- 03C5 7F                ret
- 03C6                   .dbsym l pwr -5 i
- 03C6                   .dbend
- 03C6                   .dbfunc e override_enable _override_enable fV
- 03C6           _override_enable::
- 03C6                   .dbline -1
- 03C6                   .dbline 278
- 03C6           ; }
- 03C6           ; 
- 03C6           ; void override_enable(void)
- 03C6           ; {
- 03C6                   .dbline 279
- 03C6           ;       override = true;
- 03C6 62D000            mov REG[0xd0],>_override
- 03C9 550101            mov [_override+1],1
- 03CC 550000            mov [_override],0
- 03CF                   .dbline 280
- 03CF           ;       override_counter = OVERRIDE_TIMEOUT;
- 03CF 62D000            mov REG[0xd0],>_override_counter
- 03D2 550000            mov [_override_counter],0
- 03D5 550108            mov [_override_counter+1],8
- 03D8 55023D            mov [_override_counter+2],61
- 03DB 550360            mov [_override_counter+3],96
- 03DE                   .dbline -2
- 03DE           L50:
- 03DE                   .dbline 0 ; func end
- 03DE 7F                ret
- 03DF                   .dbend
- 03DF                   .dbfunc e update_power _update_power fV
- 03DF           ;            pwr -> X+0
- 03DF           _update_power::
- 03DF                   .dbline -1
- 03DF 10                push X
- 03E0 4F                mov X,SP
- 03E1 3802              add SP,2
- 03E3                   .dbline 284
- 03E3           ; }
- 03E3           ; 
- 03E3           ; void update_power(void)
- 03E3           ; {
- 03E3                   .dbline 288
- 03E3           ;       unsigned int pwr;
- 03E3           ;       
- 03E3           ;       // CH0
- 03E3           ;       pwr = PWM16_CH0_wReadPulseWidth();
- 03E3 10                push X
- 03E4 7C0000            xcall _PWM16_CH0_wReadPulseWidth
- 03E7 62D000            mov REG[0xd0],>__r0
- 03EA 5A00              mov [__r0],X
- 03EC 20                pop X
- 03ED 5401              mov [X+1],A
- 03EF 5100              mov A,[__r0]
- 03F1 5400              mov [X+0],A
- 03F3                   .dbline 289
- 03F3           ;       if(pwr < power_target) pwr += POWER_STEP;
- 03F3 62D000            mov REG[0xd0],>_power_target
- 03F6 5201              mov A,[X+1]
- 03F8 1201              sub A,[_power_target+1]
- 03FA 5200              mov A,[X+0]
- 03FC 1A00              sbb A,[_power_target]
- 03FE D006              jnc L52
- 0400           X18:
- 0400                   .dbline 289
- 0400 7701              inc [X+1]
- 0402 0F0000            adc [X+0],0
- 0405           L52:
- 0405                   .dbline 290
- 0405           ;       if(pwr > power_target) pwr -= POWER_STEP;
- 0405 62D000            mov REG[0xd0],>_power_target
- 0408 5101              mov A,[_power_target+1]
- 040A 1301              sub A,[X+1]
- 040C 5100              mov A,[_power_target]
- 040E 1B00              sbb A,[X+0]
- 0410 D006              jnc L54
- 0412           X19:
- 0412                   .dbline 290
- 0412 7B01              dec [X+1]
- 0414 1F0000            sbb [X+0],0
- 0417           L54:
- 0417                   .dbline 291
- 0417           ;       PWM16_CH0_WritePulseWidth(pwr);
- 0417 10                push X
- 0418 5200              mov A,[X+0]
- 041A 08                push A
- 041B 5201              mov A,[X+1]
- 041D 20                pop X
- 041E 7C0000            xcall _PWM16_CH0_WritePulseWidth
- 0421                   .dbline 294
- 0421           ;       
- 0421           ;       // CH1
- 0421           ;       pwr = PWM16_CH1_wReadPulseWidth();
- 0421 7C0000            xcall _PWM16_CH1_wReadPulseWidth
- 0424 62D000            mov REG[0xd0],>__r0
- 0427 5A00              mov [__r0],X
- 0429 20                pop X
- 042A 5401              mov [X+1],A
- 042C 5100              mov A,[__r0]
- 042E 5400              mov [X+0],A
- 0430                   .dbline 295
- 0430           ;       if(pwr < power_target) pwr += POWER_STEP;
- 0430 62D000            mov REG[0xd0],>_power_target
- 0433 5201              mov A,[X+1]
- 0435 1201              sub A,[_power_target+1]
- 0437 5200              mov A,[X+0]
- 0439 1A00              sbb A,[_power_target]
- 043B D006              jnc L56
- 043D           X20:
- 043D                   .dbline 295
- 043D 7701              inc [X+1]
- 043F 0F0000            adc [X+0],0
- 0442           L56:
- 0442                   .dbline 296
- 0442           ;       if(pwr > power_target) pwr -= POWER_STEP;
- 0442 62D000            mov REG[0xd0],>_power_target
- 0445 5101              mov A,[_power_target+1]
- 0447 1301              sub A,[X+1]
- 0449 5100              mov A,[_power_target]
- 044B 1B00              sbb A,[X+0]
- 044D D006              jnc L58
- 044F           X21:
- 044F                   .dbline 296
- 044F 7B01              dec [X+1]
- 0451 1F0000            sbb [X+0],0
- 0454           L58:
- 0454                   .dbline 297
- 0454           ;       PWM16_CH1_WritePulseWidth(pwr);
- 0454 10                push X
- 0455 5200              mov A,[X+0]
- 0457 08                push A
- 0458 5201              mov A,[X+1]
- 045A 20                pop X
- 045B 7C0000            xcall _PWM16_CH1_WritePulseWidth
- 045E 20                pop X
- 045F                   .dbline -2
- 045F           L51:
- 045F 38FE              add SP,-2
- 0461 20                pop X
- 0462                   .dbline 0 ; func end
- 0462 7F                ret
- 0463                   .dbsym l pwr 0 i
- 0463                   .dbend
- 0463                   .dbfunc e schedule_processing _schedule_processing fV
- 0463           ;              i -> X+0
- 0463           ;           hour -> X-4
- 0463           _schedule_processing::
- 0463                   .dbline -1
- 0463 10                push X
- 0464 4F                mov X,SP
- 0465 3801              add SP,1
- 0467                   .dbline 301
- 0467           ; }
- 0467           ; 
- 0467           ; void schedule_processing(unsigned char hour)
- 0467           ; {
- 0467                   .dbline 303
- 0467           ;     unsigned char i; 
- 0467           ;     for(i = 0; i < sizeof(schedule); i++)
- 0467 560000            mov [X+0],0
- 046A 806F              xjmp L64
- 046C           L61:
- 046C                   .dbline 304
- 046C           ;     {
- 046C                   .dbline 305
- 046C           ;         if(hour == schedule[i][0])
- 046C 62D000            mov REG[0xd0],>__r0
- 046F 5200              mov A,[X+0]
- 0471 5300              mov [__r1],A
- 0473 550000            mov [__r0],0
- 0476 6500              asl [__r1]
- 0478 6B00              rlc [__r0]
- 047A 6500              asl [__r1]
- 047C 6B00              rlc [__r0]
- 047E 060012            add [__r1],<_schedule
- 0481 0E0012            adc [__r0],>_schedule
- 0484 5100              mov A,[__r0]
- 0486 10                push X
- 0487 5800              mov X,[__r1]
- 0489 08                push A
- 048A 28                romx
- 048B 5300              mov [__r0],A
- 048D 18                pop A
- 048E 75                inc X
- 048F 0900              adc A,0
- 0491 28                romx
- 0492 5300              mov [__r1],A
- 0494 20                pop X
- 0495 52FC              mov A,[X-4]
- 0497 5300              mov [__r3],A
- 0499 5000              mov A,0
- 049B 3A00              cmp A,[__r0]
- 049D B03A              jnz L65
- 049F 5100              mov A,[__r3]
- 04A1 3A00              cmp A,[__r1]
- 04A3 B034              jnz L65
- 04A5           X22:
- 04A5                   .dbline 307
- 04A5           ;         {
- 04A5           ;             set_power(schedule[i][1]);
- 04A5                   .dbline 307
- 04A5 62D000            mov REG[0xd0],>__r0
- 04A8 5200              mov A,[X+0]
- 04AA 5300              mov [__r1],A
- 04AC 550000            mov [__r0],0
- 04AF 6500              asl [__r1]
- 04B1 6B00              rlc [__r0]
- 04B3 6500              asl [__r1]
- 04B5 6B00              rlc [__r0]
- 04B7 060014            add [__r1],<_schedule+2
- 04BA 0E0014            adc [__r0],>_schedule+2
- 04BD 5100              mov A,[__r0]
- 04BF 10                push X
- 04C0 5800              mov X,[__r1]
- 04C2 08                push A
- 04C3 28                romx
- 04C4 5300              mov [__r0],A
- 04C6 18                pop A
- 04C7 75                inc X
- 04C8 0900              adc A,0
- 04CA 28                romx
- 04CB 5300              mov [__r1],A
- 04CD 20                pop X
- 04CE 5100              mov A,[__r0]
- 04D0 08                push A
- 04D1 5100              mov A,[__r1]
- 04D3 08                push A
- 04D4 9ED1              xcall _set_power
- 04D6 38FE              add SP,-2
- 04D8                   .dbline 308
- 04D8           ;         }
- 04D8           L65:
- 04D8                   .dbline 309
- 04D8           ;     }
- 04D8           L62:
- 04D8                   .dbline 303
- 04D8 7700              inc [X+0]
- 04DA           L64:
- 04DA                   .dbline 303
- 04DA 3D0008            cmp [X+0],8
- 04DD CF8E              jc L61
- 04DF           X23:
- 04DF                   .dbline -2
- 04DF           L60:
- 04DF 38FF              add SP,-1
- 04E1 20                pop X
- 04E2                   .dbline 0 ; func end
- 04E2 7F                ret
- 04E3                   .dbsym l i 0 c
- 04E3                   .dbsym l hour -4 c
- 04E3                   .dbend
- 04E3                   .dbfunc e schedule_init _schedule_init fV
- 04E3           ;           hour -> X+0
- 04E3           _schedule_init::
- 04E3                   .dbline -1
- 04E3 10                push X
- 04E4 4F                mov X,SP
- 04E5 3801              add SP,1
- 04E7                   .dbline 313
- 04E7           ; }
- 04E7           ; 
- 04E7           ; void schedule_init(void)
- 04E7           ; {
- 04E7                   .dbline 316
- 04E7           ;     unsigned char hour;
- 04E7           ;       
- 04E7           ;       for(hour = 0; hour <= HOUR_MAX; hour++)
- 04E7 560000            mov [X+0],0
- 04EA 800A              xjmp L72
- 04EC           L69:
- 04EC                   .dbline 317
- 04EC           ;     {
- 04EC                   .dbline 318
- 04EC           ;         schedule_processing(hour);
- 04EC 5200              mov A,[X+0]
- 04EE 08                push A
- 04EF 9F72              xcall _schedule_processing
- 04F1 38FF              add SP,-1
- 04F3                   .dbline 319
- 04F3           ;     }
- 04F3           L70:
- 04F3                   .dbline 316
- 04F3 7700              inc [X+0]
- 04F5           L72:
- 04F5                   .dbline 316
- 04F5 5017              mov A,23
- 04F7 3B00              cmp A,[X+0]
- 04F9 DFF2              jnc L69
- 04FB           X24:
- 04FB                   .dbline 320
- 04FB           ;     for(hour = 0; hour <= bcd_to_byte(RTC_bReadHour()); hour++)
- 04FB 560000            mov [X+0],0
- 04FE 800A              xjmp L76
- 0500           L73:
- 0500                   .dbline 321
- 0500           ;     {
- 0500                   .dbline 322
- 0500           ;         schedule_processing(hour);
- 0500 5200              mov A,[X+0]
- 0502 08                push A
- 0503 9F5E              xcall _schedule_processing
- 0505 38FF              add SP,-1
- 0507                   .dbline 323
- 0507           ;     }
- 0507           L74:
- 0507                   .dbline 320
- 0507 7700              inc [X+0]
- 0509           L76:
- 0509                   .dbline 320
- 0509 10                push X
- 050A 7C0000            xcall _RTC_bReadHour
- 050D 20                pop X
- 050E 62D000            mov REG[0xd0],>__r0
- 0511 08                push A
- 0512 95FE              xcall _bcd_to_byte
- 0514 38FF              add SP,-1
- 0516 62D000            mov REG[0xd0],>__r0
- 0519 3B00              cmp A,[X+0]
- 051B DFE4              jnc L73
- 051D           X25:
- 051D                   .dbline -2
- 051D           L68:
- 051D 38FF              add SP,-1
- 051F 20                pop X
- 0520                   .dbline 0 ; func end
- 0520 7F                ret
- 0521                   .dbsym l hour 0 c
- 0521                   .dbend
- 0521                   .dbfunc e rtc_update _rtc_update fV
- 0521           ;       datetime -> X-5
- 0521           _rtc_update::
- 0521                   .dbline -1
- 0521 10                push X
- 0522 4F                mov X,SP
- 0523                   .dbline 327
- 0523           ; }
- 0523           ; 
- 0523           ; void rtc_update(struct datetime *datetime)
- 0523           ; {
- 0523                   .dbline 328
- 0523           ;       RTC_Stop();
- 0523 10                push X
- 0524 7C0000            xcall _RTC_Stop
- 0527 20                pop X
- 0528                   .dbline 329
- 0528           ;       RTC_SetHour(byte_to_bcd(datetime->hour));
- 0528 62D000            mov REG[0xd0],>__r0
- 052B 52FC              mov A,[X-4]
- 052D 0102              add A,2
- 052F 5300              mov [__r1],A
- 0531 52FB              mov A,[X-5]
- 0533 0900              adc A,0
- 0535 60D4              mov REG[0xd4],A
- 0537 3E00              mvi A,[__r1]
- 0539 08                push A
- 053A 959F              xcall _byte_to_bcd
- 053C 38FF              add SP,-1
- 053E 62D000            mov REG[0xd0],>__r0
- 0541 10                push X
- 0542 7C0000            xcall _RTC_SetHour
- 0545 20                pop X
- 0546                   .dbline 330
- 0546           ;       RTC_SetMinute(byte_to_bcd(datetime->min));
- 0546 62D000            mov REG[0xd0],>__r0
- 0549 52FC              mov A,[X-4]
- 054B 0101              add A,1
- 054D 5300              mov [__r1],A
- 054F 52FB              mov A,[X-5]
- 0551 0900              adc A,0
- 0553 60D4              mov REG[0xd4],A
- 0555 3E00              mvi A,[__r1]
- 0557 08                push A
- 0558 9581              xcall _byte_to_bcd
- 055A 38FF              add SP,-1
- 055C 62D000            mov REG[0xd0],>__r0
- 055F 10                push X
- 0560 7C0000            xcall _RTC_SetMinute
- 0563 20                pop X
- 0564                   .dbline 331
- 0564           ;       RTC_SetSecond(byte_to_bcd(datetime->sec));
- 0564 62D000            mov REG[0xd0],>__r0
- 0567 52FC              mov A,[X-4]
- 0569 5300              mov [__r1],A
- 056B 52FB              mov A,[X-5]
- 056D 60D4              mov REG[0xd4],A
- 056F 3E00              mvi A,[__r1]
- 0571 08                push A
- 0572 9567              xcall _byte_to_bcd
- 0574 38FF              add SP,-1
- 0576 62D000            mov REG[0xd0],>__r0
- 0579 10                push X
- 057A 7C0000            xcall _RTC_SetSecond
- 057D                   .dbline 332
- 057D           ;       RTC_Start();
- 057D 7C0000            xcall _RTC_Start
- 0580 20                pop X
- 0581                   .dbline -2
- 0581           L77:
- 0581 20                pop X
- 0582                   .dbline 0 ; func end
- 0582 7F                ret
- 0583                   .dbsym l datetime -5 pS[datetime]
- 0583                   .dbend
- 0583                   .dbfunc e check_fld _check_fld fI
- 0583           ;            cmd -> X-5
- 0583           _check_fld::
- 0583                   .dbline -1
- 0583 10                push X
- 0584 4F                mov X,SP
- 0585 3802              add SP,2
- 0587                   .dbline 336
- 0587           ; }
- 0587           ; 
- 0587           ; bool check_fld(const char *cmd)
- 0587           ; {
- 0587                   .dbline 337
- 0587           ;     return !str_cmp_const(fld_buf, cmd, sizeof(cmd) - 1);
- 0587 5001              mov A,1
- 0589 08                push A
- 058A 52FB              mov A,[X-5]
- 058C 08                push A
- 058D 52FC              mov A,[X-4]
- 058F 08                push A
- 0590 5000              mov A,>_fld_buf
- 0592 08                push A
- 0593 5000              mov A,<_fld_buf
- 0595 08                push A
- 0596 94F1              xcall _str_cmp_const
- 0598 38FB              add SP,-5
- 059A 62D000            mov REG[0xd0],>__r0
- 059D 3900              cmp A,0
- 059F B009              jnz L80
- 05A1 560101            mov [X+1],1
- 05A4 560000            mov [X+0],0
- 05A7 8007              xjmp L81
- 05A9           L80:
- 05A9 560100            mov [X+1],0
- 05AC 560000            mov [X+0],0
- 05AF           L81:
- 05AF 62D000            mov REG[0xd0],>__r0
- 05B2 5201              mov A,[X+1]
- 05B4 5300              mov [__r1],A
- 05B6 5200              mov A,[X+0]
- 05B8 5300              mov [__r0],A
- 05BA                   .dbline -2
- 05BA           L78:
- 05BA 38FE              add SP,-2
- 05BC 20                pop X
- 05BD                   .dbline 0 ; func end
- 05BD 7F                ret
- 05BE                   .dbsym l cmd -5 pkc
- 05BE                   .dbend
- 05BE                   .dbfunc e NMEA_GetField _NMEA_GetField fV
- 05BE           ;          count -> X+1
- 05BE           ;              i -> X+0
- 05BE           ;         result -> X-8
- 05BE           ;          field -> X-6
- 05BE           ;         packet -> X-5
- 05BE           _NMEA_GetField::
- 05BE                   .dbline -1
- 05BE 10                push X
- 05BF 4F                mov X,SP
- 05C0 3806              add SP,6
- 05C2                   .dbline 341
- 05C2           ; }
- 05C2           ; 
- 05C2           ; void NMEA_GetField(char *packet, unsigned char field, char *result)
- 05C2           ; {
- 05C2                   .dbline 343
- 05C2           ;     unsigned char i;
- 05C2           ;     unsigned char count = 0;
- 05C2 560100            mov [X+1],0
- 05C5                   .dbline 346
- 05C5           ;     
- 05C5           ;     // Search field
- 05C5           ;     for (i = 0; (i < NMEA_MAX_SIZE) & (count < field); i++)
- 05C5 560000            mov [X+0],0
- 05C8 803F              xjmp L86
- 05CA           L83:
- 05CA                   .dbline 347
- 05CA           ;     {
- 05CA                   .dbline 348
- 05CA           ;         if (packet[i] == NMEA_FIELD_DELIMITER) count++;
- 05CA 62D000            mov REG[0xd0],>__r0
- 05CD 5200              mov A,[X+0]
- 05CF 5300              mov [__r1],A
- 05D1 550000            mov [__r0],0
- 05D4 52FC              mov A,[X-4]
- 05D6 0400              add [__r1],A
- 05D8 52FB              mov A,[X-5]
- 05DA 0C00              adc [__r0],A
- 05DC 5100              mov A,[__r0]
- 05DE 60D4              mov REG[0xd4],A
- 05E0 3E00              mvi A,[__r1]
- 05E2 392C              cmp A,44
- 05E4 B003              jnz L89
- 05E6                   .dbline 348
- 05E6 7701              inc [X+1]
- 05E8           L89:
- 05E8                   .dbline 349
- 05E8           ;               if (packet[i] == 0) break;
- 05E8 62D000            mov REG[0xd0],>__r0
- 05EB 5200              mov A,[X+0]
- 05ED 5300              mov [__r1],A
- 05EF 550000            mov [__r0],0
- 05F2 52FC              mov A,[X-4]
- 05F4 0400              add [__r1],A
- 05F6 52FB              mov A,[X-5]
- 05F8 0C00              adc [__r0],A
- 05FA 5100              mov A,[__r0]
- 05FC 60D4              mov REG[0xd4],A
- 05FE 3E00              mvi A,[__r1]
- 0600 3900              cmp A,0
- 0602 B003              jnz L91
- 0604                   .dbline 349
- 0604 8040              xjmp L85
- 0606           L91:
- 0606                   .dbline 350
- 0606           ;     }
- 0606           L84:
- 0606                   .dbline 346
- 0606 7700              inc [X+0]
- 0608           L86:
- 0608                   .dbline 346
- 0608 3D0052            cmp [X+0],82
- 060B D009              jnc L93
- 060D           X26:
- 060D 560301            mov [X+3],1
- 0610 560200            mov [X+2],0
- 0613 8007              xjmp L94
- 0615           L93:
- 0615 560300            mov [X+3],0
- 0618 560200            mov [X+2],0
- 061B           L94:
- 061B 5201              mov A,[X+1]
- 061D 3BFA              cmp A,[X-6]
- 061F D009              jnc L95
- 0621           X27:
- 0621 560501            mov [X+5],1
- 0624 560400            mov [X+4],0
- 0627 8007              xjmp L96
- 0629           L95:
- 0629 560500            mov [X+5],0
- 062C 560400            mov [X+4],0
- 062F           L96:
- 062F 62D000            mov REG[0xd0],>__r0
- 0632 5203              mov A,[X+3]
- 0634 2305              and A,[X+5]
- 0636 5300              mov [__r1],A
- 0638 5202              mov A,[X+2]
- 063A 2304              and A,[X+4]
- 063C 3900              cmp A,0
- 063E BF8B              jnz L83
- 0640 3C0000            cmp [__r1],0
- 0643 BF86              jnz L83
- 0645           X28:
- 0645           L85:
- 0645                   .dbline 353
- 0645           ;     
- 0645           ;     // Measure field size
- 0645           ;     for (count = 0; count < NMEA_MAX_SIZE; count++)
- 0645 560100            mov [X+1],0
- 0648 8057              xjmp L100
- 064A           L97:
- 064A                   .dbline 354
- 064A           ;     {
- 064A                   .dbline 355
- 064A           ;         if (packet[i + count] == NMEA_FIELD_DELIMITER) break;
- 064A 62D000            mov REG[0xd0],>__r0
- 064D 5201              mov A,[X+1]
- 064F 5300              mov [__r1],A
- 0651 550000            mov [__r0],0
- 0654 5200              mov A,[X+0]
- 0656 0200              add A,[__r1]
- 0658 5300              mov [__r1],A
- 065A 5000              mov A,0
- 065C 0A00              adc A,[__r0]
- 065E 5300              mov [__r0],A
- 0660 52FC              mov A,[X-4]
- 0662 0400              add [__r1],A
- 0664 52FB              mov A,[X-5]
- 0666 0C00              adc [__r0],A
- 0668 5100              mov A,[__r0]
- 066A 60D4              mov REG[0xd4],A
- 066C 3E00              mvi A,[__r1]
- 066E 392C              cmp A,44
- 0670 B003              jnz L101
- 0672                   .dbline 355
- 0672 8032              xjmp L99
- 0674           L101:
- 0674                   .dbline 356
- 0674           ;         if (packet[i + count] == 0u) break;
- 0674 62D000            mov REG[0xd0],>__r0
- 0677 5201              mov A,[X+1]
- 0679 5300              mov [__r1],A
- 067B 550000            mov [__r0],0
- 067E 5200              mov A,[X+0]
- 0680 0200              add A,[__r1]
- 0682 5300              mov [__r1],A
- 0684 5000              mov A,0
- 0686 0A00              adc A,[__r0]
- 0688 5300              mov [__r0],A
- 068A 52FC              mov A,[X-4]
- 068C 0400              add [__r1],A
- 068E 52FB              mov A,[X-5]
- 0690 0C00              adc [__r0],A
- 0692 5100              mov A,[__r0]
- 0694 60D4              mov REG[0xd4],A
- 0696 3E00              mvi A,[__r1]
- 0698 3900              cmp A,0
- 069A B003              jnz L103
- 069C                   .dbline 356
- 069C 8008              xjmp L99
- 069E           L103:
- 069E                   .dbline 357
- 069E           ;     }
- 069E           L98:
- 069E                   .dbline 353
- 069E 7701              inc [X+1]
- 06A0           L100:
- 06A0                   .dbline 353
- 06A0 3D0152            cmp [X+1],82
- 06A3 CFA6              jc L97
- 06A5           X29:
- 06A5           L99:
- 06A5                   .dbline 358
- 06A5           ;     strncpy(result, packet + i, count + 1);  // Add 1 to count for null terminator
- 06A5 62D000            mov REG[0xd0],>__r0
- 06A8 5201              mov A,[X+1]
- 06AA 5300              mov [__r1],A
- 06AC 550000            mov [__r0],0
- 06AF 060001            add [__r1],1
- 06B2 0E0000            adc [__r0],0
- 06B5 5100              mov A,[__r0]
- 06B7 08                push A
- 06B8 5100              mov A,[__r1]
- 06BA 08                push A
- 06BB 5200              mov A,[X+0]
- 06BD 5300              mov [__r1],A
- 06BF 550000            mov [__r0],0
- 06C2 52FC              mov A,[X-4]
- 06C4 0400              add [__r1],A
- 06C6 52FB              mov A,[X-5]
- 06C8 0C00              adc [__r0],A
- 06CA 5100              mov A,[__r0]
- 06CC 08                push A
- 06CD 5100              mov A,[__r1]
- 06CF 08                push A
- 06D0 52F8              mov A,[X-8]
- 06D2 08                push A
- 06D3 52F9              mov A,[X-7]
- 06D5 08                push A
- 06D6 7C0000            xcall _strncpy
- 06D9 38FA              add SP,-6
- 06DB                   .dbline 359
- 06DB           ;       result[count] = 0u;     // Add null terminator
- 06DB 62D000            mov REG[0xd0],>__r0
- 06DE 5201              mov A,[X+1]
- 06E0 5300              mov [__r1],A
- 06E2 550000            mov [__r0],0
- 06E5 52F9              mov A,[X-7]
- 06E7 0400              add [__r1],A
- 06E9 52F8              mov A,[X-8]
- 06EB 0C00              adc [__r0],A
- 06ED 5100              mov A,[__r0]
- 06EF 60D5              mov REG[0xd5],A
- 06F1 5000              mov A,0
- 06F3 3F00              mvi [__r1],A
- 06F5                   .dbline -2
- 06F5           L82:
- 06F5 38FA              add SP,-6
- 06F7 20                pop X
- 06F8                   .dbline 0 ; func end
- 06F8 7F                ret
- 06F9                   .dbsym l count 1 c
- 06F9                   .dbsym l i 0 c
- 06F9                   .dbsym l result -8 pc
- 06F9                   .dbsym l field -6 c
- 06F9                   .dbsym l packet -5 pc
- 06F9                   .dbend
- 06F9                   .dbfunc e NMEA_handle_packet _NMEA_handle_packet fI
- 06F9           ; calculated_checksum -> X+6
- 06F9           ; packet_checksum -> X+4
- 06F9           ;              n -> X+3
- 06F9           ;       checksum -> X+2
- 06F9           ;          error -> X+1
- 06F9           ;              i -> X+0
- 06F9           ;      NMEA_data -> X-7
- 06F9           ;         packet -> X-5
- 06F9           _NMEA_handle_packet::
- 06F9                   .dbline -1
- 06F9 10                push X
- 06FA 4F                mov X,SP
- 06FB 380F              add SP,15
- 06FD                   .dbline 363
- 06FD           ; }
- 06FD           ; 
- 06FD           ; bool NMEA_handle_packet(char *packet, char *NMEA_data)
- 06FD           ; {
- 06FD                   .dbline 365
- 06FD           ;     unsigned char i, n;
- 06FD           ;     unsigned char error = 0;
- 06FD 560100            mov [X+1],0
- 0700                   .dbline 366
- 0700           ;     unsigned char checksum = 0;
- 0700 560200            mov [X+2],0
- 0703                   .dbline 371
- 0703           ;     char *packet_checksum;
- 0703           ;     char calculated_checksum[3];
- 0703           ;               
- 0703           ;     // Check if appropriate packet is handled
- 0703           ;       if (str_cmp(packet, NMEA_data, NMEA_HEADER_SIZE) == 0u)
- 0703 5003              mov A,3
- 0705 08                push A
- 0706 52F9              mov A,[X-7]
- 0708 08                push A
- 0709 52FA              mov A,[X-6]
- 070B 08                push A
- 070C 52FB              mov A,[X-5]
- 070E 08                push A
- 070F 52FC              mov A,[X-4]
- 0711 08                push A
- 0712 9324              xcall _str_cmp
- 0714 38FB              add SP,-5
- 0716 62D000            mov REG[0xd0],>__r0
- 0719 3900              cmp A,0
- 071B B0E9              jnz L106
- 071D                   .dbline 374
- 071D           ;     {
- 071D           ;               // Check for receive errors
- 071D           ;         for(i = 0; i < NMEA_MAX_SIZE; i++)
- 071D                   .dbline 374
- 071D 560000            mov [X+0],0
- 0720 80C1              xjmp L111
- 0722           L108:
- 0722                   .dbline 375
- 0722           ;         {
- 0722                   .dbline 376
- 0722           ;             if ((packet[i] < 32) & (packet[i] != 0x0D) & (packet[i] != NMEA_END_DELIMITER)) 
- 0722 62D000            mov REG[0xd0],>__r0
- 0725 5200              mov A,[X+0]
- 0727 5300              mov [__r1],A
- 0729 550000            mov [__r0],0
- 072C 52FC              mov A,[X-4]
- 072E 0400              add [__r1],A
- 0730 52FB              mov A,[X-5]
- 0732 0C00              adc [__r0],A
- 0734 5100              mov A,[__r0]
- 0736 60D4              mov REG[0xd4],A
- 0738 3E00              mvi A,[__r1]
- 073A 3920              cmp A,32
- 073C D009              jnc L117
- 073E           X30:
- 073E 560A01            mov [X+10],1
- 0741 560900            mov [X+9],0
- 0744 8007              xjmp L118
- 0746           L117:
- 0746 560A00            mov [X+10],0
- 0749 560900            mov [X+9],0
- 074C           L118:
- 074C 62D000            mov REG[0xd0],>__r0
- 074F 5200              mov A,[X+0]
- 0751 5300              mov [__r1],A
- 0753 550000            mov [__r0],0
- 0756 52FC              mov A,[X-4]
- 0758 0400              add [__r1],A
- 075A 52FB              mov A,[X-5]
- 075C 0C00              adc [__r0],A
- 075E 5100              mov A,[__r0]
- 0760 60D4              mov REG[0xd4],A
- 0762 3E00              mvi A,[__r1]
- 0764 390D              cmp A,13
- 0766 A009              jz L119
- 0768 560C01            mov [X+12],1
- 076B 560B00            mov [X+11],0
- 076E 8007              xjmp L120
- 0770           L119:
- 0770 560C00            mov [X+12],0
- 0773 560B00            mov [X+11],0
- 0776           L120:
- 0776 62D000            mov REG[0xd0],>__r0
- 0779 5200              mov A,[X+0]
- 077B 5300              mov [__r1],A
- 077D 550000            mov [__r0],0
- 0780 52FC              mov A,[X-4]
- 0782 0400              add [__r1],A
- 0784 52FB              mov A,[X-5]
- 0786 0C00              adc [__r0],A
- 0788 5100              mov A,[__r0]
- 078A 60D4              mov REG[0xd4],A
- 078C 3E00              mvi A,[__r1]
- 078E 390A              cmp A,10
- 0790 A009              jz L121
- 0792 560E01            mov [X+14],1
- 0795 560D00            mov [X+13],0
- 0798 8007              xjmp L122
- 079A           L121:
- 079A 560E00            mov [X+14],0
- 079D 560D00            mov [X+13],0
- 07A0           L122:
- 07A0 62D000            mov REG[0xd0],>__r0
- 07A3 520A              mov A,[X+10]
- 07A5 230C              and A,[X+12]
- 07A7 5300              mov [__r1],A
- 07A9 5209              mov A,[X+9]
- 07AB 230B              and A,[X+11]
- 07AD 5300              mov [__r0],A
- 07AF 520E              mov A,[X+14]
- 07B1 2400              and [__r1],A
- 07B3 520D              mov A,[X+13]
- 07B5 2400              and [__r0],A
- 07B7 B006              jnz X31
- 07B9 3C0000            cmp [__r1],0
- 07BC A005              jz L112
- 07BE           X31:
- 07BE                   .dbline 378
- 07BE           ;             {
- 07BE           ;                 error++;
- 07BE                   .dbline 378
- 07BE 7701              inc [X+1]
- 07C0                   .dbline 379
- 07C0           ;                 break;
- 07C0 8026              xjmp L110
- 07C2           L112:
- 07C2                   .dbline 381
- 07C2           ;             }
- 07C2           ;             if (packet[i] != NMEA_END_DELIMITER) break;
- 07C2 62D000            mov REG[0xd0],>__r0
- 07C5 5200              mov A,[X+0]
- 07C7 5300              mov [__r1],A
- 07C9 550000            mov [__r0],0
- 07CC 52FC              mov A,[X-4]
- 07CE 0400              add [__r1],A
- 07D0 52FB              mov A,[X-5]
- 07D2 0C00              adc [__r0],A
- 07D4 5100              mov A,[__r0]
- 07D6 60D4              mov REG[0xd4],A
- 07D8 3E00              mvi A,[__r1]
- 07DA 390A              cmp A,10
- 07DC A003              jz L123
- 07DE                   .dbline 381
- 07DE 8008              xjmp L110
- 07E0           L123:
- 07E0                   .dbline 382
- 07E0           ;         }
- 07E0           L109:
- 07E0                   .dbline 374
- 07E0 7700              inc [X+0]
- 07E2           L111:
- 07E2                   .dbline 374
- 07E2 3D0052            cmp [X+0],82
- 07E5 CF3C              jc L108
- 07E7           X32:
- 07E7           L110:
- 07E7                   .dbline 385
- 07E7           ;               
- 07E7           ;         // Copy buffer to NMEA packet if no errors found
- 07E7           ;         if (!error) strncpy(NMEA_data, packet, NMEA_MAX_SIZE); 
- 07E7 3D0100            cmp [X+1],0
- 07EA B01C              jnz L107
- 07EC                   .dbline 385
- 07EC 5000              mov A,0
- 07EE 08                push A
- 07EF 5052              mov A,82
- 07F1 08                push A
- 07F2 52FB              mov A,[X-5]
- 07F4 08                push A
- 07F5 52FC              mov A,[X-4]
- 07F7 08                push A
- 07F8 52F9              mov A,[X-7]
- 07FA 08                push A
- 07FB 52FA              mov A,[X-6]
- 07FD 08                push A
- 07FE 7C0000            xcall _strncpy
- 0801 38FA              add SP,-6
- 0803                   .dbline 386
- 0803           ;     }
- 0803 8003              xjmp L107
- 0805           L106:
- 0805                   .dbline 387
- 0805           ;       else error++;
- 0805 7701              inc [X+1]
- 0807           L107:
- 0807                   .dbline 389
- 0807           ;       
- 0807           ;       if(error) return false;
- 0807 3D0100            cmp [X+1],0
- 080A A00C              jz L127
- 080C                   .dbline 389
- 080C 62D000            mov REG[0xd0],>__r0
- 080F 550000            mov [__r1],0
- 0812 550000            mov [__r0],0
- 0815 800A              xjmp L105
- 0817           L127:
- 0817                   .dbline 390
- 0817           ;       else return true;       
+ 0384 3C0000            cmp [_override_counter],0
+ 0387 B010              jnz X16
+ 0389 3C0100            cmp [_override_counter+1],0
+ 038C B00B              jnz X16
+ 038E 3C0200            cmp [_override_counter+2],0
+ 0391 B006              jnz X16
+ 0393 3C0300            cmp [_override_counter+3],0
+ 0396 A012              jz L45
+ 0398           X16:
+ 0398                   .dbline 270
+ 0398 62D000            mov REG[0xd0],>_override_counter
+ 039B 160301            sub [_override_counter+3],1
+ 039E 1E0200            sbb [_override_counter+2],0
+ 03A1 1E0100            sbb [_override_counter+1],0
+ 03A4 1E0000            sbb [_override_counter],0
+ 03A7 800A              xjmp L46
+ 03A9           L45:
+ 03A9                   .dbline 271
+ 03A9           ;               else override = false;
+ 03A9 62D000            mov REG[0xd0],>_override
+ 03AC 550100            mov [_override+1],0
+ 03AF 550000            mov [_override],0
+ 03B2           L46:
+ 03B2                   .dbline 272
+ 03B2           ;               LED_Blue_Off();
+ 03B2 10                push X
+ 03B3 7C0000            xcall _LED_Blue_Off
+ 03B6 20                pop X
+ 03B7                   .dbline 273
+ 03B7           ;       }
+ 03B7           L23:
+ 03B7                   .dbline 191
+ 03B7 8E1E              xjmp L22
+ 03B9           X6:
+ 03B9                   .dbline -2
+ 03B9           L21:
+ 03B9 38FF              add SP,-1
+ 03BB 20                pop X
+ 03BC                   .dbline 0 ; func end
+ 03BC 8FFF              jmp .
+ 03BE                   .dbsym l t 0 c
+ 03BE                   .dbend
+ 03BE                   .dbfunc e set_power _set_power fV
+ 03BE           ;            pwr -> X-5
+ 03BE           _set_power::
+ 03BE                   .dbline -1
+ 03BE 10                push X
+ 03BF 4F                mov X,SP
+ 03C0                   .dbline 277
+ 03C0           ; }
+ 03C0           ; 
+ 03C0           ; void set_power(unsigned int pwr)
+ 03C0           ; {
+ 03C0                   .dbline 278
+ 03C0           ;       if(pwr > POWER_MAX) pwr = POWER_MAX;
+ 03C0 50B0              mov A,-80
+ 03C2 13FC              sub A,[X-4]
+ 03C4 5036              mov A,54
+ 03C6 1BFB              sbb A,[X-5]
+ 03C8 D007              jnc L48
+ 03CA           X17:
+ 03CA                   .dbline 278
+ 03CA 56FCB0            mov [X-4],-80
+ 03CD 56FB36            mov [X-5],54
+ 03D0           L48:
+ 03D0                   .dbline 279
+ 03D0           ;       power_target = pwr;
+ 03D0 62D000            mov REG[0xd0],>_power_target
+ 03D3 52FC              mov A,[X-4]
+ 03D5 5301              mov [_power_target+1],A
+ 03D7 52FB              mov A,[X-5]
+ 03D9 5300              mov [_power_target],A
+ 03DB                   .dbline -2
+ 03DB           L47:
+ 03DB 20                pop X
+ 03DC                   .dbline 0 ; func end
+ 03DC 7F                ret
+ 03DD                   .dbsym l pwr -5 i
+ 03DD                   .dbend
+ 03DD                   .dbfunc e override_enable _override_enable fV
+ 03DD           _override_enable::
+ 03DD                   .dbline -1
+ 03DD                   .dbline 283
+ 03DD           ; }
+ 03DD           ; 
+ 03DD           ; void override_enable(void)
+ 03DD           ; {
+ 03DD                   .dbline 284
+ 03DD           ;       override = true;
+ 03DD 62D000            mov REG[0xd0],>_override
+ 03E0 550101            mov [_override+1],1
+ 03E3 550000            mov [_override],0
+ 03E6                   .dbline 285
+ 03E6           ;       override_counter = OVERRIDE_TIMEOUT;
+ 03E6 62D000            mov REG[0xd0],>_override_counter
+ 03E9 550000            mov [_override_counter],0
+ 03EC 550108            mov [_override_counter+1],8
+ 03EF 55023D            mov [_override_counter+2],61
+ 03F2 550360            mov [_override_counter+3],96
+ 03F5                   .dbline -2
+ 03F5           L50:
+ 03F5                   .dbline 0 ; func end
+ 03F5 7F                ret
+ 03F6                   .dbend
+ 03F6                   .dbfunc e update_power _update_power fV
+ 03F6           ;            pwr -> X+0
+ 03F6           _update_power::
+ 03F6                   .dbline -1
+ 03F6 10                push X
+ 03F7 4F                mov X,SP
+ 03F8 3802              add SP,2
+ 03FA                   .dbline 289
+ 03FA           ; }
+ 03FA           ; 
+ 03FA           ; void update_power(void)
+ 03FA           ; {
+ 03FA                   .dbline 293
+ 03FA           ;       unsigned int pwr;
+ 03FA           ;       
+ 03FA           ;       // CH0
+ 03FA           ;       pwr = PWM16_CH0_wReadPulseWidth();
+ 03FA 10                push X
+ 03FB 7C0000            xcall _PWM16_CH0_wReadPulseWidth
+ 03FE 62D000            mov REG[0xd0],>__r0
+ 0401 5A00              mov [__r0],X
+ 0403 20                pop X
+ 0404 5401              mov [X+1],A
+ 0406 5100              mov A,[__r0]
+ 0408 5400              mov [X+0],A
+ 040A                   .dbline 294
+ 040A           ;       if(pwr < power_target) pwr += POWER_STEP;
+ 040A 62D000            mov REG[0xd0],>_power_target
+ 040D 5201              mov A,[X+1]
+ 040F 1201              sub A,[_power_target+1]
+ 0411 5200              mov A,[X+0]
+ 0413 1A00              sbb A,[_power_target]
+ 0415 D006              jnc L52
+ 0417           X18:
+ 0417                   .dbline 294
+ 0417 7701              inc [X+1]
+ 0419 0F0000            adc [X+0],0
+ 041C           L52:
+ 041C                   .dbline 295
+ 041C           ;       if(pwr > power_target) pwr -= POWER_STEP;
+ 041C 62D000            mov REG[0xd0],>_power_target
+ 041F 5101              mov A,[_power_target+1]
+ 0421 1301              sub A,[X+1]
+ 0423 5100              mov A,[_power_target]
+ 0425 1B00              sbb A,[X+0]
+ 0427 D006              jnc L54
+ 0429           X19:
+ 0429                   .dbline 295
+ 0429 7B01              dec [X+1]
+ 042B 1F0000            sbb [X+0],0
+ 042E           L54:
+ 042E                   .dbline 296
+ 042E           ;       PWM16_CH0_WritePulseWidth(pwr);
+ 042E 10                push X
+ 042F 5200              mov A,[X+0]
+ 0431 08                push A
+ 0432 5201              mov A,[X+1]
+ 0434 20                pop X
+ 0435 7C0000            xcall _PWM16_CH0_WritePulseWidth
+ 0438                   .dbline 299
+ 0438           ;       
+ 0438           ;       // CH1
+ 0438           ;       pwr = PWM16_CH1_wReadPulseWidth();
+ 0438 7C0000            xcall _PWM16_CH1_wReadPulseWidth
+ 043B 62D000            mov REG[0xd0],>__r0
+ 043E 5A00              mov [__r0],X
+ 0440 20                pop X
+ 0441 5401              mov [X+1],A
+ 0443 5100              mov A,[__r0]
+ 0445 5400              mov [X+0],A
+ 0447                   .dbline 300
+ 0447           ;       if(pwr < power_target) pwr += POWER_STEP;
+ 0447 62D000            mov REG[0xd0],>_power_target
+ 044A 5201              mov A,[X+1]
+ 044C 1201              sub A,[_power_target+1]
+ 044E 5200              mov A,[X+0]
+ 0450 1A00              sbb A,[_power_target]
+ 0452 D006              jnc L56
+ 0454           X20:
+ 0454                   .dbline 300
+ 0454 7701              inc [X+1]
+ 0456 0F0000            adc [X+0],0
+ 0459           L56:
+ 0459                   .dbline 301
+ 0459           ;       if(pwr > power_target) pwr -= POWER_STEP;
+ 0459 62D000            mov REG[0xd0],>_power_target
+ 045C 5101              mov A,[_power_target+1]
+ 045E 1301              sub A,[X+1]
+ 0460 5100              mov A,[_power_target]
+ 0462 1B00              sbb A,[X+0]
+ 0464 D006              jnc L58
+ 0466           X21:
+ 0466                   .dbline 301
+ 0466 7B01              dec [X+1]
+ 0468 1F0000            sbb [X+0],0
+ 046B           L58:
+ 046B                   .dbline 302
+ 046B           ;       PWM16_CH1_WritePulseWidth(pwr);
+ 046B 10                push X
+ 046C 5200              mov A,[X+0]
+ 046E 08                push A
+ 046F 5201              mov A,[X+1]
+ 0471 20                pop X
+ 0472 7C0000            xcall _PWM16_CH1_WritePulseWidth
+ 0475 20                pop X
+ 0476                   .dbline -2
+ 0476           L51:
+ 0476 38FE              add SP,-2
+ 0478 20                pop X
+ 0479                   .dbline 0 ; func end
+ 0479 7F                ret
+ 047A                   .dbsym l pwr 0 i
+ 047A                   .dbend
+ 047A                   .dbfunc e schedule_processing _schedule_processing fV
+ 047A           ;              i -> X+0
+ 047A           ;           hour -> X-4
+ 047A           _schedule_processing::
+ 047A                   .dbline -1
+ 047A 10                push X
+ 047B 4F                mov X,SP
+ 047C 3801              add SP,1
+ 047E                   .dbline 306
+ 047E           ; }
+ 047E           ; 
+ 047E           ; void schedule_processing(unsigned char hour)
+ 047E           ; {
+ 047E                   .dbline 308
+ 047E           ;     unsigned char i; 
+ 047E           ;     for(i = 0; i < sizeof(schedule); i++)
+ 047E 560000            mov [X+0],0
+ 0481 806F              xjmp L64
+ 0483           L61:
+ 0483                   .dbline 309
+ 0483           ;     {
+ 0483                   .dbline 310
+ 0483           ;         if(hour == schedule[i][0])
+ 0483 62D000            mov REG[0xd0],>__r0
+ 0486 5200              mov A,[X+0]
+ 0488 5300              mov [__r1],A
+ 048A 550000            mov [__r0],0
+ 048D 6500              asl [__r1]
+ 048F 6B00              rlc [__r0]
+ 0491 6500              asl [__r1]
+ 0493 6B00              rlc [__r0]
+ 0495 060012            add [__r1],<_schedule
+ 0498 0E0012            adc [__r0],>_schedule
+ 049B 5100              mov A,[__r0]
+ 049D 10                push X
+ 049E 5800              mov X,[__r1]
+ 04A0 08                push A
+ 04A1 28                romx
+ 04A2 5300              mov [__r0],A
+ 04A4 18                pop A
+ 04A5 75                inc X
+ 04A6 0900              adc A,0
+ 04A8 28                romx
+ 04A9 5300              mov [__r1],A
+ 04AB 20                pop X
+ 04AC 52FC              mov A,[X-4]
+ 04AE 5300              mov [__r3],A
+ 04B0 5000              mov A,0
+ 04B2 3A00              cmp A,[__r0]
+ 04B4 B03A              jnz L65
+ 04B6 5100              mov A,[__r3]
+ 04B8 3A00              cmp A,[__r1]
+ 04BA B034              jnz L65
+ 04BC           X22:
+ 04BC                   .dbline 312
+ 04BC           ;         {
+ 04BC           ;             set_power(schedule[i][1]);
+ 04BC                   .dbline 312
+ 04BC 62D000            mov REG[0xd0],>__r0
+ 04BF 5200              mov A,[X+0]
+ 04C1 5300              mov [__r1],A
+ 04C3 550000            mov [__r0],0
+ 04C6 6500              asl [__r1]
+ 04C8 6B00              rlc [__r0]
+ 04CA 6500              asl [__r1]
+ 04CC 6B00              rlc [__r0]
+ 04CE 060014            add [__r1],<_schedule+2
+ 04D1 0E0014            adc [__r0],>_schedule+2
+ 04D4 5100              mov A,[__r0]
+ 04D6 10                push X
+ 04D7 5800              mov X,[__r1]
+ 04D9 08                push A
+ 04DA 28                romx
+ 04DB 5300              mov [__r0],A
+ 04DD 18                pop A
+ 04DE 75                inc X
+ 04DF 0900              adc A,0
+ 04E1 28                romx
+ 04E2 5300              mov [__r1],A
+ 04E4 20                pop X
+ 04E5 5100              mov A,[__r0]
+ 04E7 08                push A
+ 04E8 5100              mov A,[__r1]
+ 04EA 08                push A
+ 04EB 9ED1              xcall _set_power
+ 04ED 38FE              add SP,-2
+ 04EF                   .dbline 313
+ 04EF           ;         }
+ 04EF           L65:
+ 04EF                   .dbline 314
+ 04EF           ;     }
+ 04EF           L62:
+ 04EF                   .dbline 308
+ 04EF 7700              inc [X+0]
+ 04F1           L64:
+ 04F1                   .dbline 308
+ 04F1 3D0008            cmp [X+0],8
+ 04F4 CF8E              jc L61
+ 04F6           X23:
+ 04F6                   .dbline -2
+ 04F6           L60:
+ 04F6 38FF              add SP,-1
+ 04F8 20                pop X
+ 04F9                   .dbline 0 ; func end
+ 04F9 7F                ret
+ 04FA                   .dbsym l i 0 c
+ 04FA                   .dbsym l hour -4 c
+ 04FA                   .dbend
+ 04FA                   .dbfunc e schedule_init _schedule_init fV
+ 04FA           ;           hour -> X+0
+ 04FA           _schedule_init::
+ 04FA                   .dbline -1
+ 04FA 10                push X
+ 04FB 4F                mov X,SP
+ 04FC 3801              add SP,1
+ 04FE                   .dbline 318
+ 04FE           ; }
+ 04FE           ; 
+ 04FE           ; void schedule_init(void)
+ 04FE           ; {
+ 04FE                   .dbline 321
+ 04FE           ;     unsigned char hour;
+ 04FE           ;       
+ 04FE           ;       for(hour = 0; hour <= HOUR_MAX; hour++)
+ 04FE 560000            mov [X+0],0
+ 0501 800A              xjmp L72
+ 0503           L69:
+ 0503                   .dbline 322
+ 0503           ;     {
+ 0503                   .dbline 323
+ 0503           ;         schedule_processing(hour);
+ 0503 5200              mov A,[X+0]
+ 0505 08                push A
+ 0506 9F72              xcall _schedule_processing
+ 0508 38FF              add SP,-1
+ 050A                   .dbline 324
+ 050A           ;     }
+ 050A           L70:
+ 050A                   .dbline 321
+ 050A 7700              inc [X+0]
+ 050C           L72:
+ 050C                   .dbline 321
+ 050C 5017              mov A,23
+ 050E 3B00              cmp A,[X+0]
+ 0510 DFF2              jnc L69
+ 0512           X24:
+ 0512                   .dbline 325
+ 0512           ;     for(hour = 0; hour <= bcd_to_byte(RTC_bReadHour()); hour++)
+ 0512 560000            mov [X+0],0
+ 0515 800A              xjmp L76
+ 0517           L73:
+ 0517                   .dbline 326
+ 0517           ;     {
+ 0517                   .dbline 327
+ 0517           ;         schedule_processing(hour);
+ 0517 5200              mov A,[X+0]
+ 0519 08                push A
+ 051A 9F5E              xcall _schedule_processing
+ 051C 38FF              add SP,-1
+ 051E                   .dbline 328
+ 051E           ;     }
+ 051E           L74:
+ 051E                   .dbline 325
+ 051E 7700              inc [X+0]
+ 0520           L76:
+ 0520                   .dbline 325
+ 0520 10                push X
+ 0521 7C0000            xcall _RTC_bReadHour
+ 0524 20                pop X
+ 0525 62D000            mov REG[0xd0],>__r0
+ 0528 08                push A
+ 0529 963C              xcall _bcd_to_byte
+ 052B 38FF              add SP,-1
+ 052D 62D000            mov REG[0xd0],>__r0
+ 0530 3B00              cmp A,[X+0]
+ 0532 DFE4              jnc L73
+ 0534           X25:
+ 0534                   .dbline -2
+ 0534           L68:
+ 0534 38FF              add SP,-1
+ 0536 20                pop X
+ 0537                   .dbline 0 ; func end
+ 0537 7F                ret
+ 0538                   .dbsym l hour 0 c
+ 0538                   .dbend
+ 0538                   .dbfunc e rtc_update _rtc_update fV
+ 0538           ;       datetime -> X-5
+ 0538           _rtc_update::
+ 0538                   .dbline -1
+ 0538 10                push X
+ 0539 4F                mov X,SP
+ 053A                   .dbline 332
+ 053A           ; }
+ 053A           ; 
+ 053A           ; void rtc_update(struct datetime *datetime)
+ 053A           ; {
+ 053A                   .dbline 333
+ 053A           ;       RTC_Stop();
+ 053A 10                push X
+ 053B 7C0000            xcall _RTC_Stop
+ 053E 20                pop X
+ 053F                   .dbline 334
+ 053F           ;       RTC_SetHour(byte_to_bcd(datetime->hour));
+ 053F 62D000            mov REG[0xd0],>__r0
+ 0542 52FC              mov A,[X-4]
+ 0544 0102              add A,2
+ 0546 5300              mov [__r1],A
+ 0548 52FB              mov A,[X-5]
+ 054A 0900              adc A,0
+ 054C 60D4              mov REG[0xd4],A
+ 054E 3E00              mvi A,[__r1]
+ 0550 08                push A
+ 0551 95DD              xcall _byte_to_bcd
+ 0553 38FF              add SP,-1
+ 0555 62D000            mov REG[0xd0],>__r0
+ 0558 10                push X
+ 0559 7C0000            xcall _RTC_SetHour
+ 055C 20                pop X
+ 055D                   .dbline 335
+ 055D           ;       RTC_SetMinute(byte_to_bcd(datetime->min));
+ 055D 62D000            mov REG[0xd0],>__r0
+ 0560 52FC              mov A,[X-4]
+ 0562 0101              add A,1
+ 0564 5300              mov [__r1],A
+ 0566 52FB              mov A,[X-5]
+ 0568 0900              adc A,0
+ 056A 60D4              mov REG[0xd4],A
+ 056C 3E00              mvi A,[__r1]
+ 056E 08                push A
+ 056F 95BF              xcall _byte_to_bcd
+ 0571 38FF              add SP,-1
+ 0573 62D000            mov REG[0xd0],>__r0
+ 0576 10                push X
+ 0577 7C0000            xcall _RTC_SetMinute
+ 057A 20                pop X
+ 057B                   .dbline 336
+ 057B           ;       RTC_SetSecond(byte_to_bcd(datetime->sec));
+ 057B 62D000            mov REG[0xd0],>__r0
+ 057E 52FC              mov A,[X-4]
+ 0580 5300              mov [__r1],A
+ 0582 52FB              mov A,[X-5]
+ 0584 60D4              mov REG[0xd4],A
+ 0586 3E00              mvi A,[__r1]
+ 0588 08                push A
+ 0589 95A5              xcall _byte_to_bcd
+ 058B 38FF              add SP,-1
+ 058D 62D000            mov REG[0xd0],>__r0
+ 0590 10                push X
+ 0591 7C0000            xcall _RTC_SetSecond
+ 0594                   .dbline 337
+ 0594           ;       RTC_Start();
+ 0594 7C0000            xcall _RTC_Start
+ 0597 20                pop X
+ 0598                   .dbline -2
+ 0598           L77:
+ 0598 20                pop X
+ 0599                   .dbline 0 ; func end
+ 0599 7F                ret
+ 059A                   .dbsym l datetime -5 pS[datetime]
+ 059A                   .dbend
+ 059A                   .dbfunc e check_fld _check_fld fI
+ 059A           ;            cmd -> X-5
+ 059A           _check_fld::
+ 059A                   .dbline -1
+ 059A 10                push X
+ 059B 4F                mov X,SP
+ 059C 3802              add SP,2
+ 059E                   .dbline 341
+ 059E           ; }
+ 059E           ; 
+ 059E           ; bool check_fld(const char *cmd)
+ 059E           ; {
+ 059E                   .dbline 342
+ 059E           ;     return !str_cmp_const(fld_buf, cmd, strlen(fld_buf) - 1);
+ 059E 5000              mov A,>_fld_buf
+ 05A0 08                push A
+ 05A1 5000              mov A,<_fld_buf
+ 05A3 08                push A
+ 05A4 7C0000            xcall _strlenLMM
+ 05A7 62D000            mov REG[0xd0],>__r0
+ 05AA 160001            sub [__r1],1
+ 05AD 1E0000            sbb [__r0],0
+ 05B0 5100              mov A,[__r1]
+ 05B2 08                push A
+ 05B3 52FB              mov A,[X-5]
+ 05B5 08                push A
+ 05B6 52FC              mov A,[X-4]
+ 05B8 08                push A
+ 05B9 5000              mov A,>_fld_buf
+ 05BB 08                push A
+ 05BC 5000              mov A,<_fld_buf
+ 05BE 08                push A
+ 05BF 951D              xcall _str_cmp_const
+ 05C1 38F9              add SP,-7
+ 05C3 62D000            mov REG[0xd0],>__r0
+ 05C6 3900              cmp A,0
+ 05C8 B009              jnz L80
+ 05CA 560101            mov [X+1],1
+ 05CD 560000            mov [X+0],0
+ 05D0 8007              xjmp L81
+ 05D2           L80:
+ 05D2 560100            mov [X+1],0
+ 05D5 560000            mov [X+0],0
+ 05D8           L81:
+ 05D8 62D000            mov REG[0xd0],>__r0
+ 05DB 5201              mov A,[X+1]
+ 05DD 5300              mov [__r1],A
+ 05DF 5200              mov A,[X+0]
+ 05E1 5300              mov [__r0],A
+ 05E3                   .dbline -2
+ 05E3           L78:
+ 05E3 38FE              add SP,-2
+ 05E5 20                pop X
+ 05E6                   .dbline 0 ; func end
+ 05E6 7F                ret
+ 05E7                   .dbsym l cmd -5 pkc
+ 05E7                   .dbend
+ 05E7                   .dbfunc e NMEA_GetField _NMEA_GetField fV
+ 05E7           ;          count -> X+1
+ 05E7           ;              i -> X+0
+ 05E7           ;         result -> X-8
+ 05E7           ;          field -> X-6
+ 05E7           ;         packet -> X-5
+ 05E7           _NMEA_GetField::
+ 05E7                   .dbline -1
+ 05E7 10                push X
+ 05E8 4F                mov X,SP
+ 05E9 3806              add SP,6
+ 05EB                   .dbline 346
+ 05EB           ; }
+ 05EB           ; 
+ 05EB           ; void NMEA_GetField(char *packet, unsigned char field, char *result)
+ 05EB           ; {
+ 05EB                   .dbline 348
+ 05EB           ;     unsigned char i;
+ 05EB           ;     unsigned char count = 0;
+ 05EB 560100            mov [X+1],0
+ 05EE                   .dbline 351
+ 05EE           ;     
+ 05EE           ;     // Search field
+ 05EE           ;     for (i = 0; (i < NMEA_MAX_SIZE) & (count < field); i++)
+ 05EE 560000            mov [X+0],0
+ 05F1 803F              xjmp L86
+ 05F3           L83:
+ 05F3                   .dbline 352
+ 05F3           ;     {
+ 05F3                   .dbline 353
+ 05F3           ;         if (packet[i] == NMEA_FIELD_DELIMITER) count++;
+ 05F3 62D000            mov REG[0xd0],>__r0
+ 05F6 5200              mov A,[X+0]
+ 05F8 5300              mov [__r1],A
+ 05FA 550000            mov [__r0],0
+ 05FD 52FC              mov A,[X-4]
+ 05FF 0400              add [__r1],A
+ 0601 52FB              mov A,[X-5]
+ 0603 0C00              adc [__r0],A
+ 0605 5100              mov A,[__r0]
+ 0607 60D4              mov REG[0xd4],A
+ 0609 3E00              mvi A,[__r1]
+ 060B 392C              cmp A,44
+ 060D B003              jnz L89
+ 060F                   .dbline 353
+ 060F 7701              inc [X+1]
+ 0611           L89:
+ 0611                   .dbline 354
+ 0611           ;               if (packet[i] == 0) break;
+ 0611 62D000            mov REG[0xd0],>__r0
+ 0614 5200              mov A,[X+0]
+ 0616 5300              mov [__r1],A
+ 0618 550000            mov [__r0],0
+ 061B 52FC              mov A,[X-4]
+ 061D 0400              add [__r1],A
+ 061F 52FB              mov A,[X-5]
+ 0621 0C00              adc [__r0],A
+ 0623 5100              mov A,[__r0]
+ 0625 60D4              mov REG[0xd4],A
+ 0627 3E00              mvi A,[__r1]
+ 0629 3900              cmp A,0
+ 062B B003              jnz L91
+ 062D                   .dbline 354
+ 062D 8040              xjmp L85
+ 062F           L91:
+ 062F                   .dbline 355
+ 062F           ;     }
+ 062F           L84:
+ 062F                   .dbline 351
+ 062F 7700              inc [X+0]
+ 0631           L86:
+ 0631                   .dbline 351
+ 0631 3D0052            cmp [X+0],82
+ 0634 D009              jnc L93
+ 0636           X26:
+ 0636 560301            mov [X+3],1
+ 0639 560200            mov [X+2],0
+ 063C 8007              xjmp L94
+ 063E           L93:
+ 063E 560300            mov [X+3],0
+ 0641 560200            mov [X+2],0
+ 0644           L94:
+ 0644 5201              mov A,[X+1]
+ 0646 3BFA              cmp A,[X-6]
+ 0648 D009              jnc L95
+ 064A           X27:
+ 064A 560501            mov [X+5],1
+ 064D 560400            mov [X+4],0
+ 0650 8007              xjmp L96
+ 0652           L95:
+ 0652 560500            mov [X+5],0
+ 0655 560400            mov [X+4],0
+ 0658           L96:
+ 0658 62D000            mov REG[0xd0],>__r0
+ 065B 5203              mov A,[X+3]
+ 065D 2305              and A,[X+5]
+ 065F 5300              mov [__r1],A
+ 0661 5202              mov A,[X+2]
+ 0663 2304              and A,[X+4]
+ 0665 3900              cmp A,0
+ 0667 BF8B              jnz L83
+ 0669 3C0000            cmp [__r1],0
+ 066C BF86              jnz L83
+ 066E           X28:
+ 066E           L85:
+ 066E                   .dbline 358
+ 066E           ;     
+ 066E           ;     // Measure field size
+ 066E           ;     for (count = 0; count < NMEA_MAX_SIZE; count++)
+ 066E 560100            mov [X+1],0
+ 0671 8057              xjmp L100
+ 0673           L97:
+ 0673                   .dbline 359
+ 0673           ;     {
+ 0673                   .dbline 360
+ 0673           ;         if (packet[i + count] == NMEA_FIELD_DELIMITER) break;
+ 0673 62D000            mov REG[0xd0],>__r0
+ 0676 5201              mov A,[X+1]
+ 0678 5300              mov [__r1],A
+ 067A 550000            mov [__r0],0
+ 067D 5200              mov A,[X+0]
+ 067F 0200              add A,[__r1]
+ 0681 5300              mov [__r1],A
+ 0683 5000              mov A,0
+ 0685 0A00              adc A,[__r0]
+ 0687 5300              mov [__r0],A
+ 0689 52FC              mov A,[X-4]
+ 068B 0400              add [__r1],A
+ 068D 52FB              mov A,[X-5]
+ 068F 0C00              adc [__r0],A
+ 0691 5100              mov A,[__r0]
+ 0693 60D4              mov REG[0xd4],A
+ 0695 3E00              mvi A,[__r1]
+ 0697 392C              cmp A,44
+ 0699 B003              jnz L101
+ 069B                   .dbline 360
+ 069B 8032              xjmp L99
+ 069D           L101:
+ 069D                   .dbline 361
+ 069D           ;         if (packet[i + count] == 0u) break;
+ 069D 62D000            mov REG[0xd0],>__r0
+ 06A0 5201              mov A,[X+1]
+ 06A2 5300              mov [__r1],A
+ 06A4 550000            mov [__r0],0
+ 06A7 5200              mov A,[X+0]
+ 06A9 0200              add A,[__r1]
+ 06AB 5300              mov [__r1],A
+ 06AD 5000              mov A,0
+ 06AF 0A00              adc A,[__r0]
+ 06B1 5300              mov [__r0],A
+ 06B3 52FC              mov A,[X-4]
+ 06B5 0400              add [__r1],A
+ 06B7 52FB              mov A,[X-5]
+ 06B9 0C00              adc [__r0],A
+ 06BB 5100              mov A,[__r0]
+ 06BD 60D4              mov REG[0xd4],A
+ 06BF 3E00              mvi A,[__r1]
+ 06C1 3900              cmp A,0
+ 06C3 B003              jnz L103
+ 06C5                   .dbline 361
+ 06C5 8008              xjmp L99
+ 06C7           L103:
+ 06C7                   .dbline 362
+ 06C7           ;     }
+ 06C7           L98:
+ 06C7                   .dbline 358
+ 06C7 7701              inc [X+1]
+ 06C9           L100:
+ 06C9                   .dbline 358
+ 06C9 3D0152            cmp [X+1],82
+ 06CC CFA6              jc L97
+ 06CE           X29:
+ 06CE           L99:
+ 06CE                   .dbline 363
+ 06CE           ;     strncpy(result, packet + i, count + 1);  // Add 1 to count for null terminator
+ 06CE 62D000            mov REG[0xd0],>__r0
+ 06D1 5201              mov A,[X+1]
+ 06D3 5300              mov [__r1],A
+ 06D5 550000            mov [__r0],0
+ 06D8 060001            add [__r1],1
+ 06DB 0E0000            adc [__r0],0
+ 06DE 5100              mov A,[__r0]
+ 06E0 08                push A
+ 06E1 5100              mov A,[__r1]
+ 06E3 08                push A
+ 06E4 5200              mov A,[X+0]
+ 06E6 5300              mov [__r1],A
+ 06E8 550000            mov [__r0],0
+ 06EB 52FC              mov A,[X-4]
+ 06ED 0400              add [__r1],A
+ 06EF 52FB              mov A,[X-5]
+ 06F1 0C00              adc [__r0],A
+ 06F3 5100              mov A,[__r0]
+ 06F5 08                push A
+ 06F6 5100              mov A,[__r1]
+ 06F8 08                push A
+ 06F9 52F8              mov A,[X-8]
+ 06FB 08                push A
+ 06FC 52F9              mov A,[X-7]
+ 06FE 08                push A
+ 06FF 7C0000            xcall _strncpy
+ 0702 38FA              add SP,-6
+ 0704                   .dbline 364
+ 0704           ;       result[count] = 0u;     // Add null terminator
+ 0704 62D000            mov REG[0xd0],>__r0
+ 0707 5201              mov A,[X+1]
+ 0709 5300              mov [__r1],A
+ 070B 550000            mov [__r0],0
+ 070E 52F9              mov A,[X-7]
+ 0710 0400              add [__r1],A
+ 0712 52F8              mov A,[X-8]
+ 0714 0C00              adc [__r0],A
+ 0716 5100              mov A,[__r0]
+ 0718 60D5              mov REG[0xd5],A
+ 071A 5000              mov A,0
+ 071C 3F00              mvi [__r1],A
+ 071E                   .dbline -2
+ 071E           L82:
+ 071E 38FA              add SP,-6
+ 0720 20                pop X
+ 0721                   .dbline 0 ; func end
+ 0721 7F                ret
+ 0722                   .dbsym l count 1 c
+ 0722                   .dbsym l i 0 c
+ 0722                   .dbsym l result -8 pc
+ 0722                   .dbsym l field -6 c
+ 0722                   .dbsym l packet -5 pc
+ 0722                   .dbend
+                        .area lit(rom, con, rel, lit)
+ 001A           L106:
+ 001A 2530325800        .byte 37,48,50,'X,0
+                        .area text(rom, con, rel)
+ 0722                   .dbfile C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\main.c
+ 0722                   .dbfunc e NMEA_handle_packet _NMEA_handle_packet fI
+ 0722           ; calculated_checksum -> X+11
+ 0722           ; checksum_delimiter -> X+9
+ 0722           ;              n -> X+8
+ 0722           ; checksum_format -> X+3
+ 0722           ;       checksum -> X+2
+ 0722           ;          error -> X+1
+ 0722           ;              i -> X+0
+ 0722           ;      NMEA_data -> X-7
+ 0722           ;         packet -> X-5
+ 0722           _NMEA_handle_packet::
+ 0722                   .dbline -1
+ 0722 10                push X
+ 0723 4F                mov X,SP
+ 0724 3814              add SP,20
+ 0726                   .dbline 368
+ 0726           ; }
+ 0726           ; 
+ 0726           ; bool NMEA_handle_packet(char *packet, char *NMEA_data)
+ 0726           ; {
+ 0726                   .dbline 370
+ 0726           ;     unsigned char i, n;
+ 0726           ;     unsigned char error = 0;
+ 0726 560100            mov [X+1],0
+ 0729                   .dbline 371
+ 0729           ;     unsigned char checksum = 0;
+ 0729 560200            mov [X+2],0
+ 072C                   .dbline 374
+ 072C           ;     char *checksum_delimiter;
+ 072C           ;     char calculated_checksum[3];
+ 072C           ;       char checksum_format[] = "%02X";
+ 072C 62D000            mov REG[0xd0],>__r0
+ 072F 55001A            mov [__r1],<L106
+ 0732 55001A            mov [__r0],>L106
+ 0735 5A00              mov [__r3],X
+ 0737 060003            add [__r3],3
+ 073A 62D503            mov REG[0xd5],3
+ 073D 10                push X
+ 073E 550000            mov [__rX],0
+ 0741 5100              mov A,[__r0]
+ 0743 5800              mov X,[__r1]
+ 0745           X30:
+ 0745 08                push A
+ 0746 28                romx
+ 0747 62D000            mov REG[0xd0],>__r0
+ 074A 3F00              mvi [__r3],A
+ 074C 18                pop A
+ 074D 75                inc X
+ 074E 0900              adc A,0
+ 0750 7600              inc [__rX]
+ 0752 3C0005            cmp [__rX],5
+ 0755 BFEF              jnz X30
+ 0757 20                pop X
+ 0758                   .dbline 377
+ 0758           ;               
+ 0758           ;     // Check if appropriate packet is handled
+ 0758           ;       if (str_cmp(packet, NMEA_data, NMEA_HEADER_SIZE) == 0u)
+ 0758 5003              mov A,3
+ 075A 08                push A
+ 075B 52F9              mov A,[X-7]
+ 075D 08                push A
+ 075E 52FA              mov A,[X-6]
+ 0760 08                push A
+ 0761 52FB              mov A,[X-5]
+ 0763 08                push A
+ 0764 52FC              mov A,[X-4]
+ 0766 08                push A
+ 0767 9324              xcall _str_cmp
+ 0769 38FB              add SP,-5
+ 076B 62D000            mov REG[0xd0],>__r0
+ 076E 3900              cmp A,0
+ 0770 B0E9              jnz L107
+ 0772                   .dbline 380
+ 0772           ;     {
+ 0772           ;               // Check for receive errors
+ 0772           ;         for(i = 0; i < NMEA_MAX_SIZE; i++)
+ 0772                   .dbline 380
+ 0772 560000            mov [X+0],0
+ 0775 80C1              xjmp L112
+ 0777           L109:
+ 0777                   .dbline 381
+ 0777           ;         {
+ 0777                   .dbline 382
+ 0777           ;             if ((packet[i] < 32) & (packet[i] != 0x0D) & (packet[i] != NMEA_END_DELIMITER)) 
+ 0777 62D000            mov REG[0xd0],>__r0
+ 077A 5200              mov A,[X+0]
+ 077C 5300              mov [__r1],A
+ 077E 550000            mov [__r0],0
+ 0781 52FC              mov A,[X-4]
+ 0783 0400              add [__r1],A
+ 0785 52FB              mov A,[X-5]
+ 0787 0C00              adc [__r0],A
+ 0789 5100              mov A,[__r0]
+ 078B 60D4              mov REG[0xd4],A
+ 078D 3E00              mvi A,[__r1]
+ 078F 3920              cmp A,32
+ 0791 D009              jnc L118
+ 0793           X31:
+ 0793 560F01            mov [X+15],1
+ 0796 560E00            mov [X+14],0
+ 0799 8007              xjmp L119
+ 079B           L118:
+ 079B 560F00            mov [X+15],0
+ 079E 560E00            mov [X+14],0
+ 07A1           L119:
+ 07A1 62D000            mov REG[0xd0],>__r0
+ 07A4 5200              mov A,[X+0]
+ 07A6 5300              mov [__r1],A
+ 07A8 550000            mov [__r0],0
+ 07AB 52FC              mov A,[X-4]
+ 07AD 0400              add [__r1],A
+ 07AF 52FB              mov A,[X-5]
+ 07B1 0C00              adc [__r0],A
+ 07B3 5100              mov A,[__r0]
+ 07B5 60D4              mov REG[0xd4],A
+ 07B7 3E00              mvi A,[__r1]
+ 07B9 390D              cmp A,13
+ 07BB A009              jz L120
+ 07BD 561101            mov [X+17],1
+ 07C0 561000            mov [X+16],0
+ 07C3 8007              xjmp L121
+ 07C5           L120:
+ 07C5 561100            mov [X+17],0
+ 07C8 561000            mov [X+16],0
+ 07CB           L121:
+ 07CB 62D000            mov REG[0xd0],>__r0
+ 07CE 5200              mov A,[X+0]
+ 07D0 5300              mov [__r1],A
+ 07D2 550000            mov [__r0],0
+ 07D5 52FC              mov A,[X-4]
+ 07D7 0400              add [__r1],A
+ 07D9 52FB              mov A,[X-5]
+ 07DB 0C00              adc [__r0],A
+ 07DD 5100              mov A,[__r0]
+ 07DF 60D4              mov REG[0xd4],A
+ 07E1 3E00              mvi A,[__r1]
+ 07E3 390A              cmp A,10
+ 07E5 A009              jz L122
+ 07E7 561301            mov [X+19],1
+ 07EA 561200            mov [X+18],0
+ 07ED 8007              xjmp L123
+ 07EF           L122:
+ 07EF 561300            mov [X+19],0
+ 07F2 561200            mov [X+18],0
+ 07F5           L123:
+ 07F5 62D000            mov REG[0xd0],>__r0
+ 07F8 520F              mov A,[X+15]
+ 07FA 2311              and A,[X+17]
+ 07FC 5300              mov [__r1],A
+ 07FE 520E              mov A,[X+14]
+ 0800 2310              and A,[X+16]
+ 0802 5300              mov [__r0],A
+ 0804 5213              mov A,[X+19]
+ 0806 2400              and [__r1],A
+ 0808 5212              mov A,[X+18]
+ 080A 2400              and [__r0],A
+ 080C B006              jnz X32
+ 080E 3C0000            cmp [__r1],0
+ 0811 A005              jz L113
+ 0813           X32:
+ 0813                   .dbline 384
+ 0813           ;             {
+ 0813           ;                 error++;
+ 0813                   .dbline 384
+ 0813 7701              inc [X+1]
+ 0815                   .dbline 385
+ 0815           ;                 break;
+ 0815 8026              xjmp L111
+ 0817           L113:
+ 0817                   .dbline 387
+ 0817           ;             }
+ 0817           ;             if (packet[i] != NMEA_END_DELIMITER) break;
  0817 62D000            mov REG[0xd0],>__r0
- 081A 550001            mov [__r1],1
- 081D 550000            mov [__r0],0
- 0820                   .dbline -2
- 0820           L105:
- 0820 38F1              add SP,-15
- 0822 20                pop X
- 0823                   .dbline 0 ; func end
- 0823 7F                ret
- 0824                   .dbsym l calculated_checksum 6 A[3:3]c
- 0824                   .dbsym l packet_checksum 4 pc
- 0824                   .dbsym l n 3 c
- 0824                   .dbsym l checksum 2 c
- 0824                   .dbsym l error 1 c
- 0824                   .dbsym l i 0 c
- 0824                   .dbsym l NMEA_data -7 pc
- 0824                   .dbsym l packet -5 pc
- 0824                   .dbend
- 0824                   .dbfunc e NMEA_GetTimeUTC _NMEA_GetTimeUTC fV
- 0824           ;          field -> X+82
- 0824           ;            buf -> X+0
- 0824           ;   gps_datetime -> X-7
- 0824           ;          gprmc -> X-5
- 0824           _NMEA_GetTimeUTC::
- 0824                   .dbline -1
- 0824 10                push X
- 0825 4F                mov X,SP
- 0826 38A4              add SP,-92
- 0828                   .dbline 394
- 0828           ; }
- 0828           ; 
- 0828           ; void NMEA_GetTimeUTC(char *gprmc, struct datetime *gps_datetime)
- 0828           ; {
- 0828                   .dbline 406
- 0828           ;       #define POS_SIZE        2
- 0828           ;       #define POS_HOUR        0
- 0828           ;       #define POS_MIN         2
- 0828           ;       #define POS_SEC         4       
- 0828           ;       #define POS_DAY         0
- 0828           ;       #define POS_MON         2
- 0828           ;       #define POS_YEAR        4
- 0828           ;       
- 0828           ;       char field[NMEA_MAX_SIZE];
- 0828           ;       char buf[NMEA_MAX_SIZE];
- 0828           ;       
- 0828           ;       NMEA_GetField(gprmc, NMEA_GPRMC_UTC, field);
- 0828 62D000            mov REG[0xd0],>__r0
- 082B 5A00              mov [__r1],X
- 082D 060052            add [__r1],82
- 0830 5003              mov A,3
- 0832 08                push A
- 0833 5100              mov A,[__r1]
- 0835 08                push A
- 0836 5001              mov A,1
- 0838 08                push A
- 0839 52FB              mov A,[X-5]
- 083B 08                push A
- 083C 52FC              mov A,[X-4]
- 083E 08                push A
- 083F 9D7D              xcall _NMEA_GetField
- 0841 38FB              add SP,-5
- 0843                   .dbline 407
- 0843           ;       if (field[0] != 0)
- 0843 3D5200            cmp [X+82],0
- 0846 A0D0              jz L130
- 0848                   .dbline 410
- 0848           ;       {
- 0848           ;               // Hour
- 0848           ;               strncpy(buf, field + POS_HOUR, POS_SIZE);
- 0848                   .dbline 410
- 0848 5000              mov A,0
- 084A 08                push A
- 084B 5002              mov A,2
- 084D 08                push A
- 084E 62D000            mov REG[0xd0],>__r0
- 0851 5A00              mov [__r1],X
- 0853 060052            add [__r1],82
- 0856 5003              mov A,3
- 0858 08                push A
- 0859 5100              mov A,[__r1]
- 085B 08                push A
- 085C 5003              mov A,3
- 085E 08                push A
- 085F 10                push X
- 0860 7C0000            xcall _strncpy
- 0863                   .dbline 411
- 0863           ;               buf[POS_SIZE] = 0;      // Add null terminator
- 0863 560200            mov [X+2],0
- 0866                   .dbline 412
- 0866           ;               gps_datetime->hour = atoi(buf);
- 0866 62D000            mov REG[0xd0],>__r0
- 0869 5003              mov A,3
- 086B 08                push A
- 086C 10                push X
- 086D 7C0000            xcall _atoi
- 0870 38F8              add SP,-8
- 0872 62D000            mov REG[0xd0],>__r0
- 0875 5100              mov A,[__r1]
- 0877 5300              mov [__r0],A
- 0879 52FA              mov A,[X-6]
- 087B 0102              add A,2
- 087D 5300              mov [__r3],A
- 087F 52F9              mov A,[X-7]
- 0881 0900              adc A,0
- 0883 60D5              mov REG[0xd5],A
- 0885 5100              mov A,[__r0]
- 0887 3F00              mvi [__r3],A
- 0889                   .dbline 415
- 0889           ;               
- 0889           ;               // Minutes
- 0889           ;               strncpy(buf, field + POS_MIN, POS_SIZE);
- 0889 5000              mov A,0
- 088B 08                push A
- 088C 5002              mov A,2
- 088E 08                push A
- 088F 5A00              mov [__r1],X
- 0891 060054            add [__r1],84
- 0894 5003              mov A,3
- 0896 08                push A
- 0897 5100              mov A,[__r1]
- 0899 08                push A
- 089A 5003              mov A,3
- 089C 08                push A
- 089D 10                push X
- 089E 7C0000            xcall _strncpy
- 08A1                   .dbline 416
- 08A1           ;               buf[POS_SIZE] = 0;      // Add null terminator
- 08A1 560200            mov [X+2],0
- 08A4                   .dbline 417
- 08A4           ;               gps_datetime->min = atoi(buf);
- 08A4 62D000            mov REG[0xd0],>__r0
- 08A7 5003              mov A,3
- 08A9 08                push A
- 08AA 10                push X
- 08AB 7C0000            xcall _atoi
- 08AE 38F8              add SP,-8
- 08B0 62D000            mov REG[0xd0],>__r0
- 08B3 5100              mov A,[__r1]
- 08B5 5300              mov [__r0],A
- 08B7 52FA              mov A,[X-6]
- 08B9 0101              add A,1
- 08BB 5300              mov [__r3],A
- 08BD 52F9              mov A,[X-7]
- 08BF 0900              adc A,0
- 08C1 60D5              mov REG[0xd5],A
- 08C3 5100              mov A,[__r0]
- 08C5 3F00              mvi [__r3],A
- 08C7                   .dbline 420
- 08C7           ;               
- 08C7           ;               // Seconds
- 08C7           ;               strncpy(buf, field + POS_SEC, POS_SIZE);
- 08C7 5000              mov A,0
- 08C9 08                push A
- 08CA 5002              mov A,2
- 08CC 08                push A
- 08CD 5A00              mov [__r1],X
- 08CF 060056            add [__r1],86
- 08D2 5003              mov A,3
- 08D4 08                push A
- 08D5 5100              mov A,[__r1]
- 08D7 08                push A
- 08D8 5003              mov A,3
- 08DA 08                push A
- 08DB 10                push X
- 08DC 7C0000            xcall _strncpy
- 08DF                   .dbline 421
- 08DF           ;               buf[POS_SIZE] = 0;      // Add null terminator
- 08DF 560200            mov [X+2],0
- 08E2                   .dbline 422
- 08E2           ;               gps_datetime->sec = atoi(buf);
- 08E2 62D000            mov REG[0xd0],>__r0
- 08E5 5003              mov A,3
- 08E7 08                push A
- 08E8 10                push X
- 08E9 7C0000            xcall _atoi
- 08EC 38F8              add SP,-8
- 08EE 62D000            mov REG[0xd0],>__r0
- 08F1 5100              mov A,[__r1]
- 08F3 5300              mov [__r0],A
- 08F5 52FA              mov A,[X-6]
- 08F7 5300              mov [__r3],A
- 08F9 52F9              mov A,[X-7]
- 08FB 60D5              mov REG[0xd5],A
- 08FD 5100              mov A,[__r0]
- 08FF 3F00              mvi [__r3],A
- 0901                   .dbline 424
- 0901           ;               
- 0901           ;               gps_datetime->valid = true;
- 0901 52FA              mov A,[X-6]
- 0903 0106              add A,6
- 0905 5300              mov [__r1],A
- 0907 52F9              mov A,[X-7]
- 0909 0900              adc A,0
- 090B 60D5              mov REG[0xd5],A
- 090D 5000              mov A,0
- 090F 3F00              mvi [__r1],A
- 0911 5001              mov A,1
- 0913 3F00              mvi [__r1],A
- 0915                   .dbline 425
- 0915           ;       }
- 0915 8016              xjmp L131
- 0917           L130:
- 0917                   .dbline 426
- 0917           ;       else gps_datetime->valid = false;
- 0917 62D000            mov REG[0xd0],>__r0
- 091A 52FA              mov A,[X-6]
- 091C 0106              add A,6
- 091E 5300              mov [__r1],A
- 0920 52F9              mov A,[X-7]
- 0922 0900              adc A,0
- 0924 60D5              mov REG[0xd5],A
- 0926 5000              mov A,0
- 0928 3F00              mvi [__r1],A
- 092A 3F00              mvi [__r1],A
- 092C           L131:
- 092C                   .dbline 428
- 092C           ;       
- 092C           ;       NMEA_GetField(gprmc, NMEA_GPRMC_DATE, field);
- 092C 62D000            mov REG[0xd0],>__r0
- 092F 5A00              mov [__r1],X
- 0931 060052            add [__r1],82
- 0934 5003              mov A,3
- 0936 08                push A
- 0937 5100              mov A,[__r1]
- 0939 08                push A
- 093A 5007              mov A,7
+ 081A 5200              mov A,[X+0]
+ 081C 5300              mov [__r1],A
+ 081E 550000            mov [__r0],0
+ 0821 52FC              mov A,[X-4]
+ 0823 0400              add [__r1],A
+ 0825 52FB              mov A,[X-5]
+ 0827 0C00              adc [__r0],A
+ 0829 5100              mov A,[__r0]
+ 082B 60D4              mov REG[0xd4],A
+ 082D 3E00              mvi A,[__r1]
+ 082F 390A              cmp A,10
+ 0831 A003              jz L124
+ 0833                   .dbline 387
+ 0833 8008              xjmp L111
+ 0835           L124:
+ 0835                   .dbline 388
+ 0835           ;         }
+ 0835           L110:
+ 0835                   .dbline 380
+ 0835 7700              inc [X+0]
+ 0837           L112:
+ 0837                   .dbline 380
+ 0837 3D0052            cmp [X+0],82
+ 083A CF3C              jc L109
+ 083C           X33:
+ 083C           L111:
+ 083C                   .dbline 391
+ 083C           ;               
+ 083C           ;         // Copy buffer to NMEA packet if no errors found
+ 083C           ;         if (!error) strncpy(NMEA_data, packet, NMEA_MAX_SIZE); 
+ 083C 3D0100            cmp [X+1],0
+ 083F B01C              jnz L108
+ 0841                   .dbline 391
+ 0841 5000              mov A,0
+ 0843 08                push A
+ 0844 5052              mov A,82
+ 0846 08                push A
+ 0847 52FB              mov A,[X-5]
+ 0849 08                push A
+ 084A 52FC              mov A,[X-4]
+ 084C 08                push A
+ 084D 52F9              mov A,[X-7]
+ 084F 08                push A
+ 0850 52FA              mov A,[X-6]
+ 0852 08                push A
+ 0853 7C0000            xcall _strncpy
+ 0856 38FA              add SP,-6
+ 0858                   .dbline 409
+ 0858           ;               
+ 0858           ;               /*
+ 0858           ;               // Validate checksum and cut packet if no receive errors
+ 0858           ;         if (!error)
+ 0858           ;         {
+ 0858           ;             // Find checksum field
+ 0858           ;             checksum_delimiter = memchr(packet, NMEA_CHECKSUM_DELIMITER, NMEA_MAX_SIZE);
+ 0858           ;             i = (unsigned char)(checksum_delimiter - packet);
+ 0858           ;             
+ 0858           ;             // Calculate checksum and compare
+ 0858           ;             for (n = 0; n < i; n++) checksum ^= packet[n];
+ 0858           ;             sprintf(calculated_checksum, checksum_format, checksum);
+ 0858           ;             
+ 0858           ;             packet[i] = 0; // Cut string to NMEA_CHECKSUM_DELIMITER
+ 0858           ;             if(strncmp(calculated_checksum, checksum_delimiter + 1, sizeof(calculated_checksum) - 1)) error++;
+ 0858           ;         }
+ 0858           ;               */
+ 0858           ;     }
+ 0858 8003              xjmp L108
+ 085A           L107:
+ 085A                   .dbline 410
+ 085A           ;       else error++;
+ 085A 7701              inc [X+1]
+ 085C           L108:
+ 085C                   .dbline 412
+ 085C           ;       
+ 085C           ;       if(error) return false;
+ 085C 3D0100            cmp [X+1],0
+ 085F A00C              jz L128
+ 0861                   .dbline 412
+ 0861 62D000            mov REG[0xd0],>__r0
+ 0864 550000            mov [__r1],0
+ 0867 550000            mov [__r0],0
+ 086A 800A              xjmp L105
+ 086C           L128:
+ 086C                   .dbline 413
+ 086C           ;       else return true;       
+ 086C 62D000            mov REG[0xd0],>__r0
+ 086F 550001            mov [__r1],1
+ 0872 550000            mov [__r0],0
+ 0875                   .dbline -2
+ 0875           L105:
+ 0875 38EC              add SP,-20
+ 0877 20                pop X
+ 0878                   .dbline 0 ; func end
+ 0878 7F                ret
+ 0879                   .dbsym l calculated_checksum 11 A[3:3]c
+ 0879                   .dbsym l checksum_delimiter 9 pc
+ 0879                   .dbsym l n 8 c
+ 0879                   .dbsym l checksum_format 3 A[5:5]c
+ 0879                   .dbsym l checksum 2 c
+ 0879                   .dbsym l error 1 c
+ 0879                   .dbsym l i 0 c
+ 0879                   .dbsym l NMEA_data -7 pc
+ 0879                   .dbsym l packet -5 pc
+ 0879                   .dbend
+ 0879                   .dbfunc e NMEA_GetTimeUTC _NMEA_GetTimeUTC fV
+ 0879           ;          field -> X+82
+ 0879           ;            buf -> X+0
+ 0879           ;   gps_datetime -> X-7
+ 0879           ;          gprmc -> X-5
+ 0879           _NMEA_GetTimeUTC::
+ 0879                   .dbline -1
+ 0879 10                push X
+ 087A 4F                mov X,SP
+ 087B 38A4              add SP,-92
+ 087D                   .dbline 417
+ 087D           ; }
+ 087D           ; 
+ 087D           ; void NMEA_GetTimeUTC(char *gprmc, struct datetime *gps_datetime)
+ 087D           ; {
+ 087D                   .dbline 429
+ 087D           ;       #define POS_SIZE        2
+ 087D           ;       #define POS_HOUR        0
+ 087D           ;       #define POS_MIN         2
+ 087D           ;       #define POS_SEC         4       
+ 087D           ;       #define POS_DAY         0
+ 087D           ;       #define POS_MON         2
+ 087D           ;       #define POS_YEAR        4
+ 087D           ;       
+ 087D           ;       char field[NMEA_MAX_SIZE];
+ 087D           ;       char buf[NMEA_MAX_SIZE];
+ 087D           ;       
+ 087D           ;       NMEA_GetField(gprmc, NMEA_GPRMC_UTC, field);
+ 087D 62D000            mov REG[0xd0],>__r0
+ 0880 5A00              mov [__r1],X
+ 0882 060052            add [__r1],82
+ 0885 5003              mov A,3
+ 0887 08                push A
+ 0888 5100              mov A,[__r1]
+ 088A 08                push A
+ 088B 5001              mov A,1
+ 088D 08                push A
+ 088E 52FB              mov A,[X-5]
+ 0890 08                push A
+ 0891 52FC              mov A,[X-4]
+ 0893 08                push A
+ 0894 9D51              xcall _NMEA_GetField
+ 0896 38FB              add SP,-5
+ 0898                   .dbline 430
+ 0898           ;       if (field[0] != 0)
+ 0898 3D5200            cmp [X+82],0
+ 089B A0D0              jz L131
+ 089D                   .dbline 433
+ 089D           ;       {
+ 089D           ;               // Hour
+ 089D           ;               strncpy(buf, field + POS_HOUR, POS_SIZE);
+ 089D                   .dbline 433
+ 089D 5000              mov A,0
+ 089F 08                push A
+ 08A0 5002              mov A,2
+ 08A2 08                push A
+ 08A3 62D000            mov REG[0xd0],>__r0
+ 08A6 5A00              mov [__r1],X
+ 08A8 060052            add [__r1],82
+ 08AB 5003              mov A,3
+ 08AD 08                push A
+ 08AE 5100              mov A,[__r1]
+ 08B0 08                push A
+ 08B1 5003              mov A,3
+ 08B3 08                push A
+ 08B4 10                push X
+ 08B5 7C0000            xcall _strncpy
+ 08B8                   .dbline 434
+ 08B8           ;               buf[POS_SIZE] = 0;      // Add null terminator
+ 08B8 560200            mov [X+2],0
+ 08BB                   .dbline 435
+ 08BB           ;               gps_datetime->hour = atoi(buf);
+ 08BB 62D000            mov REG[0xd0],>__r0
+ 08BE 5003              mov A,3
+ 08C0 08                push A
+ 08C1 10                push X
+ 08C2 7C0000            xcall _atoi
+ 08C5 38F8              add SP,-8
+ 08C7 62D000            mov REG[0xd0],>__r0
+ 08CA 5100              mov A,[__r1]
+ 08CC 5300              mov [__r0],A
+ 08CE 52FA              mov A,[X-6]
+ 08D0 0102              add A,2
+ 08D2 5300              mov [__r3],A
+ 08D4 52F9              mov A,[X-7]
+ 08D6 0900              adc A,0
+ 08D8 60D5              mov REG[0xd5],A
+ 08DA 5100              mov A,[__r0]
+ 08DC 3F00              mvi [__r3],A
+ 08DE                   .dbline 438
+ 08DE           ;               
+ 08DE           ;               // Minutes
+ 08DE           ;               strncpy(buf, field + POS_MIN, POS_SIZE);
+ 08DE 5000              mov A,0
+ 08E0 08                push A
+ 08E1 5002              mov A,2
+ 08E3 08                push A
+ 08E4 5A00              mov [__r1],X
+ 08E6 060054            add [__r1],84
+ 08E9 5003              mov A,3
+ 08EB 08                push A
+ 08EC 5100              mov A,[__r1]
+ 08EE 08                push A
+ 08EF 5003              mov A,3
+ 08F1 08                push A
+ 08F2 10                push X
+ 08F3 7C0000            xcall _strncpy
+ 08F6                   .dbline 439
+ 08F6           ;               buf[POS_SIZE] = 0;      // Add null terminator
+ 08F6 560200            mov [X+2],0
+ 08F9                   .dbline 440
+ 08F9           ;               gps_datetime->min = atoi(buf);
+ 08F9 62D000            mov REG[0xd0],>__r0
+ 08FC 5003              mov A,3
+ 08FE 08                push A
+ 08FF 10                push X
+ 0900 7C0000            xcall _atoi
+ 0903 38F8              add SP,-8
+ 0905 62D000            mov REG[0xd0],>__r0
+ 0908 5100              mov A,[__r1]
+ 090A 5300              mov [__r0],A
+ 090C 52FA              mov A,[X-6]
+ 090E 0101              add A,1
+ 0910 5300              mov [__r3],A
+ 0912 52F9              mov A,[X-7]
+ 0914 0900              adc A,0
+ 0916 60D5              mov REG[0xd5],A
+ 0918 5100              mov A,[__r0]
+ 091A 3F00              mvi [__r3],A
+ 091C                   .dbline 443
+ 091C           ;               
+ 091C           ;               // Seconds
+ 091C           ;               strncpy(buf, field + POS_SEC, POS_SIZE);
+ 091C 5000              mov A,0
+ 091E 08                push A
+ 091F 5002              mov A,2
+ 0921 08                push A
+ 0922 5A00              mov [__r1],X
+ 0924 060056            add [__r1],86
+ 0927 5003              mov A,3
+ 0929 08                push A
+ 092A 5100              mov A,[__r1]
+ 092C 08                push A
+ 092D 5003              mov A,3
+ 092F 08                push A
+ 0930 10                push X
+ 0931 7C0000            xcall _strncpy
+ 0934                   .dbline 444
+ 0934           ;               buf[POS_SIZE] = 0;      // Add null terminator
+ 0934 560200            mov [X+2],0
+ 0937                   .dbline 445
+ 0937           ;               gps_datetime->sec = atoi(buf);
+ 0937 62D000            mov REG[0xd0],>__r0
+ 093A 5003              mov A,3
  093C 08                push A
- 093D 52FB              mov A,[X-5]
- 093F 08                push A
- 0940 52FC              mov A,[X-4]
- 0942 08                push A
- 0943 9C79              xcall _NMEA_GetField
- 0945 38FB              add SP,-5
- 0947                   .dbline 429
- 0947           ;       if (field[0] != 0)
- 0947 3D5200            cmp [X+82],0
- 094A A0D4              jz L137
- 094C                   .dbline 432
- 094C           ;       {
- 094C           ;               // Day
- 094C           ;               strncpy(buf, field + POS_DAY, POS_SIZE);
- 094C                   .dbline 432
- 094C 5000              mov A,0
- 094E 08                push A
- 094F 5002              mov A,2
- 0951 08                push A
- 0952 62D000            mov REG[0xd0],>__r0
- 0955 5A00              mov [__r1],X
- 0957 060052            add [__r1],82
- 095A 5003              mov A,3
- 095C 08                push A
- 095D 5100              mov A,[__r1]
- 095F 08                push A
- 0960 5003              mov A,3
- 0962 08                push A
- 0963 10                push X
- 0964 7C0000            xcall _strncpy
- 0967                   .dbline 433
- 0967           ;               buf[POS_SIZE] = 0;      // Add null terminator
- 0967 560200            mov [X+2],0
- 096A                   .dbline 434
- 096A           ;               gps_datetime->day = atoi(buf);
- 096A 62D000            mov REG[0xd0],>__r0
- 096D 5003              mov A,3
- 096F 08                push A
- 0970 10                push X
- 0971 7C0000            xcall _atoi
- 0974 38F8              add SP,-8
- 0976 62D000            mov REG[0xd0],>__r0
- 0979 5100              mov A,[__r1]
- 097B 5300              mov [__r0],A
- 097D 52FA              mov A,[X-6]
- 097F 0103              add A,3
- 0981 5300              mov [__r3],A
- 0983 52F9              mov A,[X-7]
- 0985 0900              adc A,0
- 0987 60D5              mov REG[0xd5],A
- 0989 5100              mov A,[__r0]
- 098B 3F00              mvi [__r3],A
- 098D                   .dbline 437
- 098D           ;               
- 098D           ;               // Month
- 098D           ;               strncpy(buf, field + POS_MON, POS_SIZE);
- 098D 5000              mov A,0
- 098F 08                push A
- 0990 5002              mov A,2
- 0992 08                push A
- 0993 5A00              mov [__r1],X
- 0995 060054            add [__r1],84
- 0998 5003              mov A,3
- 099A 08                push A
- 099B 5100              mov A,[__r1]
- 099D 08                push A
- 099E 5003              mov A,3
- 09A0 08                push A
- 09A1 10                push X
- 09A2 7C0000            xcall _strncpy
- 09A5                   .dbline 438
- 09A5           ;               buf[POS_SIZE] = 0;      // Add null terminator
- 09A5 560200            mov [X+2],0
- 09A8                   .dbline 439
- 09A8           ;               gps_datetime->month = atoi(buf);
- 09A8 62D000            mov REG[0xd0],>__r0
- 09AB 5003              mov A,3
- 09AD 08                push A
- 09AE 10                push X
- 09AF 7C0000            xcall _atoi
- 09B2 38F8              add SP,-8
- 09B4 62D000            mov REG[0xd0],>__r0
- 09B7 5100              mov A,[__r1]
- 09B9 5300              mov [__r0],A
- 09BB 52FA              mov A,[X-6]
- 09BD 0104              add A,4
- 09BF 5300              mov [__r3],A
- 09C1 52F9              mov A,[X-7]
- 09C3 0900              adc A,0
- 09C5 60D5              mov REG[0xd5],A
- 09C7 5100              mov A,[__r0]
- 09C9 3F00              mvi [__r3],A
- 09CB                   .dbline 442
- 09CB           ;               
- 09CB           ;               // Year
- 09CB           ;               strncpy(buf, field + POS_YEAR, POS_SIZE);
- 09CB 5000              mov A,0
- 09CD 08                push A
- 09CE 5002              mov A,2
- 09D0 08                push A
- 09D1 5A00              mov [__r1],X
- 09D3 060056            add [__r1],86
- 09D6 5003              mov A,3
- 09D8 08                push A
- 09D9 5100              mov A,[__r1]
- 09DB 08                push A
- 09DC 5003              mov A,3
- 09DE 08                push A
- 09DF 10                push X
- 09E0 7C0000            xcall _strncpy
- 09E3                   .dbline 443
- 09E3           ;               buf[POS_SIZE] = 0;      // Add null terminator
- 09E3 560200            mov [X+2],0
- 09E6                   .dbline 444
- 09E6           ;               gps_datetime->year = atoi(buf);
- 09E6 62D000            mov REG[0xd0],>__r0
- 09E9 5003              mov A,3
- 09EB 08                push A
- 09EC 10                push X
- 09ED 7C0000            xcall _atoi
- 09F0 38F8              add SP,-8
- 09F2 62D000            mov REG[0xd0],>__r0
- 09F5 5100              mov A,[__r1]
- 09F7 5300              mov [__r0],A
- 09F9 52FA              mov A,[X-6]
- 09FB 0105              add A,5
- 09FD 5300              mov [__r3],A
- 09FF 52F9              mov A,[X-7]
- 0A01 0900              adc A,0
- 0A03 60D5              mov REG[0xd5],A
- 0A05 5100              mov A,[__r0]
- 0A07 3F00              mvi [__r3],A
- 0A09                   .dbline 446
- 0A09           ;               
- 0A09           ;               gps_datetime->valid = true;
- 0A09 52FA              mov A,[X-6]
- 0A0B 0106              add A,6
- 0A0D 5300              mov [__r1],A
- 0A0F 52F9              mov A,[X-7]
- 0A11 0900              adc A,0
- 0A13 60D5              mov REG[0xd5],A
- 0A15 5000              mov A,0
- 0A17 3F00              mvi [__r1],A
- 0A19 5001              mov A,1
- 0A1B 3F00              mvi [__r1],A
- 0A1D                   .dbline 447
- 0A1D           ;       }
- 0A1D 8016              xjmp L138
- 0A1F           L137:
- 0A1F                   .dbline 448
- 0A1F           ;       else gps_datetime->valid = false;
- 0A1F 62D000            mov REG[0xd0],>__r0
- 0A22 52FA              mov A,[X-6]
- 0A24 0106              add A,6
- 0A26 5300              mov [__r1],A
- 0A28 52F9              mov A,[X-7]
- 0A2A 0900              adc A,0
- 0A2C 60D5              mov REG[0xd5],A
- 0A2E 5000              mov A,0
- 0A30 3F00              mvi [__r1],A
- 0A32 3F00              mvi [__r1],A
- 0A34           L138:
- 0A34                   .dbline -2
- 0A34           L129:
- 0A34 385C              add SP,-164
- 0A36 20                pop X
- 0A37                   .dbline 0 ; func end
- 0A37 7F                ret
- 0A38                   .dbsym l field 82 A[82:82]c
- 0A38                   .dbsym l buf 0 A[82:82]c
- 0A38                   .dbsym l gps_datetime -7 pS[datetime]
- 0A38                   .dbsym l gprmc -5 pc
- 0A38                   .dbend
- 0A38                   .dbfunc e str_cmp _str_cmp fc
- 0A38           ;              i -> X+0
- 0A38           ;           stop -> X-8
- 0A38           ;           str2 -> X-7
- 0A38           ;           str1 -> X-5
- 0A38           _str_cmp::
- 0A38                   .dbline -1
- 0A38 10                push X
- 0A39 4F                mov X,SP
- 0A3A 3801              add SP,1
- 0A3C                   .dbline 452
- 0A3C           ; }
- 0A3C           ; 
- 0A3C           ; unsigned char str_cmp(char *str1, char *str2, unsigned char stop)
- 0A3C           ; {
- 0A3C                   .dbline 454
- 0A3C           ;     unsigned char i;
- 0A3C           ;     for(i = 0u; i <= stop; i++)
- 0A3C 560000            mov [X+0],0
- 0A3F 803A              xjmp L148
- 0A41           L145:
- 0A41                   .dbline 455
- 0A41           ;     {
- 0A41                   .dbline 456
- 0A41           ;         if (str1[i] != str2[i]) return 1u;
- 0A41 62D000            mov REG[0xd0],>__r0
- 0A44 5200              mov A,[X+0]
- 0A46 5300              mov [__r1],A
- 0A48 550000            mov [__r0],0
- 0A4B 52FA              mov A,[X-6]
- 0A4D 0400              add [__r1],A
- 0A4F 52F9              mov A,[X-7]
- 0A51 0C00              adc [__r0],A
- 0A53 5100              mov A,[__r0]
- 0A55 60D4              mov REG[0xd4],A
- 0A57 3E00              mvi A,[__r1]
- 0A59 5300              mov [__r0],A
- 0A5B 5200              mov A,[X+0]
- 0A5D 5300              mov [__r3],A
- 0A5F 550000            mov [__r2],0
- 0A62 52FC              mov A,[X-4]
- 0A64 0400              add [__r3],A
- 0A66 52FB              mov A,[X-5]
- 0A68 0C00              adc [__r2],A
- 0A6A 5100              mov A,[__r2]
- 0A6C 60D4              mov REG[0xd4],A
- 0A6E 3E00              mvi A,[__r3]
- 0A70 3A00              cmp A,[__r0]
- 0A72 A005              jz L149
- 0A74                   .dbline 456
- 0A74 5001              mov A,1
- 0A76 800E              xjmp L144
- 0A78           L149:
- 0A78                   .dbline 457
- 0A78           ;     }
- 0A78           L146:
- 0A78                   .dbline 454
- 0A78 7700              inc [X+0]
- 0A7A           L148:
- 0A7A                   .dbline 454
- 0A7A 52F8              mov A,[X-8]
- 0A7C 3B00              cmp A,[X+0]
- 0A7E DFC2              jnc L145
- 0A80           X33:
- 0A80                   .dbline 458
- 0A80           ;     return 0u;
- 0A80 62D000            mov REG[0xd0],>__r0
+ 093D 10                push X
+ 093E 7C0000            xcall _atoi
+ 0941 38F8              add SP,-8
+ 0943 62D000            mov REG[0xd0],>__r0
+ 0946 5100              mov A,[__r1]
+ 0948 5300              mov [__r0],A
+ 094A 52FA              mov A,[X-6]
+ 094C 5300              mov [__r3],A
+ 094E 52F9              mov A,[X-7]
+ 0950 60D5              mov REG[0xd5],A
+ 0952 5100              mov A,[__r0]
+ 0954 3F00              mvi [__r3],A
+ 0956                   .dbline 447
+ 0956           ;               
+ 0956           ;               gps_datetime->valid = true;
+ 0956 52FA              mov A,[X-6]
+ 0958 0106              add A,6
+ 095A 5300              mov [__r1],A
+ 095C 52F9              mov A,[X-7]
+ 095E 0900              adc A,0
+ 0960 60D5              mov REG[0xd5],A
+ 0962 5000              mov A,0
+ 0964 3F00              mvi [__r1],A
+ 0966 5001              mov A,1
+ 0968 3F00              mvi [__r1],A
+ 096A                   .dbline 448
+ 096A           ;       }
+ 096A 8016              xjmp L132
+ 096C           L131:
+ 096C                   .dbline 449
+ 096C           ;       else gps_datetime->valid = false;
+ 096C 62D000            mov REG[0xd0],>__r0
+ 096F 52FA              mov A,[X-6]
+ 0971 0106              add A,6
+ 0973 5300              mov [__r1],A
+ 0975 52F9              mov A,[X-7]
+ 0977 0900              adc A,0
+ 0979 60D5              mov REG[0xd5],A
+ 097B 5000              mov A,0
+ 097D 3F00              mvi [__r1],A
+ 097F 3F00              mvi [__r1],A
+ 0981           L132:
+ 0981                   .dbline 451
+ 0981           ;       
+ 0981           ;       NMEA_GetField(gprmc, NMEA_GPRMC_DATE, field);
+ 0981 62D000            mov REG[0xd0],>__r0
+ 0984 5A00              mov [__r1],X
+ 0986 060052            add [__r1],82
+ 0989 5003              mov A,3
+ 098B 08                push A
+ 098C 5100              mov A,[__r1]
+ 098E 08                push A
+ 098F 5007              mov A,7
+ 0991 08                push A
+ 0992 52FB              mov A,[X-5]
+ 0994 08                push A
+ 0995 52FC              mov A,[X-4]
+ 0997 08                push A
+ 0998 9C4D              xcall _NMEA_GetField
+ 099A 38FB              add SP,-5
+ 099C                   .dbline 452
+ 099C           ;       if (field[0] != 0)
+ 099C 3D5200            cmp [X+82],0
+ 099F A0D4              jz L138
+ 09A1                   .dbline 455
+ 09A1           ;       {
+ 09A1           ;               // Day
+ 09A1           ;               strncpy(buf, field + POS_DAY, POS_SIZE);
+ 09A1                   .dbline 455
+ 09A1 5000              mov A,0
+ 09A3 08                push A
+ 09A4 5002              mov A,2
+ 09A6 08                push A
+ 09A7 62D000            mov REG[0xd0],>__r0
+ 09AA 5A00              mov [__r1],X
+ 09AC 060052            add [__r1],82
+ 09AF 5003              mov A,3
+ 09B1 08                push A
+ 09B2 5100              mov A,[__r1]
+ 09B4 08                push A
+ 09B5 5003              mov A,3
+ 09B7 08                push A
+ 09B8 10                push X
+ 09B9 7C0000            xcall _strncpy
+ 09BC                   .dbline 456
+ 09BC           ;               buf[POS_SIZE] = 0;      // Add null terminator
+ 09BC 560200            mov [X+2],0
+ 09BF                   .dbline 457
+ 09BF           ;               gps_datetime->day = atoi(buf);
+ 09BF 62D000            mov REG[0xd0],>__r0
+ 09C2 5003              mov A,3
+ 09C4 08                push A
+ 09C5 10                push X
+ 09C6 7C0000            xcall _atoi
+ 09C9 38F8              add SP,-8
+ 09CB 62D000            mov REG[0xd0],>__r0
+ 09CE 5100              mov A,[__r1]
+ 09D0 5300              mov [__r0],A
+ 09D2 52FA              mov A,[X-6]
+ 09D4 0103              add A,3
+ 09D6 5300              mov [__r3],A
+ 09D8 52F9              mov A,[X-7]
+ 09DA 0900              adc A,0
+ 09DC 60D5              mov REG[0xd5],A
+ 09DE 5100              mov A,[__r0]
+ 09E0 3F00              mvi [__r3],A
+ 09E2                   .dbline 460
+ 09E2           ;               
+ 09E2           ;               // Month
+ 09E2           ;               strncpy(buf, field + POS_MON, POS_SIZE);
+ 09E2 5000              mov A,0
+ 09E4 08                push A
+ 09E5 5002              mov A,2
+ 09E7 08                push A
+ 09E8 5A00              mov [__r1],X
+ 09EA 060054            add [__r1],84
+ 09ED 5003              mov A,3
+ 09EF 08                push A
+ 09F0 5100              mov A,[__r1]
+ 09F2 08                push A
+ 09F3 5003              mov A,3
+ 09F5 08                push A
+ 09F6 10                push X
+ 09F7 7C0000            xcall _strncpy
+ 09FA                   .dbline 461
+ 09FA           ;               buf[POS_SIZE] = 0;      // Add null terminator
+ 09FA 560200            mov [X+2],0
+ 09FD                   .dbline 462
+ 09FD           ;               gps_datetime->month = atoi(buf);
+ 09FD 62D000            mov REG[0xd0],>__r0
+ 0A00 5003              mov A,3
+ 0A02 08                push A
+ 0A03 10                push X
+ 0A04 7C0000            xcall _atoi
+ 0A07 38F8              add SP,-8
+ 0A09 62D000            mov REG[0xd0],>__r0
+ 0A0C 5100              mov A,[__r1]
+ 0A0E 5300              mov [__r0],A
+ 0A10 52FA              mov A,[X-6]
+ 0A12 0104              add A,4
+ 0A14 5300              mov [__r3],A
+ 0A16 52F9              mov A,[X-7]
+ 0A18 0900              adc A,0
+ 0A1A 60D5              mov REG[0xd5],A
+ 0A1C 5100              mov A,[__r0]
+ 0A1E 3F00              mvi [__r3],A
+ 0A20                   .dbline 465
+ 0A20           ;               
+ 0A20           ;               // Year
+ 0A20           ;               strncpy(buf, field + POS_YEAR, POS_SIZE);
+ 0A20 5000              mov A,0
+ 0A22 08                push A
+ 0A23 5002              mov A,2
+ 0A25 08                push A
+ 0A26 5A00              mov [__r1],X
+ 0A28 060056            add [__r1],86
+ 0A2B 5003              mov A,3
+ 0A2D 08                push A
+ 0A2E 5100              mov A,[__r1]
+ 0A30 08                push A
+ 0A31 5003              mov A,3
+ 0A33 08                push A
+ 0A34 10                push X
+ 0A35 7C0000            xcall _strncpy
+ 0A38                   .dbline 466
+ 0A38           ;               buf[POS_SIZE] = 0;      // Add null terminator
+ 0A38 560200            mov [X+2],0
+ 0A3B                   .dbline 467
+ 0A3B           ;               gps_datetime->year = atoi(buf);
+ 0A3B 62D000            mov REG[0xd0],>__r0
+ 0A3E 5003              mov A,3
+ 0A40 08                push A
+ 0A41 10                push X
+ 0A42 7C0000            xcall _atoi
+ 0A45 38F8              add SP,-8
+ 0A47 62D000            mov REG[0xd0],>__r0
+ 0A4A 5100              mov A,[__r1]
+ 0A4C 5300              mov [__r0],A
+ 0A4E 52FA              mov A,[X-6]
+ 0A50 0105              add A,5
+ 0A52 5300              mov [__r3],A
+ 0A54 52F9              mov A,[X-7]
+ 0A56 0900              adc A,0
+ 0A58 60D5              mov REG[0xd5],A
+ 0A5A 5100              mov A,[__r0]
+ 0A5C 3F00              mvi [__r3],A
+ 0A5E                   .dbline 469
+ 0A5E           ;               
+ 0A5E           ;               gps_datetime->valid = true;
+ 0A5E 52FA              mov A,[X-6]
+ 0A60 0106              add A,6
+ 0A62 5300              mov [__r1],A
+ 0A64 52F9              mov A,[X-7]
+ 0A66 0900              adc A,0
+ 0A68 60D5              mov REG[0xd5],A
+ 0A6A 5000              mov A,0
+ 0A6C 3F00              mvi [__r1],A
+ 0A6E 5001              mov A,1
+ 0A70 3F00              mvi [__r1],A
+ 0A72                   .dbline 470
+ 0A72           ;       }
+ 0A72 8016              xjmp L139
+ 0A74           L138:
+ 0A74                   .dbline 471
+ 0A74           ;       else gps_datetime->valid = false;
+ 0A74 62D000            mov REG[0xd0],>__r0
+ 0A77 52FA              mov A,[X-6]
+ 0A79 0106              add A,6
+ 0A7B 5300              mov [__r1],A
+ 0A7D 52F9              mov A,[X-7]
+ 0A7F 0900              adc A,0
+ 0A81 60D5              mov REG[0xd5],A
  0A83 5000              mov A,0
- 0A85                   .dbline -2
- 0A85           L144:
- 0A85 38FF              add SP,-1
- 0A87 20                pop X
- 0A88                   .dbline 0 ; func end
- 0A88 7F                ret
- 0A89                   .dbsym l i 0 c
- 0A89                   .dbsym l stop -8 c
- 0A89                   .dbsym l str2 -7 pc
- 0A89                   .dbsym l str1 -5 pc
- 0A89                   .dbend
- 0A89                   .dbfunc e str_cmp_const _str_cmp_const fc
- 0A89           ;              i -> X+0
- 0A89           ;           stop -> X-8
- 0A89           ;           str2 -> X-7
- 0A89           ;           str1 -> X-5
- 0A89           _str_cmp_const::
- 0A89                   .dbline -1
- 0A89 10                push X
- 0A8A 4F                mov X,SP
- 0A8B 3801              add SP,1
- 0A8D                   .dbline 462
- 0A8D           ; }
- 0A8D           ; 
- 0A8D           ; unsigned char str_cmp_const(char *str1, const char *str2, unsigned char stop)
- 0A8D           ; {
- 0A8D                   .dbline 464
- 0A8D           ;     unsigned char i;
- 0A8D           ;     for(i = 0u; i <= stop; i++)
- 0A8D 560000            mov [X+0],0
- 0A90 803B              xjmp L155
- 0A92           L152:
- 0A92                   .dbline 465
- 0A92           ;     {
- 0A92                   .dbline 466
- 0A92           ;         if (str1[i] != str2[i]) return 1u;
- 0A92 62D000            mov REG[0xd0],>__r0
- 0A95 5200              mov A,[X+0]
- 0A97 5300              mov [__r1],A
- 0A99 550000            mov [__r0],0
- 0A9C 52FA              mov A,[X-6]
- 0A9E 0400              add [__r1],A
- 0AA0 52F9              mov A,[X-7]
- 0AA2 0C00              adc [__r0],A
- 0AA4 5100              mov A,[__r0]
- 0AA6 10                push X
- 0AA7 5800              mov X,[__r1]
- 0AA9 28                romx
- 0AAA 20                pop X
- 0AAB 5300              mov [__r0],A
- 0AAD 5200              mov A,[X+0]
- 0AAF 5300              mov [__r3],A
- 0AB1 550000            mov [__r2],0
- 0AB4 52FC              mov A,[X-4]
- 0AB6 0400              add [__r3],A
- 0AB8 52FB              mov A,[X-5]
- 0ABA 0C00              adc [__r2],A
- 0ABC 5100              mov A,[__r2]
- 0ABE 60D4              mov REG[0xd4],A
- 0AC0 3E00              mvi A,[__r3]
- 0AC2 3A00              cmp A,[__r0]
- 0AC4 A005              jz L156
- 0AC6                   .dbline 466
- 0AC6 5001              mov A,1
- 0AC8 800E              xjmp L151
- 0ACA           L156:
- 0ACA                   .dbline 467
- 0ACA           ;     }
- 0ACA           L153:
- 0ACA                   .dbline 464
- 0ACA 7700              inc [X+0]
- 0ACC           L155:
- 0ACC                   .dbline 464
- 0ACC 52F8              mov A,[X-8]
- 0ACE 3B00              cmp A,[X+0]
- 0AD0 DFC1              jnc L152
- 0AD2           X34:
- 0AD2                   .dbline 468
- 0AD2           ;     return 0u;
- 0AD2 62D000            mov REG[0xd0],>__r0
- 0AD5 5000              mov A,0
- 0AD7                   .dbline -2
- 0AD7           L151:
- 0AD7 38FF              add SP,-1
- 0AD9 20                pop X
- 0ADA                   .dbline 0 ; func end
- 0ADA 7F                ret
- 0ADB                   .dbsym l i 0 c
- 0ADB                   .dbsym l stop -8 c
- 0ADB                   .dbsym l str2 -7 pkc
- 0ADB                   .dbsym l str1 -5 pc
- 0ADB                   .dbend
- 0ADB                   .dbfunc e byte_to_bcd _byte_to_bcd fc
- 0ADB           ;            reg -> X+2
- 0ADB           ;            low -> X+1
- 0ADB           ;           high -> X+0
- 0ADB           ;           byte -> X-4
- 0ADB           _byte_to_bcd::
- 0ADB                   .dbline -1
- 0ADB 10                push X
- 0ADC 4F                mov X,SP
- 0ADD 3803              add SP,3
- 0ADF                   .dbline 472
- 0ADF           ; }
- 0ADF           ; 
- 0ADF           ; unsigned char byte_to_bcd(unsigned char byte)
- 0ADF           ; {
- 0ADF                   .dbline 475
- 0ADF           ;     unsigned char high, low, reg;
- 0ADF           ;     
- 0ADF           ;     high = byte / DECIMAL_COUNT_SYSTEM_BASIS;
- 0ADF 500A              mov A,10
- 0AE1 08                push A
- 0AE2 52FC              mov A,[X-4]
- 0AE4 08                push A
- 0AE5 62D000            mov REG[0xd0],>__r0
- 0AE8 7C0000            xcall __divmodu_8X8_8
- 0AEB 18                pop A
- 0AEC 5400              mov [X+0],A
- 0AEE 38FF              add SP,-1
- 0AF0                   .dbline 476
- 0AF0           ;     low = byte - high * DECIMAL_COUNT_SYSTEM_BASIS;
- 0AF0 5200              mov A,[X+0]
- 0AF2 60E8              mov REG[0xe8],A
- 0AF4 62E90A            mov REG[0xe9],10
- 0AF7 40                nop
- 0AF8 5DEB              mov A,REG[0xeb]
- 0AFA 5300              mov [__r0],A
- 0AFC 52FC              mov A,[X-4]
- 0AFE 1200              sub A,[__r0]
- 0B00 5401              mov [X+1],A
- 0B02                   .dbline 477
- 0B02           ;     reg = (high << DECIMAL_NUMBER_SIZE) + low;
+ 0A85 3F00              mvi [__r1],A
+ 0A87 3F00              mvi [__r1],A
+ 0A89           L139:
+ 0A89                   .dbline -2
+ 0A89           L130:
+ 0A89 385C              add SP,-164
+ 0A8B 20                pop X
+ 0A8C                   .dbline 0 ; func end
+ 0A8C 7F                ret
+ 0A8D                   .dbsym l field 82 A[82:82]c
+ 0A8D                   .dbsym l buf 0 A[82:82]c
+ 0A8D                   .dbsym l gps_datetime -7 pS[datetime]
+ 0A8D                   .dbsym l gprmc -5 pc
+ 0A8D                   .dbend
+ 0A8D                   .dbfunc e str_cmp _str_cmp fc
+ 0A8D           ;              i -> X+0
+ 0A8D           ;           stop -> X-8
+ 0A8D           ;           str2 -> X-7
+ 0A8D           ;           str1 -> X-5
+ 0A8D           _str_cmp::
+ 0A8D                   .dbline -1
+ 0A8D 10                push X
+ 0A8E 4F                mov X,SP
+ 0A8F 3801              add SP,1
+ 0A91                   .dbline 475
+ 0A91           ; }
+ 0A91           ; 
+ 0A91           ; unsigned char str_cmp(char *str1, char *str2, unsigned char stop)
+ 0A91           ; {
+ 0A91                   .dbline 477
+ 0A91           ;     unsigned char i;
+ 0A91           ;     for(i = 0u; i <= stop; i++)
+ 0A91 560000            mov [X+0],0
+ 0A94 803A              xjmp L149
+ 0A96           L146:
+ 0A96                   .dbline 478
+ 0A96           ;     {
+ 0A96                   .dbline 479
+ 0A96           ;         if (str1[i] != str2[i]) return 1u;
+ 0A96 62D000            mov REG[0xd0],>__r0
+ 0A99 5200              mov A,[X+0]
+ 0A9B 5300              mov [__r1],A
+ 0A9D 550000            mov [__r0],0
+ 0AA0 52FA              mov A,[X-6]
+ 0AA2 0400              add [__r1],A
+ 0AA4 52F9              mov A,[X-7]
+ 0AA6 0C00              adc [__r0],A
+ 0AA8 5100              mov A,[__r0]
+ 0AAA 60D4              mov REG[0xd4],A
+ 0AAC 3E00              mvi A,[__r1]
+ 0AAE 5300              mov [__r0],A
+ 0AB0 5200              mov A,[X+0]
+ 0AB2 5300              mov [__r3],A
+ 0AB4 550000            mov [__r2],0
+ 0AB7 52FC              mov A,[X-4]
+ 0AB9 0400              add [__r3],A
+ 0ABB 52FB              mov A,[X-5]
+ 0ABD 0C00              adc [__r2],A
+ 0ABF 5100              mov A,[__r2]
+ 0AC1 60D4              mov REG[0xd4],A
+ 0AC3 3E00              mvi A,[__r3]
+ 0AC5 3A00              cmp A,[__r0]
+ 0AC7 A005              jz L150
+ 0AC9                   .dbline 479
+ 0AC9 5001              mov A,1
+ 0ACB 800E              xjmp L145
+ 0ACD           L150:
+ 0ACD                   .dbline 480
+ 0ACD           ;     }
+ 0ACD           L147:
+ 0ACD                   .dbline 477
+ 0ACD 7700              inc [X+0]
+ 0ACF           L149:
+ 0ACF                   .dbline 477
+ 0ACF 52F8              mov A,[X-8]
+ 0AD1 3B00              cmp A,[X+0]
+ 0AD3 DFC2              jnc L146
+ 0AD5           X34:
+ 0AD5                   .dbline 481
+ 0AD5           ;     return 0u;
+ 0AD5 62D000            mov REG[0xd0],>__r0
+ 0AD8 5000              mov A,0
+ 0ADA                   .dbline -2
+ 0ADA           L145:
+ 0ADA 38FF              add SP,-1
+ 0ADC 20                pop X
+ 0ADD                   .dbline 0 ; func end
+ 0ADD 7F                ret
+ 0ADE                   .dbsym l i 0 c
+ 0ADE                   .dbsym l stop -8 c
+ 0ADE                   .dbsym l str2 -7 pc
+ 0ADE                   .dbsym l str1 -5 pc
+ 0ADE                   .dbend
+ 0ADE                   .dbfunc e str_cmp_const _str_cmp_const fc
+ 0ADE           ;              i -> X+0
+ 0ADE           ;           stop -> X-8
+ 0ADE           ;           str2 -> X-7
+ 0ADE           ;           str1 -> X-5
+ 0ADE           _str_cmp_const::
+ 0ADE                   .dbline -1
+ 0ADE 10                push X
+ 0ADF 4F                mov X,SP
+ 0AE0 3801              add SP,1
+ 0AE2                   .dbline 485
+ 0AE2           ; }
+ 0AE2           ; 
+ 0AE2           ; unsigned char str_cmp_const(char *str1, const char *str2, unsigned char stop)
+ 0AE2           ; {
+ 0AE2                   .dbline 487
+ 0AE2           ;     unsigned char i;
+ 0AE2           ;     for(i = 0u; i <= stop; i++)
+ 0AE2 560000            mov [X+0],0
+ 0AE5 803B              xjmp L156
+ 0AE7           L153:
+ 0AE7                   .dbline 488
+ 0AE7           ;     {
+ 0AE7                   .dbline 489
+ 0AE7           ;         if (str1[i] != str2[i]) return 1u;
+ 0AE7 62D000            mov REG[0xd0],>__r0
+ 0AEA 5200              mov A,[X+0]
+ 0AEC 5300              mov [__r1],A
+ 0AEE 550000            mov [__r0],0
+ 0AF1 52FA              mov A,[X-6]
+ 0AF3 0400              add [__r1],A
+ 0AF5 52F9              mov A,[X-7]
+ 0AF7 0C00              adc [__r0],A
+ 0AF9 5100              mov A,[__r0]
+ 0AFB 10                push X
+ 0AFC 5800              mov X,[__r1]
+ 0AFE 28                romx
+ 0AFF 20                pop X
+ 0B00 5300              mov [__r0],A
  0B02 5200              mov A,[X+0]
- 0B04 64                asl A
- 0B05 64                asl A
- 0B06 64                asl A
- 0B07 64                asl A
- 0B08 0301              add A,[X+1]
- 0B0A 5402              mov [X+2],A
- 0B0C                   .dbline 479
- 0B0C           ;     
- 0B0C           ;     return reg;
- 0B0C 5202              mov A,[X+2]
- 0B0E                   .dbline -2
- 0B0E           L158:
- 0B0E 38FD              add SP,-3
- 0B10 20                pop X
- 0B11                   .dbline 0 ; func end
- 0B11 7F                ret
- 0B12                   .dbsym l reg 2 c
- 0B12                   .dbsym l low 1 c
- 0B12                   .dbsym l high 0 c
- 0B12                   .dbsym l byte -4 c
- 0B12                   .dbend
- 0B12                   .dbfunc e bcd_to_byte _bcd_to_byte fc
- 0B12           ;           byte -> X+2
- 0B12           ;            low -> X+1
- 0B12           ;           high -> X+0
- 0B12           ;            reg -> X-4
- 0B12           _bcd_to_byte::
- 0B12                   .dbline -1
- 0B12 10                push X
- 0B13 4F                mov X,SP
- 0B14 3803              add SP,3
- 0B16                   .dbline 483
- 0B16           ; }
- 0B16           ; 
- 0B16           ; unsigned char bcd_to_byte(unsigned char reg)
- 0B16           ; {
- 0B16                   .dbline 486
- 0B16           ;     unsigned char high, low, byte;
- 0B16           ;     
- 0B16           ;     high = (reg >> DECIMAL_NUMBER_SIZE);
- 0B16 52FC              mov A,[X-4]
- 0B18 62D000            mov REG[0xd0],>__r0
- 0B1B 67                asr A
- 0B1C 67                asr A
- 0B1D 67                asr A
- 0B1E 67                asr A
- 0B1F 210F              and A,15
- 0B21 5400              mov [X+0],A
- 0B23                   .dbline 487
- 0B23           ;     low = reg - (high << DECIMAL_NUMBER_SIZE);
- 0B23 5200              mov A,[X+0]
- 0B25 64                asl A
- 0B26 64                asl A
- 0B27 64                asl A
- 0B28 64                asl A
- 0B29 5300              mov [__r0],A
- 0B2B 52FC              mov A,[X-4]
- 0B2D 1200              sub A,[__r0]
- 0B2F 5401              mov [X+1],A
- 0B31                   .dbline 488
- 0B31           ;     byte = low + high * DECIMAL_COUNT_SYSTEM_BASIS;
- 0B31 5200              mov A,[X+0]
- 0B33 60E8              mov REG[0xe8],A
- 0B35 62E90A            mov REG[0xe9],10
- 0B38 40                nop
- 0B39 5DEB              mov A,REG[0xeb]
- 0B3B 5300              mov [__r0],A
- 0B3D 5201              mov A,[X+1]
- 0B3F 0200              add A,[__r0]
- 0B41 5402              mov [X+2],A
- 0B43                   .dbline 490
- 0B43           ; 
- 0B43           ;     return byte;
- 0B43 5202              mov A,[X+2]
- 0B45                   .dbline -2
- 0B45           L159:
- 0B45 38FD              add SP,-3
- 0B47 20                pop X
- 0B48                   .dbline 0 ; func end
- 0B48 7F                ret
- 0B49                   .dbsym l byte 2 c
- 0B49                   .dbsym l low 1 c
- 0B49                   .dbsym l high 0 c
- 0B49                   .dbsym l reg -4 c
- 0B49                   .dbend
- 0B49                   .dbfunc e utc_to_local _utc_to_local fV
- 0B49           ; local_datetime -> X-7
- 0B49           ;   utc_datetime -> X-5
- 0B49           _utc_to_local::
- 0B49                   .dbline -1
- 0B49 10                push X
- 0B4A 4F                mov X,SP
- 0B4B                   .dbline 494
- 0B4B           ; }
- 0B4B           ; 
- 0B4B           ; void utc_to_local(struct datetime *utc_datetime, struct datetime *local_datetime)
- 0B4B           ; {
- 0B4B                   .dbline 495
- 0B4B           ;       local_datetime->valid = utc_datetime->valid;
- 0B4B 62D000            mov REG[0xd0],>__r0
- 0B4E 52FC              mov A,[X-4]
- 0B50 0106              add A,6
- 0B52 5300              mov [__r1],A
- 0B54 52FB              mov A,[X-5]
- 0B56 0900              adc A,0
- 0B58 60D4              mov REG[0xd4],A
- 0B5A 3E00              mvi A,[__r1]
- 0B5C 5300              mov [__r0],A
- 0B5E 3E00              mvi A,[__r1]
- 0B60 5300              mov [__r1],A
- 0B62 52FA              mov A,[X-6]
- 0B64 0106              add A,6
- 0B66 5300              mov [__r3],A
- 0B68 52F9              mov A,[X-7]
- 0B6A 0900              adc A,0
- 0B6C 60D5              mov REG[0xd5],A
- 0B6E 5100              mov A,[__r0]
- 0B70 3F00              mvi [__r3],A
- 0B72 5100              mov A,[__r1]
- 0B74 3F00              mvi [__r3],A
- 0B76                   .dbline 496
- 0B76           ;       local_datetime->sec = utc_datetime->sec;
- 0B76 52FC              mov A,[X-4]
- 0B78 5300              mov [__r1],A
- 0B7A 52FB              mov A,[X-5]
- 0B7C 60D4              mov REG[0xd4],A
- 0B7E 3E00              mvi A,[__r1]
- 0B80 5300              mov [__r0],A
- 0B82 52FA              mov A,[X-6]
- 0B84 5300              mov [__r3],A
- 0B86 52F9              mov A,[X-7]
- 0B88 60D5              mov REG[0xd5],A
- 0B8A 5100              mov A,[__r0]
- 0B8C 3F00              mvi [__r3],A
- 0B8E                   .dbline 497
- 0B8E           ;       local_datetime->min = utc_datetime->min;
- 0B8E 52FC              mov A,[X-4]
- 0B90 0101              add A,1
- 0B92 5300              mov [__r1],A
- 0B94 52FB              mov A,[X-5]
- 0B96 0900              adc A,0
- 0B98 60D4              mov REG[0xd4],A
- 0B9A 3E00              mvi A,[__r1]
- 0B9C 5300              mov [__r0],A
- 0B9E 52FA              mov A,[X-6]
- 0BA0 0101              add A,1
- 0BA2 5300              mov [__r3],A
- 0BA4 52F9              mov A,[X-7]
- 0BA6 0900              adc A,0
- 0BA8 60D5              mov REG[0xd5],A
- 0BAA 5100              mov A,[__r0]
- 0BAC 3F00              mvi [__r3],A
- 0BAE                   .dbline 498
- 0BAE           ;       local_datetime->hour = utc_datetime->hour + GMT_OFFSET;
- 0BAE 52FC              mov A,[X-4]
- 0BB0 0102              add A,2
- 0BB2 5300              mov [__r1],A
- 0BB4 52FB              mov A,[X-5]
- 0BB6 0900              adc A,0
- 0BB8 60D4              mov REG[0xd4],A
- 0BBA 3E00              mvi A,[__r1]
- 0BBC 5300              mov [__r0],A
- 0BBE 060003            add [__r0],3
- 0BC1 52FA              mov A,[X-6]
- 0BC3 0102              add A,2
- 0BC5 5300              mov [__r3],A
- 0BC7 52F9              mov A,[X-7]
- 0BC9 0900              adc A,0
- 0BCB 60D5              mov REG[0xd5],A
- 0BCD 5100              mov A,[__r0]
- 0BCF 3F00              mvi [__r3],A
- 0BD1                   .dbline 499
- 0BD1           ;       if (local_datetime->hour > HOUR_MAX) local_datetime->hour -= (HOUR_MAX + 1);
- 0BD1 52FA              mov A,[X-6]
- 0BD3 0102              add A,2
- 0BD5 5300              mov [__r1],A
- 0BD7 52F9              mov A,[X-7]
- 0BD9 0900              adc A,0
- 0BDB 60D4              mov REG[0xd4],A
- 0BDD 3E00              mvi A,[__r1]
- 0BDF 5300              mov [__r0],A
- 0BE1 5017              mov A,23
- 0BE3 3A00              cmp A,[__r0]
- 0BE5 D023              jnc L161
- 0BE7           X35:
- 0BE7                   .dbline 499
- 0BE7 62D000            mov REG[0xd0],>__r0
- 0BEA 52FA              mov A,[X-6]
- 0BEC 0102              add A,2
- 0BEE 5300              mov [__r1],A
- 0BF0 52F9              mov A,[X-7]
- 0BF2 0900              adc A,0
- 0BF4 5300              mov [__r0],A
- 0BF6 60D4              mov REG[0xd4],A
- 0BF8 3E00              mvi A,[__r1]
- 0BFA 7A00              dec [__r1]
- 0BFC 5300              mov [__r2],A
- 0BFE 160018            sub [__r2],24
- 0C01 5100              mov A,[__r0]
- 0C03 60D5              mov REG[0xd5],A
- 0C05 5100              mov A,[__r2]
- 0C07 3F00              mvi [__r1],A
- 0C09           L161:
- 0C09                   .dbline -2
- 0C09           L160:
- 0C09 20                pop X
- 0C0A                   .dbline 0 ; func end
- 0C0A 7F                ret
- 0C0B                   .dbsym l local_datetime -7 pS[datetime]
- 0C0B                   .dbsym l utc_datetime -5 pS[datetime]
- 0C0B                   .dbend
+ 0B04 5300              mov [__r3],A
+ 0B06 550000            mov [__r2],0
+ 0B09 52FC              mov A,[X-4]
+ 0B0B 0400              add [__r3],A
+ 0B0D 52FB              mov A,[X-5]
+ 0B0F 0C00              adc [__r2],A
+ 0B11 5100              mov A,[__r2]
+ 0B13 60D4              mov REG[0xd4],A
+ 0B15 3E00              mvi A,[__r3]
+ 0B17 3A00              cmp A,[__r0]
+ 0B19 A005              jz L157
+ 0B1B                   .dbline 489
+ 0B1B 5001              mov A,1
+ 0B1D 800E              xjmp L152
+ 0B1F           L157:
+ 0B1F                   .dbline 490
+ 0B1F           ;     }
+ 0B1F           L154:
+ 0B1F                   .dbline 487
+ 0B1F 7700              inc [X+0]
+ 0B21           L156:
+ 0B21                   .dbline 487
+ 0B21 52F8              mov A,[X-8]
+ 0B23 3B00              cmp A,[X+0]
+ 0B25 DFC1              jnc L153
+ 0B27           X35:
+ 0B27                   .dbline 491
+ 0B27           ;     return 0u;
+ 0B27 62D000            mov REG[0xd0],>__r0
+ 0B2A 5000              mov A,0
+ 0B2C                   .dbline -2
+ 0B2C           L152:
+ 0B2C 38FF              add SP,-1
+ 0B2E 20                pop X
+ 0B2F                   .dbline 0 ; func end
+ 0B2F 7F                ret
+ 0B30                   .dbsym l i 0 c
+ 0B30                   .dbsym l stop -8 c
+ 0B30                   .dbsym l str2 -7 pkc
+ 0B30                   .dbsym l str1 -5 pc
+ 0B30                   .dbend
+ 0B30                   .dbfunc e byte_to_bcd _byte_to_bcd fc
+ 0B30           ;            reg -> X+2
+ 0B30           ;            low -> X+1
+ 0B30           ;           high -> X+0
+ 0B30           ;           byte -> X-4
+ 0B30           _byte_to_bcd::
+ 0B30                   .dbline -1
+ 0B30 10                push X
+ 0B31 4F                mov X,SP
+ 0B32 3803              add SP,3
+ 0B34                   .dbline 495
+ 0B34           ; }
+ 0B34           ; 
+ 0B34           ; unsigned char byte_to_bcd(unsigned char byte)
+ 0B34           ; {
+ 0B34                   .dbline 498
+ 0B34           ;     unsigned char high, low, reg;
+ 0B34           ;     
+ 0B34           ;     high = byte / DECIMAL_COUNT_SYSTEM_BASIS;
+ 0B34 500A              mov A,10
+ 0B36 08                push A
+ 0B37 52FC              mov A,[X-4]
+ 0B39 08                push A
+ 0B3A 62D000            mov REG[0xd0],>__r0
+ 0B3D 7C0000            xcall __divmodu_8X8_8
+ 0B40 18                pop A
+ 0B41 5400              mov [X+0],A
+ 0B43 38FF              add SP,-1
+ 0B45                   .dbline 499
+ 0B45           ;     low = byte - high * DECIMAL_COUNT_SYSTEM_BASIS;
+ 0B45 5200              mov A,[X+0]
+ 0B47 60E8              mov REG[0xe8],A
+ 0B49 62E90A            mov REG[0xe9],10
+ 0B4C 40                nop
+ 0B4D 5DEB              mov A,REG[0xeb]
+ 0B4F 5300              mov [__r0],A
+ 0B51 52FC              mov A,[X-4]
+ 0B53 1200              sub A,[__r0]
+ 0B55 5401              mov [X+1],A
+ 0B57                   .dbline 500
+ 0B57           ;     reg = (high << DECIMAL_NUMBER_SIZE) + low;
+ 0B57 5200              mov A,[X+0]
+ 0B59 64                asl A
+ 0B5A 64                asl A
+ 0B5B 64                asl A
+ 0B5C 64                asl A
+ 0B5D 0301              add A,[X+1]
+ 0B5F 5402              mov [X+2],A
+ 0B61                   .dbline 502
+ 0B61           ;     
+ 0B61           ;     return reg;
+ 0B61 5202              mov A,[X+2]
+ 0B63                   .dbline -2
+ 0B63           L159:
+ 0B63 38FD              add SP,-3
+ 0B65 20                pop X
+ 0B66                   .dbline 0 ; func end
+ 0B66 7F                ret
+ 0B67                   .dbsym l reg 2 c
+ 0B67                   .dbsym l low 1 c
+ 0B67                   .dbsym l high 0 c
+ 0B67                   .dbsym l byte -4 c
+ 0B67                   .dbend
+ 0B67                   .dbfunc e bcd_to_byte _bcd_to_byte fc
+ 0B67           ;           byte -> X+2
+ 0B67           ;            low -> X+1
+ 0B67           ;           high -> X+0
+ 0B67           ;            reg -> X-4
+ 0B67           _bcd_to_byte::
+ 0B67                   .dbline -1
+ 0B67 10                push X
+ 0B68 4F                mov X,SP
+ 0B69 3803              add SP,3
+ 0B6B                   .dbline 506
+ 0B6B           ; }
+ 0B6B           ; 
+ 0B6B           ; unsigned char bcd_to_byte(unsigned char reg)
+ 0B6B           ; {
+ 0B6B                   .dbline 509
+ 0B6B           ;     unsigned char high, low, byte;
+ 0B6B           ;     
+ 0B6B           ;     high = (reg >> DECIMAL_NUMBER_SIZE);
+ 0B6B 52FC              mov A,[X-4]
+ 0B6D 62D000            mov REG[0xd0],>__r0
+ 0B70 67                asr A
+ 0B71 67                asr A
+ 0B72 67                asr A
+ 0B73 67                asr A
+ 0B74 210F              and A,15
+ 0B76 5400              mov [X+0],A
+ 0B78                   .dbline 510
+ 0B78           ;     low = reg - (high << DECIMAL_NUMBER_SIZE);
+ 0B78 5200              mov A,[X+0]
+ 0B7A 64                asl A
+ 0B7B 64                asl A
+ 0B7C 64                asl A
+ 0B7D 64                asl A
+ 0B7E 5300              mov [__r0],A
+ 0B80 52FC              mov A,[X-4]
+ 0B82 1200              sub A,[__r0]
+ 0B84 5401              mov [X+1],A
+ 0B86                   .dbline 511
+ 0B86           ;     byte = low + high * DECIMAL_COUNT_SYSTEM_BASIS;
+ 0B86 5200              mov A,[X+0]
+ 0B88 60E8              mov REG[0xe8],A
+ 0B8A 62E90A            mov REG[0xe9],10
+ 0B8D 40                nop
+ 0B8E 5DEB              mov A,REG[0xeb]
+ 0B90 5300              mov [__r0],A
+ 0B92 5201              mov A,[X+1]
+ 0B94 0200              add A,[__r0]
+ 0B96 5402              mov [X+2],A
+ 0B98                   .dbline 513
+ 0B98           ; 
+ 0B98           ;     return byte;
+ 0B98 5202              mov A,[X+2]
+ 0B9A                   .dbline -2
+ 0B9A           L160:
+ 0B9A 38FD              add SP,-3
+ 0B9C 20                pop X
+ 0B9D                   .dbline 0 ; func end
+ 0B9D 7F                ret
+ 0B9E                   .dbsym l byte 2 c
+ 0B9E                   .dbsym l low 1 c
+ 0B9E                   .dbsym l high 0 c
+ 0B9E                   .dbsym l reg -4 c
+ 0B9E                   .dbend
+ 0B9E                   .dbfunc e utc_to_local _utc_to_local fV
+ 0B9E           ; local_datetime -> X-7
+ 0B9E           ;   utc_datetime -> X-5
+ 0B9E           _utc_to_local::
+ 0B9E                   .dbline -1
+ 0B9E 10                push X
+ 0B9F 4F                mov X,SP
+ 0BA0                   .dbline 517
+ 0BA0           ; }
+ 0BA0           ; 
+ 0BA0           ; void utc_to_local(struct datetime *utc_datetime, struct datetime *local_datetime)
+ 0BA0           ; {
+ 0BA0                   .dbline 518
+ 0BA0           ;       local_datetime->valid = utc_datetime->valid;
+ 0BA0 62D000            mov REG[0xd0],>__r0
+ 0BA3 52FC              mov A,[X-4]
+ 0BA5 0106              add A,6
+ 0BA7 5300              mov [__r1],A
+ 0BA9 52FB              mov A,[X-5]
+ 0BAB 0900              adc A,0
+ 0BAD 60D4              mov REG[0xd4],A
+ 0BAF 3E00              mvi A,[__r1]
+ 0BB1 5300              mov [__r0],A
+ 0BB3 3E00              mvi A,[__r1]
+ 0BB5 5300              mov [__r1],A
+ 0BB7 52FA              mov A,[X-6]
+ 0BB9 0106              add A,6
+ 0BBB 5300              mov [__r3],A
+ 0BBD 52F9              mov A,[X-7]
+ 0BBF 0900              adc A,0
+ 0BC1 60D5              mov REG[0xd5],A
+ 0BC3 5100              mov A,[__r0]
+ 0BC5 3F00              mvi [__r3],A
+ 0BC7 5100              mov A,[__r1]
+ 0BC9 3F00              mvi [__r3],A
+ 0BCB                   .dbline 519
+ 0BCB           ;       local_datetime->sec = utc_datetime->sec;
+ 0BCB 52FC              mov A,[X-4]
+ 0BCD 5300              mov [__r1],A
+ 0BCF 52FB              mov A,[X-5]
+ 0BD1 60D4              mov REG[0xd4],A
+ 0BD3 3E00              mvi A,[__r1]
+ 0BD5 5300              mov [__r0],A
+ 0BD7 52FA              mov A,[X-6]
+ 0BD9 5300              mov [__r3],A
+ 0BDB 52F9              mov A,[X-7]
+ 0BDD 60D5              mov REG[0xd5],A
+ 0BDF 5100              mov A,[__r0]
+ 0BE1 3F00              mvi [__r3],A
+ 0BE3                   .dbline 520
+ 0BE3           ;       local_datetime->min = utc_datetime->min;
+ 0BE3 52FC              mov A,[X-4]
+ 0BE5 0101              add A,1
+ 0BE7 5300              mov [__r1],A
+ 0BE9 52FB              mov A,[X-5]
+ 0BEB 0900              adc A,0
+ 0BED 60D4              mov REG[0xd4],A
+ 0BEF 3E00              mvi A,[__r1]
+ 0BF1 5300              mov [__r0],A
+ 0BF3 52FA              mov A,[X-6]
+ 0BF5 0101              add A,1
+ 0BF7 5300              mov [__r3],A
+ 0BF9 52F9              mov A,[X-7]
+ 0BFB 0900              adc A,0
+ 0BFD 60D5              mov REG[0xd5],A
+ 0BFF 5100              mov A,[__r0]
+ 0C01 3F00              mvi [__r3],A
+ 0C03                   .dbline 521
+ 0C03           ;       local_datetime->hour = utc_datetime->hour + GMT_OFFSET;
+ 0C03 52FC              mov A,[X-4]
+ 0C05 0102              add A,2
+ 0C07 5300              mov [__r1],A
+ 0C09 52FB              mov A,[X-5]
+ 0C0B 0900              adc A,0
+ 0C0D 60D4              mov REG[0xd4],A
+ 0C0F 3E00              mvi A,[__r1]
+ 0C11 5300              mov [__r0],A
+ 0C13 060003            add [__r0],3
+ 0C16 52FA              mov A,[X-6]
+ 0C18 0102              add A,2
+ 0C1A 5300              mov [__r3],A
+ 0C1C 52F9              mov A,[X-7]
+ 0C1E 0900              adc A,0
+ 0C20 60D5              mov REG[0xd5],A
+ 0C22 5100              mov A,[__r0]
+ 0C24 3F00              mvi [__r3],A
+ 0C26                   .dbline 522
+ 0C26           ;       if (local_datetime->hour > HOUR_MAX) local_datetime->hour -= (HOUR_MAX + 1);
+ 0C26 52FA              mov A,[X-6]
+ 0C28 0102              add A,2
+ 0C2A 5300              mov [__r1],A
+ 0C2C 52F9              mov A,[X-7]
+ 0C2E 0900              adc A,0
+ 0C30 60D4              mov REG[0xd4],A
+ 0C32 3E00              mvi A,[__r1]
+ 0C34 5300              mov [__r0],A
+ 0C36 5017              mov A,23
+ 0C38 3A00              cmp A,[__r0]
+ 0C3A D023              jnc L162
+ 0C3C           X36:
+ 0C3C                   .dbline 522
+ 0C3C 62D000            mov REG[0xd0],>__r0
+ 0C3F 52FA              mov A,[X-6]
+ 0C41 0102              add A,2
+ 0C43 5300              mov [__r1],A
+ 0C45 52F9              mov A,[X-7]
+ 0C47 0900              adc A,0
+ 0C49 5300              mov [__r0],A
+ 0C4B 60D4              mov REG[0xd4],A
+ 0C4D 3E00              mvi A,[__r1]
+ 0C4F 7A00              dec [__r1]
+ 0C51 5300              mov [__r2],A
+ 0C53 160018            sub [__r2],24
+ 0C56 5100              mov A,[__r0]
+ 0C58 60D5              mov REG[0xd5],A
+ 0C5A 5100              mov A,[__r2]
+ 0C5C 3F00              mvi [__r1],A
+ 0C5E           L162:
+ 0C5E                   .dbline -2
+ 0C5E           L161:
+ 0C5E 20                pop X
+ 0C5F                   .dbline 0 ; func end
+ 0C5F 7F                ret
+ 0C60                   .dbsym l local_datetime -7 pS[datetime]
+ 0C60                   .dbsym l utc_datetime -5 pS[datetime]
+ 0C60                   .dbend
                         .area data(ram, con, rel)
  0000                   .dbfile C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\main.c
  0000           _NMEA_pointer_rf::
@@ -2798,5 +2872,5 @@
  0050 0000              .byte 0,0
  0052                   .dbsym e fld_buf _fld_buf A[82:82]c
                         .area lit(rom, con, rel, lit)
- 001A           L29:
- 001A 3000              .byte 48,0
+ 001F           L29:
+ 001F 3000              .byte 48,0

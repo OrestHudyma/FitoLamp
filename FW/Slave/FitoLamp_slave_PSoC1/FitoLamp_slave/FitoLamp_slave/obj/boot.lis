@@ -104,10 +104,10 @@
  0000           PORT_0_INTENABLE:		equ 0h	;Port 0 interrupt enable register (PRT0IE)
  0000           PORT_0_INTCTRL_0:		equ 0h	;Port 0 interrupt control 0 register (PRT0IC0)
  0000           PORT_0_INTCTRL_1:		equ 0h	;Port 0 interrupt control 1 register (PRT0IC1)
- 000F           PORT_1_GLOBAL_SELECT:	equ fh	;Port 1 global select register (PRT1GS)
- 0013           PORT_1_DRIVE_0:			equ 13h	;Port 1 drive mode 0 register (PRT1DM0)
- 00EC           PORT_1_DRIVE_1:			equ ech	;Port 1 drive mode 1 register (PRT1DM1)
- 00E0           PORT_1_DRIVE_2:			equ e0h	;Port 1 drive mode 2 register (PRT1DM2)
+ 001F           PORT_1_GLOBAL_SELECT:	equ 1fh	;Port 1 global select register (PRT1GS)
+ 0093           PORT_1_DRIVE_0:			equ 93h	;Port 1 drive mode 0 register (PRT1DM0)
+ 006C           PORT_1_DRIVE_1:			equ 6ch	;Port 1 drive mode 1 register (PRT1DM1)
+ 0060           PORT_1_DRIVE_2:			equ 60h	;Port 1 drive mode 2 register (PRT1DM2)
  0000           PORT_1_INTENABLE:		equ 0h	;Port 1 interrupt enable register (PRT1IE)
  0000           PORT_1_INTCTRL_0:		equ 0h	;Port 1 interrupt control 0 register (PRT1IC0)
  0000           PORT_1_INTCTRL_1:		equ 0h	;Port 1 interrupt control 1 register (PRT1IC1)
@@ -1708,9 +1708,9 @@
  003B 7E            reti
  003C           
                     org   3Ch                      ;PSoC Block DCC13 Interrupt Vector
-                    // call     void_handler
- 003C 7E            reti
- 003D           
+ 003C 7D0000        ljmp        _TX8_Debug_ISR
+ 003F 7E            reti
+ 0040           
                         org   40h                      ;PSoC Block DBC20 Interrupt Vector
  0040 7D0000        ljmp        _Counter8_RF_clk_ISR
  0043 7E            reti

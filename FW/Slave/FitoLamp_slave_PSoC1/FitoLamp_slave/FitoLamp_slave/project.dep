@@ -10,6 +10,7 @@
 ./obj/main.o :  ./lib/COUNTE~1.H ./lib/COUNTE~2.H ./lib/LCD.h\
    ./lib/LED_Blue.h ./lib/PSoCAPI.h ./lib/PSOCGP~1.H ./lib/PWM16_~1.H\
    ./lib/PWM16_~2.H ./lib/RTC.h ./lib/RX8_GPS.h ./lib/RX8_RF.h\
+   ./lib/TX8_DE~1.H\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.h\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/_const.h\
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/limits.h\
@@ -75,3 +76,10 @@
    C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
    C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
 ./lib/obj/rx8_rfplus.o : 
+./lib/obj/tx8_debug.o :  ./lib/TX8_DE~1.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/tx8_debugint.o :  ./lib/TX8_DE~1.INC\
+   C:/PROGRA~2/Cypress/PSOCDE~1/5.4/Common/CYPRES~1/tools/include/CY8C28~1/m8c.inc\
+   C:\Work\FitoLamp\FW\Slave\FITOLA~1\FITOLA~1\FITOLA~1\memory.inc
+./lib/obj/tx8_debugplus.o : 
