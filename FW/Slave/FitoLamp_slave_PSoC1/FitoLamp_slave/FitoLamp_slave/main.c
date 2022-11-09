@@ -23,7 +23,7 @@
 #define NMEA_END_DELIMITER        0x0A
 #define NMEA_CHECKSUM_DELIMITER   '*'
 #define NMEA_FIELD_DELIMITER      ','
-#define NMEA_HEADER_SIZE          3
+#define NMEA_HEADER_SIZE          3		// TODO
 
 #define NMEA_GPRMC_UTC              1
 #define NMEA_GPRMC_DATE      		7
@@ -34,14 +34,15 @@
 #define NMEA_GPRMC_INVALID          'V'
 
 // System settings
-#define POWER_MAX	14000
-#define POWER_STEP	1
-#define GMT_OFFSET	3
-#define WAIT_PERIOD			2			// Global non critical tasks execution period in x10 miliseconds
-#define OVERRIDE_TIMEOUT	540000		// x20 miliseconds (540000 = 3 hours)
-#define POWER_UPDATE_SLOW   2000
-#define POWER_UPDATE_FAST   100
-#define HW_ID				"1"
+#define POWER_MAX					14000
+#define POWER_STEP					1
+#define GMT_OFFSET					3
+#define WAIT_PERIOD					2			// Global non critical tasks execution period in x10 miliseconds
+#define OVERRIDE_TIMEOUT			540000		// x20 miliseconds (540000 = 3 hours)
+#define POWER_UPDATE_SLOW   		1000
+#define POWER_UPDATE_VERY_SLOW   	32000
+#define POWER_UPDATE_FAST   		25
+#define HW_ID						"1"
 
 #define NMEA_GPRMC_EMPTY            "GPRMC"
 #define NMEA_SHFTL_EMPTY            "SHFTL"
@@ -110,7 +111,6 @@ void utc_to_local(struct datetime *gps_datetime, struct datetime *local_datetime
 
 void gps_signal(void)
 {
-	M8C_DisableGInt;
 	if (NMEA_pointer_gps >= NMEA_MAX_SIZE) NMEA_pointer_gps = 0;
     NMEA_buffer_gps[NMEA_pointer_gps] = RX8_GPS_bReadRxData();	
     NMEA_buffer_gps[NMEA_pointer_gps + 1] = 0;	
@@ -128,12 +128,10 @@ void gps_signal(void)
         NMEA_pointer_gps++;
         break;
     }
-	M8C_EnableGInt;
 }
 
 void rf_signal(void)
 {	
-	M8C_DisableGInt;
 	if (NMEA_pointer_rf >= NMEA_MAX_SIZE) NMEA_pointer_rf = 0;
     NMEA_buffer_rf[NMEA_pointer_rf] = RX8_RF_bReadRxData();	
     NMEA_buffer_rf[NMEA_pointer_rf + 1] = 0;	
@@ -152,7 +150,6 @@ void rf_signal(void)
         NMEA_pointer_rf++;
         break;
     }
-	M8C_EnableGInt;
 }
 
 void main(void)
@@ -171,6 +168,7 @@ void main(void)
 	Counter8_RF_clk_Start();
 	RX8_GPS_Start(RX8_GPS_PARITY_NONE);
 	RX8_RF_Start(RX8_GPS_PARITY_ODD);
+	//TX8_Debug_Start(RX8_GPS_PARITY_NONE);
 	
 	RX8_GPS_EnableInt();
 	RX8_RF_EnableInt();
@@ -186,6 +184,7 @@ void main(void)
 		if (NMEA_cmd_received)
         {
 			LED_Blue_On();
+			TX8_Debug_CPutString("NMEA_cmd");
 			NMEA_cmd_received = false;		
             
             // NMEA_SHFTL handle
@@ -194,27 +193,27 @@ void main(void)
 			{			
 	            NMEA_GetField(NMEA_SHFTL, NMEA_FIELD_CMD, fld_buf);
 	            if(check_fld(cmd_on))
-	            {
-	                Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
+	            {	                
 					set_power(POWER_MAX);
+					Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
 					override_enable();	
 	            }
 	            else if(check_fld(cmd_off))
 	            {
-	                Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
-					set_power(0);
+	                set_power(0);
+					Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
 					override_enable();	
 	            }
 				else if(check_fld(cmd_fon))
-	            {
-	                Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
+	            {	                
 					set_power(POWER_MAX);
+					Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
 					override_enable();	
 	            }
 	            else if(check_fld(cmd_foff))
 	            {
-	                Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
 					set_power(0);
+					Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
 					override_enable();	
 	            }
 				else LED_Blue_Off();
@@ -241,6 +240,7 @@ void main(void)
 		}
 		
 		Delay10msTimes(WAIT_PERIOD);
+		TX8_Debug_CPutString("D");
 		if (override_counter > 0) override_counter--;
 		else override = false;
 		LED_Blue_Off();
@@ -263,17 +263,18 @@ void update_power(void)
 {
 	unsigned int pwr;
 	
-	// CH0
 	pwr = PWM16_CH0_wReadPulseWidth();
-	if(pwr < power_target) pwr += POWER_STEP;
-	if(pwr > power_target) pwr -= POWER_STEP;
-	PWM16_CH0_WritePulseWidth(pwr);
-	
-	// CH1
-	pwr = PWM16_CH1_wReadPulseWidth();
-	if(pwr < power_target) pwr += POWER_STEP;
-	if(pwr > power_target) pwr -= POWER_STEP;
-	PWM16_CH1_WritePulseWidth(pwr);
+	if(pwr == power_target)
+	{
+		Counter16_PwrUpd_WritePeriod(POWER_UPDATE_VERY_SLOW);
+	}
+	else 
+	{		
+		if(pwr < power_target) pwr += POWER_STEP;
+		else if(pwr > power_target) pwr -= POWER_STEP;
+		PWM16_CH0_WritePulseWidth(pwr);
+		PWM16_CH1_WritePulseWidth(pwr);
+	}
 }
 
 void schedule_processing(unsigned char hour)

@@ -26,5 +26,6 @@
 #include "RTC.h"
 #include "RX8_GPS.h"
 #include "RX8_RF.h"
+#include "TX8_Debug.h"
 
 #endif

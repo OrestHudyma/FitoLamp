@@ -64,6 +64,11 @@ LoadConfigTBL_fitolamp_slave_Bank0:
 	db		4bh, 00h		;RX8_RF_CONTROL_REG  (DCC22CR0)
 	db		49h, 00h		;RX8_RF_(DCC22DR1)
 	db		4ah, 00h		;RX8_RF_RX_BUFFER_REG(DCC22DR2)
+;  Instance name TX8_Debug, User Module TX8
+;       Instance name TX8_Debug, Block Name TX8(DCC13)
+	db		3fh, 00h		;TX8_Debug_CONTROL_REG  (DCC13CR0)
+	db		3dh, 00h		;TX8_Debug_TX_BUFFER_REG(DCC13DR1)
+	db		3eh, 00h		;TX8_Debug_(DCC13DR2)
 ;  Global Register values Bank 0
 	db		6ah, 00h		; ADCDataHigh register (SADC_DH)
 	db		6bh, 00h		; ADCDataLow register (SADC_DL)
@@ -106,7 +111,7 @@ LoadConfigTBL_fitolamp_slave_Bank0:
 	db		bbh, 33h		; Row_1_LogicSelect_0 register (RDI1LT0)
 	db		bch, 33h		; Row_1_LogicSelect_1 register (RDI1LT1)
 	db		bdh, 00h		; Row_1_OutputDrive_0 register (RDI1RO0)
-	db		beh, 00h		; Row_1_OutputDrive_1 register (RDI1RO1)
+	db		beh, 20h		; Row_1_OutputDrive_1 register (RDI1RO1)
 	db		c0h, aah		; Row_2_InputMux register (RDI2RI)
 	db		c1h, 00h		; Row_2_InputSync register (RDI2SYN)
 	db		c2h, 00h		; Row_2_LogicInputAMux register (RDI2IS)
@@ -169,6 +174,12 @@ LoadConfigTBL_fitolamp_slave_Bank1:
 	db		48h, 85h		;RX8_RF_FUNC_REG     (DCC22FN)
 	db		49h, f8h		;RX8_RF_INPUT_REG    (DCC22IN)
 	db		4ah, 00h		;RX8_RF_OUTPUT_REG   (DCC22OU)
+;  Instance name TX8_Debug, User Module TX8
+;       Instance name TX8_Debug, Block Name TX8(DCC13)
+	db		3fh, 00h		;TX8_Debug_(DCC13CR1)
+	db		3ch, 0dh		;TX8_Debug_FUNC_REG     (DCC13FN)
+	db		3dh, 01h		;TX8_Debug_INPUT_REG    (DCC13IN)
+	db		3eh, 07h		;TX8_Debug_OUTPUT_REG   (DCC13OU)
 ;  Global Register values Bank 1
 	db		a8h, 00h		; ADCControl0 register (SADC_CR0)
 	db		a9h, 00h		; ADCControl1 register (SADC_CR1)
@@ -272,11 +283,11 @@ LoadConfigTBL_fitolamp_slave_Ordered:
 	mov	reg[05h], 00h		; Port_1_IntEn register (PRT1IE)
 	mov	reg[08h], 00h		; Port_2_Data register (PRT2DR)
 	M8C_SetBank1
-	mov	reg[08h], 00h		; Port_2_DriveMode_0 register (PRT2DM0)
-	mov	reg[09h], ffh		; Port_2_DriveMode_1 register (PRT2DM1)
+	mov	reg[08h], 80h		; Port_2_DriveMode_0 register (PRT2DM0)
+	mov	reg[09h], 7fh		; Port_2_DriveMode_1 register (PRT2DM1)
 	M8C_SetBank0
-	mov	reg[0bh], ffh		; Port_2_DriveMode_2 register (PRT2DM2)
-	mov	reg[0ah], 00h		; Port_2_GlobalSelect register (PRT2GS)
+	mov	reg[0bh], 7fh		; Port_2_DriveMode_2 register (PRT2DM2)
+	mov	reg[0ah], 80h		; Port_2_GlobalSelect register (PRT2GS)
 	M8C_SetBank1
 	mov	reg[0ah], 00h		; Port_2_IntCtrl_0 register (PRT2IC0)
 	mov	reg[0bh], 00h		; Port_2_IntCtrl_1 register (PRT2IC1)

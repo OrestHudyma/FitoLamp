@@ -26,12 +26,6 @@ export LoadConfig_fitolamp_slave
 export _LoadConfig_fitolamp_slave
 export Port_1_Data_SHADE
 export _Port_1_Data_SHADE
-export Port_2_Data_SHADE
-export _Port_2_Data_SHADE
-export Port_2_DriveMode_0_SHADE
-export _Port_2_DriveMode_0_SHADE
-export Port_2_DriveMode_1_SHADE
-export _Port_2_DriveMode_1_SHADE
 
 
 export NO_SHADOW
@@ -65,9 +59,6 @@ _LoadConfigInit:
     RAM_PROLOGUE RAM_USE_CLASS_4
     
 	mov		[Port_1_Data_SHADE], 0h
-	mov		[Port_2_Data_SHADE], 0h
-	mov		[Port_2_DriveMode_0_SHADE], 7fh
-	mov		[Port_2_DriveMode_1_SHADE], 80h
 
 	lcall	LoadConfig_fitolamp_slave
 	lcall	LoadConfigTBL_fitolamp_slave_Ordered
@@ -193,10 +184,4 @@ _NO_SHADOW:
 ; write only register shadows
 _Port_1_Data_SHADE:
 Port_1_Data_SHADE:	BLK	1
-_Port_2_Data_SHADE:
-Port_2_Data_SHADE:	BLK	1
-_Port_2_DriveMode_0_SHADE:
-Port_2_DriveMode_0_SHADE:	BLK	1
-_Port_2_DriveMode_1_SHADE:
-Port_2_DriveMode_1_SHADE:	BLK	1
 
