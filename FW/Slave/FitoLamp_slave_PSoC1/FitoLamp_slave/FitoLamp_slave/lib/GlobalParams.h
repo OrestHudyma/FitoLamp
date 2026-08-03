@@ -31,7 +31,7 @@
 #define POWER_SETTING          0x10    //Power Setting [ Vcc / SysClk freq ] 0x10 = 5.0V / 24MHz
 										//				0x08 = 3.3V / 24MHz
 										//				0x09 = 3.3V / 12MHz
-#define WATCHDOG_ENABLE        0x0     //Watchdog Enable 1 = Enable
+#define WATCHDOG_ENABLE        0x1     //Watchdog Enable 1 = Enable
 
 #define CLOCK_DIV_VC1          0x7     // VC1 clock divider 
 #define CLOCK_DIV_VC1_MASK     0xf0    // VC1 clock divider mask

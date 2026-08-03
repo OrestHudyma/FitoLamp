@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+/* Uncomment to enable debug UART output */
 //#define DEBUG
 
 #define DECIMAL_COUNT_SYSTEM_BASIS  10
@@ -23,7 +24,7 @@
 #define NMEA_END_DELIMITER        0x0A
 #define NMEA_CHECKSUM_DELIMITER   '*'
 #define NMEA_FIELD_DELIMITER      ','
-#define NMEA_HEADER_SIZE          3		// TODO
+#define NMEA_HEADER_SIZE          5
 
 #define NMEA_GPRMC_UTC              1
 #define NMEA_GPRMC_DATE      		7
@@ -111,7 +112,7 @@ void utc_to_local(struct datetime *gps_datetime, struct datetime *local_datetime
 
 void gps_signal(void)
 {
-	if (NMEA_pointer_gps >= NMEA_MAX_SIZE) NMEA_pointer_gps = 0;
+	if (NMEA_pointer_gps >= NMEA_MAX_SIZE - 1) NMEA_pointer_gps = 0;
     NMEA_buffer_gps[NMEA_pointer_gps] = RX8_GPS_bReadRxData();	
     NMEA_buffer_gps[NMEA_pointer_gps + 1] = 0;	
     switch(NMEA_buffer_gps[NMEA_pointer_gps])
@@ -132,7 +133,7 @@ void gps_signal(void)
 
 void rf_signal(void)
 {	
-	if (NMEA_pointer_rf >= NMEA_MAX_SIZE) NMEA_pointer_rf = 0;
+	if (NMEA_pointer_rf >= NMEA_MAX_SIZE - 1) NMEA_pointer_rf = 0;
     NMEA_buffer_rf[NMEA_pointer_rf] = RX8_RF_bReadRxData();	
     NMEA_buffer_rf[NMEA_pointer_rf + 1] = 0;	
     switch(NMEA_buffer_rf[NMEA_pointer_rf])
@@ -168,7 +169,9 @@ void main(void)
 	Counter8_RF_clk_Start();
 	RX8_GPS_Start(RX8_GPS_PARITY_NONE);
 	RX8_RF_Start(RX8_GPS_PARITY_ODD);
-	//TX8_Debug_Start(RX8_GPS_PARITY_NONE);
+	#ifdef DEBUG
+	TX8_Debug_Start(RX8_GPS_PARITY_NONE);
+	#endif
 	
 	RX8_GPS_EnableInt();
 	RX8_RF_EnableInt();
@@ -184,7 +187,9 @@ void main(void)
 		if (NMEA_cmd_received)
         {
 			LED_Blue_On();
+			#ifdef DEBUG
 			TX8_Debug_CPutString("NMEA_cmd");
+			#endif
 			NMEA_cmd_received = false;		
             
             // NMEA_SHFTL handle
@@ -239,8 +244,11 @@ void main(void)
 			schedule_init();
 		}
 		
+		M8C_ClearWDT;
 		Delay10msTimes(WAIT_PERIOD);
+		#ifdef DEBUG
 		TX8_Debug_CPutString("D");
+		#endif
 		if (override_counter > 0) override_counter--;
 		else override = false;
 		LED_Blue_Off();
@@ -280,7 +288,9 @@ void update_power(void)
 void schedule_processing(unsigned char hour)
 {
     unsigned char i; 
-    for(i = 0; i < sizeof(schedule); i++)
+    unsigned char row_count = sizeof(schedule) / sizeof(schedule[0]);
+    
+    for(i = 0; i < row_count; i++)
     {
         if(hour == schedule[i][0])
         {
@@ -314,48 +324,88 @@ void rtc_update(struct datetime *datetime)
 
 bool check_fld(const char *cmd)
 {
-    return !str_cmp_const(fld_buf, cmd, strlen(fld_buf) - 1);
+    unsigned char i;
+    
+    if (cmd == 0) return false;
+    
+    for(i = 0; i < NMEA_MAX_SIZE; i++)
+    {
+        if (cmd[i] == 0)
+        {
+            return (fld_buf[i] == 0 || fld_buf[i] == NMEA_FIELD_DELIMITER);
+        }
+        if (fld_buf[i] != cmd[i])
+        {
+            return false;
+        }
+    }
+    
+    return false;
 }
 
 void NMEA_GetField(char *packet, unsigned char field, char *result)
 {
     unsigned char i;
     unsigned char count = 0;
+    unsigned char len;
+    unsigned char start;
+    
+    if (packet == 0 || result == 0) return;
+    result[0] = 0;
     
     // Search field
-    for (i = 0; (i < NMEA_MAX_SIZE) & (count < field); i++)
+    for (i = 0; i < NMEA_MAX_SIZE - 1; i++)
     {
-        if (packet[i] == NMEA_FIELD_DELIMITER) count++;
-		if (packet[i] == 0) break;
+        if (packet[i] == NMEA_FIELD_DELIMITER)
+        {
+            if (count == field - 1) break;
+            count++;
+        }
+        if (packet[i] == 0) break;
+    }
+    
+    if (packet[i] == NMEA_FIELD_DELIMITER)
+    {
+        start = i + 1;
+    }
+    else
+    {
+        start = i;
     }
     
     // Measure field size
-    for (count = 0; count < NMEA_MAX_SIZE; count++)
+    len = 0;
+    while ((start + len < NMEA_MAX_SIZE - 1) && (packet[start + len] != 0) && (packet[start + len] != NMEA_FIELD_DELIMITER))
     {
-        if (packet[i + count] == NMEA_FIELD_DELIMITER) break;
-        if (packet[i + count] == 0u) break;
+        len++;
     }
-    strncpy(result, packet + i, count + 1);  // Add 1 to count for null terminator
-	result[count] = 0u;	// Add null terminator
+    
+    if (len >= NMEA_MAX_SIZE - 1) len = NMEA_MAX_SIZE - 2;
+    if (start >= NMEA_MAX_SIZE - 1) len = 0;
+    
+    memcpy(result, packet + start, len);
+    result[len] = 0u;
 }
 
 bool NMEA_handle_packet(char *packet, char *NMEA_data)
 {
-    unsigned char i, n;
+    unsigned char i;
     unsigned char error = 0;
 	        
     // Check if appropriate packet is handled
-	if (str_cmp(packet, NMEA_data, NMEA_HEADER_SIZE) == 0u)
+	if (packet == 0 || NMEA_data == 0) return false;
+	if (str_cmp(packet + 1u, NMEA_data, NMEA_HEADER_SIZE - 1u) == 0u)
     {
 		// Check for receive errors
         for(i = 0; i < NMEA_MAX_SIZE; i++)
         {
-            if ((packet[i] < 32) & (packet[i] != 0x0D) & (packet[i] != NMEA_END_DELIMITER)) 
+            if ((packet[i] < 32) && (packet[i] != 0x0D) && (packet[i] != NMEA_END_DELIMITER)) 
             {
                 error++;
                 break;
             }
-            if (packet[i] != NMEA_END_DELIMITER) break;
+            if (packet[i] == NMEA_END_DELIMITER) break;
+            if (packet[i] == 0) break;
         }
 		
         // Copy buffer to NMEA packet if no errors found
@@ -438,8 +488,12 @@ unsigned char str_cmp(char *str1, char *str2, unsigned char stop)
 unsigned char str_cmp_const(char *str1, const char *str2, unsigned char stop)
 {
     unsigned char i;
+    
+    if (stop >= NMEA_MAX_SIZE) stop = NMEA_MAX_SIZE - 1;
+    
     for(i = 0u; i <= stop; i++)
     {
+        if (str1[i] == 0 && str2[i] == 0) return 0u;
         if (str1[i] != str2[i]) return 1u;
     }
     return 0u;
