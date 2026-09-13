@@ -29,7 +29,12 @@ LoadConfigTBL_fitolamp_slave_Bank0:
 	db		37h, 00h		;Counter16_PwrUpd_CONTROL_MSB_REG(DBC11CR0)
 	db		35h, 27h		;Counter16_PwrUpd_PERIOD_MSB_REG(DBC11DR1)
 	db		36h, 00h		;Counter16_PwrUpd_COMPARE_MSB_REG(DBC11DR2)
-;  Instance name LCD, User Module LCD
+;  Instance name Counter8_RF_clk, User Module Counter8
+;       Instance name Counter8_RF_clk, Block Name CNTR8(DBC20)
+	db		43h, 00h		;Counter8_RF_clk_CONTROL_REG(DBC20CR0)
+	db		41h, 9ch		;Counter8_RF_clk_PERIOD_REG(DBC20DR1)
+	db		42h, 4eh		;Counter8_RF_clk_COMPARE_REG(DBC20DR2)
+;  Instance name LED_Blue, User Module LED
 ;  Instance name PWM16_CH0, User Module PWM16
 ;       Instance name PWM16_CH0, Block Name PWM16_LSB(DBC00)
 	db		23h, 00h		;PWM16_CH0_CONTROL_LSB_REG(DBC00CR0)
@@ -54,6 +59,16 @@ LoadConfigTBL_fitolamp_slave_Bank0:
 	db		3bh, 00h		;RX8_GPS_CONTROL_REG  (DCC12CR0)
 	db		39h, 00h		;RX8_GPS_(DCC12DR1)
 	db		3ah, 00h		;RX8_GPS_RX_BUFFER_REG(DCC12DR2)
+;  Instance name RX8_RF, User Module RX8
+;       Instance name RX8_RF, Block Name RX8(DCC22)
+	db		4bh, 00h		;RX8_RF_CONTROL_REG  (DCC22CR0)
+	db		49h, 00h		;RX8_RF_(DCC22DR1)
+	db		4ah, 00h		;RX8_RF_RX_BUFFER_REG(DCC22DR2)
+;  Instance name TX8_Debug, User Module TX8
+;       Instance name TX8_Debug, Block Name TX8(DCC13)
+	db		3fh, 00h		;TX8_Debug_CONTROL_REG  (DCC13CR0)
+	db		3dh, 00h		;TX8_Debug_TX_BUFFER_REG(DCC13DR1)
+	db		3eh, 00h		;TX8_Debug_(DCC13DR2)
 ;  Global Register values Bank 0
 	db		6ah, 00h		; ADCDataHigh register (SADC_DH)
 	db		6bh, 00h		; ADCDataLow register (SADC_DL)
@@ -96,7 +111,7 @@ LoadConfigTBL_fitolamp_slave_Bank0:
 	db		bbh, 33h		; Row_1_LogicSelect_0 register (RDI1LT0)
 	db		bch, 33h		; Row_1_LogicSelect_1 register (RDI1LT1)
 	db		bdh, 00h		; Row_1_OutputDrive_0 register (RDI1RO0)
-	db		beh, 00h		; Row_1_OutputDrive_1 register (RDI1RO1)
+	db		beh, 20h		; Row_1_OutputDrive_1 register (RDI1RO1)
 	db		c0h, aah		; Row_2_InputMux register (RDI2RI)
 	db		c1h, 00h		; Row_2_InputSync register (RDI2SYN)
 	db		c2h, 00h		; Row_2_LogicInputAMux register (RDI2IS)
@@ -117,7 +132,13 @@ LoadConfigTBL_fitolamp_slave_Bank1:
 	db		34h, 21h		;Counter16_PwrUpd_FUNC_MSB_REG(DBC11FN)
 	db		35h, 37h		;Counter16_PwrUpd_INPUT_MSB_REG(DBC11IN)
 	db		36h, 00h		;Counter16_PwrUpd_OUTPUT_MSB_REG(DBC11OU)
-;  Instance name LCD, User Module LCD
+;  Instance name Counter8_RF_clk, User Module Counter8
+;       Instance name Counter8_RF_clk, Block Name CNTR8(DBC20)
+	db		43h, 00h		;Counter8_RF_clk_(DBC20CR1)
+	db		40h, 31h		;Counter8_RF_clk_FUNC_REG(DBC20FN)
+	db		41h, 16h		;Counter8_RF_clk_INPUT_REG(DBC20IN)
+	db		42h, 04h		;Counter8_RF_clk_OUTPUT_REG(DBC20OU)
+;  Instance name LED_Blue, User Module LED
 ;  Instance name PWM16_CH0, User Module PWM16
 ;       Instance name PWM16_CH0, Block Name PWM16_LSB(DBC00)
 	db		23h, 00h		;PWM16_CH0_(DBC00CR1)
@@ -147,6 +168,18 @@ LoadConfigTBL_fitolamp_slave_Bank1:
 	db		38h, 05h		;RX8_GPS_FUNC_REG     (DCC12FN)
 	db		39h, e1h		;RX8_GPS_INPUT_REG    (DCC12IN)
 	db		3ah, 00h		;RX8_GPS_OUTPUT_REG   (DCC12OU)
+;  Instance name RX8_RF, User Module RX8
+;       Instance name RX8_RF, Block Name RX8(DCC22)
+	db		4bh, 00h		;RX8_RF_(DCC22CR1)
+	db		48h, 85h		;RX8_RF_FUNC_REG     (DCC22FN)
+	db		49h, f8h		;RX8_RF_INPUT_REG    (DCC22IN)
+	db		4ah, 00h		;RX8_RF_OUTPUT_REG   (DCC22OU)
+;  Instance name TX8_Debug, User Module TX8
+;       Instance name TX8_Debug, Block Name TX8(DCC13)
+	db		3fh, 00h		;TX8_Debug_(DCC13CR1)
+	db		3ch, 0dh		;TX8_Debug_FUNC_REG     (DCC13FN)
+	db		3dh, 01h		;TX8_Debug_INPUT_REG    (DCC13IN)
+	db		3eh, 07h		;TX8_Debug_OUTPUT_REG   (DCC13OU)
 ;  Global Register values Bank 1
 	db		a8h, 00h		; ADCControl0 register (SADC_CR0)
 	db		a9h, 00h		; ADCControl1 register (SADC_CR1)
@@ -199,7 +232,7 @@ LoadConfigTBL_fitolamp_slave_Bank1:
 	db		aeh, 00h		; I2CAddress:1 register (I2C1_ADDR)
 	db		6bh, 00h		; I2CConfig:1 register (I2C1_CFG)
 	db		e7h, 00h		; IDACMode register (IDACMODE)
-	db		e1h, 7fh		; OscillatorControl_1 register (OSC_CR1)
+	db		e1h, 71h		; OscillatorControl_1 register (OSC_CR1)
 	db		e2h, 00h		; OscillatorControl_2 register (OSC_CR2)
 	db		dfh, 26h		; OscillatorControl_3 register (OSC_CR3)
 	db		deh, 01h		; OscillatorControl_4 register (OSC_CR4)
@@ -238,11 +271,11 @@ LoadConfigTBL_fitolamp_slave_Ordered:
 	mov	reg[01h], 00h		; Port_0_IntEn register (PRT0IE)
 	mov	reg[04h], 00h		; Port_1_Data register (PRT1DR)
 	M8C_SetBank1
-	mov	reg[04h], 03h		; Port_1_DriveMode_0 register (PRT1DM0)
-	mov	reg[05h], fch		; Port_1_DriveMode_1 register (PRT1DM1)
+	mov	reg[04h], 13h		; Port_1_DriveMode_0 register (PRT1DM0)
+	mov	reg[05h], ech		; Port_1_DriveMode_1 register (PRT1DM1)
 	M8C_SetBank0
-	mov	reg[07h], f8h		; Port_1_DriveMode_2 register (PRT1DM2)
-	mov	reg[06h], 07h		; Port_1_GlobalSelect register (PRT1GS)
+	mov	reg[07h], e0h		; Port_1_DriveMode_2 register (PRT1DM2)
+	mov	reg[06h], 0fh		; Port_1_GlobalSelect register (PRT1GS)
 	M8C_SetBank1
 	mov	reg[06h], 00h		; Port_1_IntCtrl_0 register (PRT1IC0)
 	mov	reg[07h], 00h		; Port_1_IntCtrl_1 register (PRT1IC1)
@@ -250,11 +283,11 @@ LoadConfigTBL_fitolamp_slave_Ordered:
 	mov	reg[05h], 00h		; Port_1_IntEn register (PRT1IE)
 	mov	reg[08h], 00h		; Port_2_Data register (PRT2DR)
 	M8C_SetBank1
-	mov	reg[08h], 7fh		; Port_2_DriveMode_0 register (PRT2DM0)
-	mov	reg[09h], 80h		; Port_2_DriveMode_1 register (PRT2DM1)
+	mov	reg[08h], 80h		; Port_2_DriveMode_0 register (PRT2DM0)
+	mov	reg[09h], 7fh		; Port_2_DriveMode_1 register (PRT2DM1)
 	M8C_SetBank0
-	mov	reg[0bh], 80h		; Port_2_DriveMode_2 register (PRT2DM2)
-	mov	reg[0ah], 00h		; Port_2_GlobalSelect register (PRT2GS)
+	mov	reg[0bh], 7fh		; Port_2_DriveMode_2 register (PRT2DM2)
+	mov	reg[0ah], 80h		; Port_2_GlobalSelect register (PRT2GS)
 	M8C_SetBank1
 	mov	reg[0ah], 00h		; Port_2_IntCtrl_0 register (PRT2IC0)
 	mov	reg[0bh], 00h		; Port_2_IntCtrl_1 register (PRT2IC1)
