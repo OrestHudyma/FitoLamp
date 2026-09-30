@@ -47,6 +47,9 @@
 
 #define NMEA_GPRMC_EMPTY            "GPRMC"
 #define NMEA_SHFTL_EMPTY            "SHFTL"
+#define NMEA_SHGLB_EMPTY            "SHGLB"
+#define POWER_UPDATE_ALARM         1
+#define ALARM_CYCLES               20
 #define NMEA_FIELD_CMD              1
 #define NMEA_FIELD_ID               2
 
@@ -56,6 +59,7 @@ const char cmd_on[] = "ON";
 const char cmd_off[] = "OFF";
 const char cmd_fon[] = "FON";
 const char cmd_foff[] = "FOFF";
+const char cmd_alarm[] = "ALARM";
 char nmea_gprmc_empty[] = NMEA_GPRMC_EMPTY;
 char nmea_shftl_empty[] = NMEA_SHFTL_EMPTY;
 char fld_buf[NMEA_MAX_SIZE];
@@ -77,14 +81,14 @@ struct datetime {
 	bool valid;
 };
 
-unsigned int power_target = 0;
+volatile unsigned int power_target = 0;
 
 // NMEA variables
 char NMEA_buffer_gps[NMEA_MAX_SIZE] = "NMEA_buffer_gps";
 char NMEA_buffer_rf[NMEA_MAX_SIZE] = "NMEA_buffer_rf";
 char NMEA_GPRMC[NMEA_MAX_SIZE] = NMEA_GPRMC_EMPTY;
 char NMEA_SHFTL[NMEA_MAX_SIZE] = NMEA_SHFTL_EMPTY;
-bool NMEA_cmd_received = false;
+volatile bool NMEA_cmd_received = false;
 unsigned char NMEA_pointer_gps;
 unsigned char NMEA_pointer_rf;
 
@@ -98,9 +102,12 @@ void schedule_processing(unsigned char hour);
 void schedule_init(void);
 void rtc_update(struct datetime *datetime);
 bool check_fld(const char *cmd);
+void process_rf_command(char *packet);
+void process_pending_rf_command(void);
+void alarm(void);
 
 // NMEA functions
-bool NMEA_handle_packet(char *packet, char *NMEA_data);
+bool NMEA_handle_packet(char *packet, char *NMEA_data, const char *header);
 void NMEA_GetField(char *packet, unsigned char field, char *result);
 void NMEA_GetTimeUTC(char *gprmc, struct datetime *gps_datetime);
 
@@ -122,7 +129,7 @@ void gps_signal(void)
         break;
         
         case NMEA_END_DELIMITER:
-        NMEA_handle_packet(NMEA_buffer_gps, NMEA_GPRMC);
+        NMEA_handle_packet(NMEA_buffer_gps, NMEA_GPRMC, NMEA_GPRMC_EMPTY);
         break;
         
         default:
@@ -143,7 +150,14 @@ void rf_signal(void)
         break;
         
         case NMEA_END_DELIMITER:
-        NMEA_cmd_received = NMEA_handle_packet(NMEA_buffer_rf, NMEA_SHFTL);
+        /* Keep the pending command intact until main takes a snapshot. */
+        if (!NMEA_cmd_received)
+        {
+            if (str_cmp_const(NMEA_buffer_rf, NMEA_SHGLB_EMPTY, NMEA_HEADER_SIZE - 1u) == 0)
+                NMEA_cmd_received = NMEA_handle_packet(NMEA_buffer_rf, NMEA_SHFTL, NMEA_SHGLB_EMPTY);
+            else
+                NMEA_cmd_received = NMEA_handle_packet(NMEA_buffer_rf, NMEA_SHFTL, NMEA_SHFTL_EMPTY);
+        }
         NMEA_buffer_rf[0] = 0;
         break;
         
@@ -155,7 +169,6 @@ void rf_signal(void)
 
 void main(void)
 {
-	unsigned char t;
 	
 	M8C_EnableGInt; // Uncomment this line to enable Global Interrupts
 
@@ -183,51 +196,8 @@ void main(void)
 	
 	while (1)
 	{		
-		// Handle commands
-		if (NMEA_cmd_received)
-        {
-			LED_Blue_On();
-			#ifdef DEBUG
-			TX8_Debug_CPutString("NMEA_cmd");
-			#endif
-			NMEA_cmd_received = false;		
-            
-            // NMEA_SHFTL handle
-			NMEA_GetField(NMEA_SHFTL, NMEA_FIELD_ID, fld_buf);
-			if(check_fld(hw_id) || check_fld("0"))	// Check ID
-			{			
-	            NMEA_GetField(NMEA_SHFTL, NMEA_FIELD_CMD, fld_buf);
-	            if(check_fld(cmd_on))
-	            {	                
-					set_power(POWER_MAX);
-					Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
-					override_enable();	
-	            }
-	            else if(check_fld(cmd_off))
-	            {
-	                set_power(0);
-					Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
-					override_enable();	
-	            }
-				else if(check_fld(cmd_fon))
-	            {	                
-					set_power(POWER_MAX);
-					Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
-					override_enable();	
-	            }
-	            else if(check_fld(cmd_foff))
-	            {
-					set_power(0);
-					Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
-					override_enable();	
-	            }
-				else LED_Blue_Off();
-				
-	            NMEA_SHFTL[0] = 0;
-	            strncat(NMEA_SHFTL, nmea_shftl_empty, NMEA_MAX_SIZE);
-			}
-		}		
-				
+		process_pending_rf_command();
+
 		if(!override)
 		{
 			// Get datetime
@@ -255,10 +225,83 @@ void main(void)
 	}
 }
 
+/* Snapshot only with RF RX masked; PWM interrupts stay active during Alarm. */
+void process_pending_rf_command(void)
+{
+    char packet[NMEA_MAX_SIZE];
+    bool received;
+
+    RX8_RF_DisableInt();
+    received = NMEA_cmd_received;
+    if (received)
+    {
+        memcpy(packet, NMEA_SHFTL, sizeof(packet));
+        NMEA_cmd_received = false;
+    }
+    RX8_RF_EnableInt();
+    if (received)
+    {
+        LED_Blue_On();
+        process_rf_command(packet);
+    }
+}
+
+void process_rf_command(char *packet)
+{
+    NMEA_GetField(packet, NMEA_FIELD_CMD, fld_buf);
+    if (str_cmp_const(packet, NMEA_SHGLB_EMPTY, NMEA_HEADER_SIZE - 1u) == 0 &&
+        packet[NMEA_HEADER_SIZE] == NMEA_FIELD_DELIMITER)
+    {
+        /* Global commands have no device ID. Unknown commands are ignored. */
+        if (check_fld(cmd_alarm)) alarm();
+        return;
+    }
+    if (str_cmp_const(packet, NMEA_SHFTL_EMPTY, NMEA_HEADER_SIZE - 1u) != 0 ||
+        packet[NMEA_HEADER_SIZE] != NMEA_FIELD_DELIMITER) return;
+
+    NMEA_GetField(packet, NMEA_FIELD_ID, fld_buf);
+    if (!check_fld(hw_id) && !check_fld("0")) return;
+    NMEA_GetField(packet, NMEA_FIELD_CMD, fld_buf);
+    if (check_fld(cmd_on) || check_fld(cmd_fon))
+        set_power(POWER_MAX);
+    else if (check_fld(cmd_off) || check_fld(cmd_foff))
+        set_power(0);
+    else
+        return; /* ALARM is intentionally not an addressed SHFTL command. */
+
+    if (check_fld(cmd_fon) || check_fld(cmd_foff))
+        Counter16_PwrUpd_WritePeriod(POWER_UPDATE_FAST);
+    else
+        Counter16_PwrUpd_WritePeriod(POWER_UPDATE_SLOW);
+    override_enable();
+}
+
+void alarm(void)
+{
+    unsigned char cycle;
+    unsigned int preserved_power = power_target;
+
+    for (cycle = 0; cycle < ALARM_CYCLES; cycle++)
+    {
+        set_power(0);
+        Counter16_PwrUpd_WritePeriod(POWER_UPDATE_ALARM);
+        while (PWM16_CH0_wReadPulseWidth() != 0) { M8C_ClearWDT; }
+        set_power(POWER_MAX);
+        Counter16_PwrUpd_WritePeriod(POWER_UPDATE_ALARM);
+        while (PWM16_CH0_wReadPulseWidth() != POWER_MAX) { M8C_ClearWDT; }
+    }
+    set_power(preserved_power);
+    Counter16_PwrUpd_WritePeriod(POWER_UPDATE_ALARM);
+    override_enable();
+}
+
 void set_power(unsigned int pwr)
 {
 	if(pwr > POWER_MAX) pwr = POWER_MAX;
+	/* The PWM ISR reads a 16-bit target on an 8-bit MCU. */
+	Counter16_PwrUpd_DisableInt();
 	power_target = pwr;
+	Counter16_PwrUpd_EnableInt();
 }
 
 void override_enable(void)
@@ -387,14 +430,16 @@ void NMEA_GetField(char *packet, unsigned char field, char *result)
     result[len] = 0u;
 }
 
-bool NMEA_handle_packet(char *packet, char *NMEA_data)
+bool NMEA_handle_packet(char *packet, char *NMEA_data, const char *header)
 {
     unsigned char i;
     unsigned char error = 0;
 	        
     // Check if appropriate packet is handled
-	if (packet == 0 || NMEA_data == 0) return false;
-	if (str_cmp(packet + 1u, NMEA_data, NMEA_HEADER_SIZE - 1u) == 0u)
+	if (packet == 0 || NMEA_data == 0 || header == 0) return false;
+    /* RX overwrites the start delimiter; the header begins at packet[0]. */
+    if (str_cmp_const(packet, header, NMEA_HEADER_SIZE - 1u) == 0 &&
+        packet[NMEA_HEADER_SIZE] == NMEA_FIELD_DELIMITER)
     {
 		// Check for receive errors
         for(i = 0; i < NMEA_MAX_SIZE; i++)
