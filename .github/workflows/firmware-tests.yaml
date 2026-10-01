@@ -1,0 +1,15 @@
+name: Firmware host tests
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  host-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python test.py -v
+        env:
+          FW_TEST_SANITIZERS: '1'
